@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget myButtonWidget() {
+Widget myButtonWidget({required String text}) {
   return Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -17,7 +17,7 @@ Widget myButtonWidget() {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
       ),
       child: Text(
-        "Masuk",
+        text,
         style: MyTextStyle.subheder.copyWith(
           fontWeight: FontWeight.w500,
           color: MyColor.putih,

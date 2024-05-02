@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:konsul_dok/pages/home_page.dart';
 import 'package:konsul_dok/pages/login_page.dart';
+import 'package:konsul_dok/pages/register_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,7 +16,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       color: Color(0xffffffff),
       home: Scaffold(
-        body: LoginPage(),
+        body: RegisterPage(),
       ),
     );
   }

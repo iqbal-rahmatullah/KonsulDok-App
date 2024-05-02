@@ -5,24 +5,22 @@ import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: MySpacing.paddingPage,
         child: Column(
-          children: [
-            headerComponent(),
-            formComponent(),
-          ],
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [headerComponent(), formComponent()],
         ),
       ),
     );
@@ -32,18 +30,17 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: MyColor.putihForm.withOpacity(0.3),
+        color: MyColor.putihForm.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       margin: MySpacing.defaultMarginItem,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
           children: [
-            Image.asset('assets/images/large_icon.png'),
+            Image.asset('assets/images/small_icon.png'),
             const SizedBox(
-              height: 10,
+              width: 10,
             ),
             const Text(
               "KonsulDok",
@@ -57,59 +54,63 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget formComponent() {
     return Container(
-      width: double.infinity,
       margin: MySpacing.defaultMarginItem,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Login",
+            "Daftar",
             style: MyTextStyle.header,
           ),
           const SizedBox(
             height: 5,
           ),
           const Text(
-            "Selamat Datang! Silahkan masuk ke akun Anda.",
+            "Selamat Datang! Silahkan buat akun dengan memasukkan data diri Anda.",
             style: MyTextStyle.deskripsi,
           ),
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
-          textFormField(label: "Email", hintText: "Masukkan email"),
+          textFormField(hintText: "MasukkanNama", label: "Nama"),
           const SizedBox(
             height: 10,
           ),
-          textFormField(label: "Password", hintText: "Masukkan password"),
-          const SizedBox(
-            height: 5,
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {},
-              child: Text("Lupa Sandi?",
-                  style:
-                      MyTextStyle.deskripsi.copyWith(color: MyColor.abuForm)),
-            ),
-          ),
+          textFormField(
+              hintText: "Masukkan Nomor Telepon", label: "Nomor Telepon"),
           const SizedBox(
             height: 10,
           ),
-          myButtonWidget(text: "Masuk"),
+          textFormField(hintText: "Masukkan Email", label: "Email"),
           const SizedBox(
-            height: 30,
+            height: 10,
+          ),
+          textFormField(hintText: "Masukkan Nama", label: "Nama"),
+          const SizedBox(
+            height: 10,
+          ),
+          textFormField(hintText: "Masukkan Sandi", label: "Sandi"),
+          const SizedBox(
+            height: 10,
+          ),
+          textFormField(hintText: "Masukkan Konfirmasi Sandi", label: "Sandi"),
+          const SizedBox(
+            height: 40,
+          ),
+          myButtonWidget(text: "Daftar"),
+          const SizedBox(
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Belum punya akun?",
+                "Sudah memiliki akun?",
                 style: MyTextStyle.deskripsi,
               ),
               TextButton(
                 onPressed: () {},
-                child: Text("Daftar disini",
+                child: Text("Masuk disini",
                     style: MyTextStyle.deskripsi.copyWith(color: MyColor.biru)),
               ),
             ],

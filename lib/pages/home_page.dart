@@ -17,16 +17,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MySpacing.paddingPage,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          topBar(),
-          searchInput(),
-          menuPoliklinik(),
-          riwayatJanji(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: MySpacing.paddingPage,
+        child: Column(
+          children: [
+            topBar(),
+            searchInput(),
+            menuPoliklinik(),
+            riwayatJanji(),
+          ],
+        ),
       ),
     );
   }
