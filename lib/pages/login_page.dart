@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: MySpacing.paddingPage,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           headerComponent(),
           formComponent(),
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       margin: MySpacing.defaultMarginItem,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70),
+        padding: const EdgeInsets.symmetric(vertical: 60),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: MySpacing.paddingPage,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           topBar(),
           searchInput(),
