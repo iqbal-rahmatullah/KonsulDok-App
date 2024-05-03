@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       color: Color(0xffffffff),
       home: Scaffold(
-        body: RegisterPage(),
+        body: HomePage(),
       ),
     );
   }

@@ -13,4 +13,6 @@ class MyColor {
   static const Color putih = Color(0xffFFFFFF);
   static const Color putihForm = Color(0xffEFEFEF);
   static const Color abuForm = Color(0xffB7B7B7);
+  static const Color abuText = Color(0xff909090);
+  static const Color yellowStar = Color(0xffFFD748);
 }

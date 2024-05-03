@@ -142,8 +142,10 @@ class _HomePageState extends State<HomePage> {
             shrinkWrap: true,
             children: List.generate(8, (index) {
               return buttonPoliklinik(
-                  title: polikliknik[index]['name']!,
-                  image: polikliknik[index]['image']!);
+                title: polikliknik[index]['name']!,
+                image: polikliknik[index]['image']!,
+                context: context,
+              );
             }),
           ),
         ],
@@ -181,10 +183,13 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 100),
+              padding: const EdgeInsets.symmetric(vertical: 35),
               child: Column(
                 children: [
-                  Image.asset('assets/images/empty_janji.png'),
+                  Image.asset(
+                    'assets/images/empty_janji.png',
+                    width: 30,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
