@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget myButtonWidget({required String text}) {
+Widget myButtonWidget({required String text, bool isLarge = true}) {
   return Container(
-    width: double.infinity,
+    width: (isLarge) ? double.infinity : null,
     decoration: BoxDecoration(
       gradient: MyColor.gradientBiru,
       borderRadius: BorderRadius.circular(50),

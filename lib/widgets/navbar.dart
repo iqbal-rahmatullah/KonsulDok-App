@@ -65,8 +65,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   label: 'Profil',
                 ),
               ],
-              selectedLabelStyle:
-                  MyTextStyle.deskripsi.copyWith(color: MyColor.biru),
+              selectedLabelStyle: MyTextStyle.deskripsi
+                  .copyWith(color: MyColor.biru, fontWeight: FontWeight.w500),
               currentIndex: widget.selectedIndex,
               selectedItemColor: MyColor.biru,
               onTap: (index) {

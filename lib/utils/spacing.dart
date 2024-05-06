@@ -6,4 +6,6 @@ class MySpacing {
       EdgeInsets.only(left: 25, top: 60, right: 25);
   static const EdgeInsets paddingInsetPage =
       EdgeInsets.symmetric(horizontal: 25);
+  static const EdgeInsets padingCard =
+      EdgeInsets.symmetric(horizontal: 20, vertical: 15);
 }
