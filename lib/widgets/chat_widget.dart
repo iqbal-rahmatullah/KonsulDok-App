@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:konsul_dok/pages/chat_open.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget chatWidget() {
+Widget chatWidget({required BuildContext context}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     decoration: const BoxDecoration(
@@ -15,62 +17,72 @@ Widget chatWidget() {
         ),
       ),
     ),
-    child: Padding(
-      padding: MySpacing.padingCard,
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: AssetImage(
-              "assets/images/doctor-example.jpg",
+    child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatOpenPage(),
+            ));
+      },
+      child: Padding(
+        padding: MySpacing.padingCard,
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(
+                "assets/images/doctor-example.jpg",
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 5,
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      "Dr. Hyuuga Narji",
-                      style: MyTextStyle.subheder.copyWith(
-                        color: MyColor.hitam,
+            const SizedBox(
+              width: 5,
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "Dr. Hyuuga Narji",
+                        style: MyTextStyle.subheder.copyWith(
+                          color: MyColor.hitam,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.check,
-                          color: MyColor.biruIndicator,
-                          size: 15,
-                        ),
-                        const SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "Checkup jam 17.00 dok",
-                          style: MyTextStyle.deskripsi
-                              .copyWith(color: MyColor.hitam),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Text(
-                  "07.56",
-                  style: MyTextStyle.deskripsi.copyWith(color: MyColor.abuText),
-                )
-              ],
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.check,
+                            color: MyColor.biruIndicator,
+                            size: 15,
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            "Checkup jam 17.00 dok",
+                            style: MyTextStyle.deskripsi
+                                .copyWith(color: MyColor.hitam),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Text(
+                    "07.56",
+                    style:
+                        MyTextStyle.deskripsi.copyWith(color: MyColor.abuText),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

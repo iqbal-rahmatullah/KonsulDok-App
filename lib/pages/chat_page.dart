@@ -32,8 +32,8 @@ class ChatPage extends StatelessWidget {
         padding: MySpacing.paddingInsetPage.copyWith(top: 20),
         child: Column(
           children: [
-            chatWidget(),
-            chatWidget(),
+            chatWidget(context: context),
+            chatWidget(context: context),
           ],
         ),
       ),
