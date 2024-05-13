@@ -96,7 +96,15 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(
             height: 10,
           ),
-          myButtonWidget(text: "Masuk"),
+          myButtonWidget(
+              text: "Masuk",
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SizedBox(),
+                    ));
+              }),
           const SizedBox(
             height: 30,
           ),

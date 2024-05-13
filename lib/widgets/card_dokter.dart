@@ -97,7 +97,15 @@ Widget cardDokter({required BuildContext context}) {
               const SizedBox(
                 height: 7,
               ),
-              myButtonWidget(text: "Buat janji")
+              myButtonWidget(
+                  text: "Buat janji",
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SizedBox(),
+                        ));
+                  })
             ],
           ),
         )),

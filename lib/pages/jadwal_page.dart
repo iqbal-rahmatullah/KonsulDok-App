@@ -48,8 +48,8 @@ class JadwalPage extends StatelessWidget {
             padding: MySpacing.paddingInsetPage.copyWith(top: 20),
             child: TabBarView(
               children: [
-                cardTransaction(),
-                cardTransaction(isOrdered: true),
+                cardTransaction(context: context),
+                cardTransaction(isOrdered: true, context: context),
               ],
             )),
       ),

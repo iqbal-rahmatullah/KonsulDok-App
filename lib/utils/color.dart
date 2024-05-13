@@ -23,4 +23,5 @@ class MyColor {
   static const Color yellowStar = Color(0xffFFD748);
   static const Color blackAppbar = Color(0xff0A0A0A);
   static const Color abuDivider = Color(0xffB5B5B5);
+  static const Color abuTextDescription = Color(0xff343232);
 }

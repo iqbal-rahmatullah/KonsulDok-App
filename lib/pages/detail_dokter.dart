@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hive/hive.dart';
+import 'package:konsul_dok/pages/order_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -36,15 +37,28 @@ class DetailDokter extends StatelessWidget {
               text: "Chat",
               isLarge: false,
               ukuran: MediaQuery.of(context).size.width / 2 - 35,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SizedBox(),
+                    ));
+              },
             ),
             const SizedBox(
               width: 20,
             ),
             myButtonWidget(
-              text: "Buat Janji",
-              isLarge: false,
-              ukuran: MediaQuery.of(context).size.width / 2 - 35,
-            ),
+                text: "Buat Janji",
+                isLarge: false,
+                ukuran: MediaQuery.of(context).size.width / 2 - 35,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderPage(),
+                      ));
+                }),
           ],
         ),
       ),
