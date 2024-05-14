@@ -6,6 +6,7 @@ import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:konsul_dok/widgets/radio_button_jam.dart';
 
 class OrderPage extends StatelessWidget {
   const OrderPage({super.key});
@@ -63,6 +64,20 @@ class OrderPage extends StatelessWidget {
                     height: 90,
                     onDateChange: (date) {},
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      customRadioButton(
+                          label: "08.00", isSelected: true, onTap: () {}),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      customRadioButton(
+                          label: "09.00", isSelected: false, onTap: () {})
+                    ],
+                  )
                 ],
               ),
             ),
