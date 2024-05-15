@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -29,65 +29,15 @@ class OrderPage extends StatelessWidget {
           children: [
             headerProfileDokter(),
             cardDetailDokter(),
-            Container(
-              margin: MySpacing.defaultMarginItem,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Atur Jadwal",
-                    style: MyTextStyle.subheder.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  DatePicker(
-                    DateTime.now(),
-                    initialSelectedDate: DateTime.now(),
-                    selectionColor: Colors.black,
-                    selectedTextColor: Colors.white,
-                    monthTextStyle: MyTextStyle.deskripsi.copyWith(
-                      fontSize: 8,
-                    ),
-                    dateTextStyle: MyTextStyle.subheder.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    dayTextStyle: MyTextStyle.deskripsi.copyWith(
-                      fontSize: 8,
-                      color: const Color(0xff4C4242),
-                    ),
-                    locale: 'id',
-                    daysCount: 10,
-                    height: 90,
-                    onDateChange: (date) {},
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      customRadioButton(
-                          label: "08.00", isSelected: true, onTap: () {}),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      customRadioButton(
-                          label: "09.00", isSelected: false, onTap: () {})
-                    ],
-                  )
-                ],
-              ),
-            ),
+            inputTimeSection(),
+            actionChatSection(),
           ],
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: MySpacing.paddingPage.copyWith(bottom: 20),
+        padding: MySpacing.paddingPage.copyWith(bottom: 50),
         child: myButtonWidget(
-          text: "Simpan",
+          text: "Buat Janji",
           onTap: () {
             Navigator.push(
                 context,
@@ -156,6 +106,118 @@ class OrderPage extends StatelessWidget {
                 ],
               )
             ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget inputTimeSection() {
+    return Container(
+      margin: MySpacing.defaultMarginItem,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Atur Jadwal",
+            style: MyTextStyle.subheder.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          DatePicker(
+            DateTime.now(),
+            initialSelectedDate: DateTime.now(),
+            selectionColor: MyColor.biru,
+            selectedTextColor: Colors.white,
+            monthTextStyle: MyTextStyle.deskripsi.copyWith(
+              fontSize: 8,
+            ),
+            dateTextStyle: MyTextStyle.subheder.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            dayTextStyle: MyTextStyle.deskripsi.copyWith(
+              fontSize: 8,
+              color: const Color(0xff4C4242),
+            ),
+            locale: 'id',
+            daysCount: 10,
+            height: 90,
+            onDateChange: (date) {},
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Atur Jadwal",
+            style: MyTextStyle.subheder.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Container(
+            constraints: const BoxConstraints(maxHeight: 50),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      customRadioButton(
+                        label: "${index >= 2 ? "" : "0"}${8 + index++}:00",
+                        isSelected: index == 1,
+                        isDisabled: index == 2,
+                        onTap: () {},
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  );
+                }),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget actionChatSection() {
+    return Container(
+      margin: MySpacing.defaultMarginItem,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 60,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              color: MyColor.putihForm,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Ingin membuat janji di luar jadwal?",
+                  style: MyTextStyle.deskripsi,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Chat dokter",
+                    style: MyTextStyle.deskripsi.copyWith(
+                      color: MyColor.biru,
+                    ),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),

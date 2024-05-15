@@ -24,4 +24,5 @@ class MyColor {
   static const Color blackAppbar = Color(0xff0A0A0A);
   static const Color abuDivider = Color(0xffB5B5B5);
   static const Color abuTextDescription = Color(0xff343232);
+  static const Color buttonDisabled = Color(0xff6B779A);
 }
