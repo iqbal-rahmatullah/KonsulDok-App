@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:konsul_dok/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -96,7 +97,7 @@ class ProfilePage extends StatelessWidget {
                     height: 15,
                   ),
                   SizedBox(height: 5,),
-                  MenuProfile(text: "Bantuan",icon: Icon(Icons.help_center_outlined, color: MyColor.biru,),destination: FavoritePage(),),
+                  MenuProfile(text: "Bantuan",icon: Icon(Icons.help_center_outlined, color: MyColor.biru,),destination: FaqPage(),),
                   SizedBox(height: 15,),
                   Divider(
                     color: MyColor.abuDivider,
