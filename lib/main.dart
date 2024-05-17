@@ -36,16 +36,15 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       color: MyColor.putih,
       home: Scaffold(
-        body: SuccesOrderPage(),
-        // body: page[selectedIndex],
-        // bottomNavigationBar: MyBottomNavigationBar(
-        //   selectedIndex: selectedIndex,
-        //   onItemTapped: (index) {
-        //     setState(() {
-        //       selectedIndex = index;
-        //     });
-        //   },
-        // ),
+        body: page[selectedIndex],
+        bottomNavigationBar: MyBottomNavigationBar(
+          selectedIndex: selectedIndex,
+          onItemTapped: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
