@@ -30,6 +30,7 @@ flutter:
     - assets/images/
     - assets/images/icon_poliklinik/
     - assets/images/icon/
+    - assets/images/success_order/
   fonts:
     - family: Outfit
       fonts:
