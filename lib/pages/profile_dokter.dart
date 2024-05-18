@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:konsul_dok/pages/faq_page.dart';
+import 'package:konsul_dok/pages/home_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileDokter extends StatelessWidget {
+  const ProfileDokter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const Divider(
-                    color: MyColor.abuDivider,
+                    color: MyColor.abuForm,
                     thickness: 1,
                   ),
                   const SizedBox(height: 5),
@@ -144,7 +145,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const Divider(
-                    color: MyColor.abuDivider,
+                    color: MyColor.abuForm,
                     thickness: 1,
                   ),
                   const SizedBox(height: 5),
@@ -152,11 +153,11 @@ class ProfilePage extends StatelessWidget {
                     text: "FAQ",
                     icon: const Icon(Icons.help_center_outlined,
                         color: MyColor.biru),
-                    destination: const FaqPage(),
+                    destination: const SizedBox(),
                   ),
                   const SizedBox(height: 15),
                   const Divider(
-                    color: MyColor.abuDivider,
+                    color: MyColor.abuForm,
                     thickness: 1,
                   ),
                   const SizedBox(height: 5),
@@ -168,7 +169,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const Divider(
-                    color: MyColor.abuDivider,
+                    color: MyColor.abuForm,
                     thickness: 1,
                   ),
                 ],
