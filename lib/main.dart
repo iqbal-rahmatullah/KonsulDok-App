@@ -3,8 +3,10 @@ import 'package:konsul_dok/pages/chat_page.dart';
 import 'package:konsul_dok/pages/home_page.dart';
 import 'package:konsul_dok/pages/jadwal_page.dart';
 import 'package:konsul_dok/pages/login_page.dart';
+import 'package:konsul_dok/pages/order_page.dart';
 import 'package:konsul_dok/pages/profile_dokter.dart';
 import 'package:konsul_dok/pages/register_page.dart';
+import 'package:konsul_dok/pages/success_order_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/widgets/navbar.dart';
 
@@ -34,15 +36,16 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       color: MyColor.putih,
       home: Scaffold(
-        body: page[selectedIndex],
-        bottomNavigationBar: MyBottomNavigationBar(
-          selectedIndex: selectedIndex,
-          onItemTapped: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-        ),
+        // body: page[selectedIndex],
+        // bottomNavigationBar: MyBottomNavigationBar(
+        //   selectedIndex: selectedIndex,
+        //   onItemTapped: (index) {
+        //     setState(() {
+        //       selectedIndex = index;
+        //     });
+        //   },
+        // ),
+        body: const LoginPage(),
       ),
     );
   }

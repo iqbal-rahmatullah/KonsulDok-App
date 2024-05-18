@@ -21,6 +21,7 @@ class _PoliPageState extends State<PoliPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           widget.namaPoli,
           style: MyTextStyle.subheder.copyWith(
@@ -49,8 +50,8 @@ class _PoliPageState extends State<PoliPage> {
 
   Widget listDokter() {
     return Column(children: [
-      cardDokter(),
-      cardDokter(),
+      cardDokter(context: context),
+      cardDokter(context: context),
     ]);
   }
 }

@@ -97,7 +97,15 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 40,
           ),
-          myButtonWidget(text: "Daftar"),
+          myButtonWidget(
+              text: "Daftar",
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SizedBox(),
+                    ));
+              }),
           const SizedBox(
             height: 10,
           ),

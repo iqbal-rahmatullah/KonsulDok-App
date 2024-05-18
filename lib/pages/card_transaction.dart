@@ -6,7 +6,8 @@ import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 
-Widget cardTransaction({bool isOrdered = false}) {
+Widget cardTransaction(
+    {bool isOrdered = false, required BuildContext context}) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -96,16 +97,28 @@ Widget cardTransaction({bool isOrdered = false}) {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             myButtonWidget(
-                              text: "Jadwal Lagi",
-                              isLarge: false,
-                            ),
+                                text: "Jadwal Lagi",
+                                isLarge: false,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SizedBox(),
+                                      ));
+                                }),
                             const SizedBox(
                               width: 5,
                             ),
                             myButtonWidget(
-                              text: "Tambah Ulasan",
-                              isLarge: false,
-                            ),
+                                text: "Tambah Ulasan",
+                                isLarge: false,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SizedBox(),
+                                      ));
+                                }),
                           ],
                         ),
                       ],
