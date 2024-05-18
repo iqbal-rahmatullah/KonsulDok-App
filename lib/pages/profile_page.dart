@@ -73,40 +73,93 @@ class ProfilePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
               child: Column(
                 children: [
-                  MenuProfile(text: "Lihat atau edit Profile", icon: Icon(Icons.person_2, color: MyColor.biru,), destination: FavoritePage(),),
-                  SizedBox(height: 15,),
+                  MenuProfile(
+                    text: "Lihat atau edit Profile",
+                    icon: Icon(
+                      Icons.person_2,
+                      color: MyColor.biru,
+                    ),
+                    destination: FavoritePage(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Divider(
                     color: MyColor.abuDivider,
                     thickness: 1,
                     height: 15,
                   ),
-                  SizedBox(height: 5,),
-                  MenuProfile(text: "Favorite", icon: Icon(Icons.favorite, color: MyColor.biru,), destination: FavoritePage(),),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  MenuProfile(
+                    text: "Favorite",
+                    icon: Icon(
+                      Icons.favorite,
+                      color: MyColor.biru,
+                    ),
+                    destination: FavoritePage(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Divider(
                     color: MyColor.abuDivider,
                     thickness: 1,
                     height: 15,
                   ),
-                  SizedBox(height: 5,),
-                  MenuProfile(text: "Ubah sandi", icon: Icon(Icons.lock_outlined, color: MyColor.biru,), destination: FavoritePage(),),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  MenuProfile(
+                    text: "Ubah sandi",
+                    icon: Icon(
+                      Icons.lock_outlined,
+                      color: MyColor.biru,
+                    ),
+                    destination: FavoritePage(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Divider(
                     color: MyColor.abuDivider,
                     thickness: 1,
                     height: 15,
                   ),
-                  SizedBox(height: 5,),
-                  MenuProfile(text: "Bantuan",icon: Icon(Icons.help_center_outlined, color: MyColor.biru,),destination: FaqPage(),),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  MenuProfile(
+                    text: "Bantuan",
+                    icon: Icon(
+                      Icons.help_center_outlined,
+                      color: MyColor.biru,
+                    ),
+                    destination: FaqPage(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Divider(
                     color: MyColor.abuDivider,
                     thickness: 1,
                     height: 15,
                   ),
-                  SizedBox(height: 5,),
-                  MenuProfile(text: "Logout", icon: Icon(Icons.logout, color: MyColor.biru,), destination: FavoritePage(),),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  MenuProfile(
+                    text: "Logout",
+                    icon: Icon(
+                      Icons.logout,
+                      color: MyColor.biru,
+                    ),
+                    destination: FavoritePage(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Divider(
                     color: MyColor.abuDivider,
                     thickness: 1,
@@ -126,7 +179,11 @@ class MenuProfile extends StatelessWidget {
   final String text;
   final Icon icon;
   final Widget destination;
-  const MenuProfile({super.key, required this.text, required this.icon, required this.destination});
+  const MenuProfile(
+      {super.key,
+      required this.text,
+      required this.icon,
+      required this.destination});
 
   @override
   Widget build(BuildContext context) {
@@ -139,16 +196,19 @@ class MenuProfile extends StatelessWidget {
             SizedBox(
               width: 4,
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             Text(
               text,
-              style:TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15),
             )
           ],
         ),
         InkWell(
-          onTap: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>destination));
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => destination));
           },
           child: Icon(Icons.arrow_forward_ios),
         )

@@ -4,7 +4,7 @@ import 'package:konsul_dok/pages/home_page.dart';
 import 'package:konsul_dok/pages/jadwal_page.dart';
 import 'package:konsul_dok/pages/login_page.dart';
 import 'package:konsul_dok/pages/order_page.dart';
-import 'package:konsul_dok/pages/profile_page.dart';
+import 'package:konsul_dok/pages/profile_dokter.dart';
 import 'package:konsul_dok/pages/register_page.dart';
 import 'package:konsul_dok/pages/success_order_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -27,7 +27,7 @@ class _MainAppState extends State<MainApp> {
     const HomePage(),
     const JadwalPage(),
     const ChatPage(),
-    const ProfilePage(),
+    const ProfileDokter(),
   ];
 
   @override
