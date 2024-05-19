@@ -7,6 +7,7 @@ environment:
   sdk: ">=3.3.2 <4.0.0"
 
 dependencies:
+  bloc_generic_streams: ^2.0.0
   date_picker_timeline: ^1.2.6
   flutter:
     sdk: flutter
