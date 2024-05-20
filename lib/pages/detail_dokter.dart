@@ -206,9 +206,7 @@ class DetailDokter extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          cardRating(),
-          cardRating(),
-          cardRating(),
+        
         ],
       ),
     );
