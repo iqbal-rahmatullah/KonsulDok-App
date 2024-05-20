@@ -15,7 +15,7 @@ Widget cardTransaction(
         color: MyColor.putih,
         margin: const EdgeInsets.only(bottom: 20),
         child: Padding(
-          padding: MySpacing.padingCard,
+          padding: MySpacing.padingCard, 
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -38,9 +38,6 @@ Widget cardTransaction(
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: const CircleAvatar(
-                      backgroundImage: AssetImage(
-                        "assets/images/doctor-example.jpg",
-                      ),
                     ),
                   ),
                   const SizedBox(
@@ -50,7 +47,7 @@ Widget cardTransaction(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Dr. Ahmad Muzakki",
+                        "Putri",
                         style: MyTextStyle.subheder.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -60,8 +57,7 @@ Widget cardTransaction(
                       ),
                       Text(
                         "Poli Kandungan",
-                        style:
-                            MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
+                        style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                       ),
                       const SizedBox(
                         height: 3,
@@ -78,8 +74,7 @@ Widget cardTransaction(
                           ),
                           Text(
                             "Rumah Sakit PEMNS",
-                            style: MyTextStyle.deskripsi
-                                .copyWith(color: MyColor.abu),
+                            style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                           )
                         ],
                       )
@@ -87,43 +82,6 @@ Widget cardTransaction(
                   )
                 ],
               ),
-              (isOrdered)
-                  ? Column(
-                      children: [
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            myButtonWidget(
-                                text: "Jadwal Lagi",
-                                isLarge: false,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SizedBox(),
-                                      ));
-                                }),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            myButtonWidget(
-                                text: "Tambah Ulasan",
-                                isLarge: false,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SizedBox(),
-                                      ));
-                                }),
-                          ],
-                        ),
-                      ],
-                    )
-                  : const SizedBox(),
             ],
           ),
         ),
