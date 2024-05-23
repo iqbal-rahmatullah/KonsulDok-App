@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
 import 'package:konsul_dok/pages/chat_page.dart';
 import 'package:konsul_dok/pages/home_page.dart';
 import 'package:konsul_dok/pages/jadwal_page.dart';
-import 'package:konsul_dok/pages/login_page.dart';
+import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/pages/profile_dokter.dart';
 import 'package:konsul_dok/utils/color.dart';
 
@@ -41,7 +42,7 @@ class _MainAppState extends State<MainApp> {
         //     });
         //   },
         // ),
-        body: const LoginPage(),
+        body: const RegisterPage(),
       ),
     );
   }

@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             const Text(
-              "KonsulDok",
+              "TemuDok",
               style: MyTextStyle.header,
             )
           ],

@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          textFormField(hintText: "MasukkanNama", label: "Nama"),
+          textFormField(hintText: "Masukkan Nama", label: "Nama"),
           const SizedBox(
             height: 10,
           ),
@@ -82,10 +82,6 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 10,
           ),
           textFormField(hintText: "Masukkan Email", label: "Email"),
-          const SizedBox(
-            height: 10,
-          ),
-          textFormField(hintText: "Masukkan Nama", label: "Nama"),
           const SizedBox(
             height: 10,
           ),
