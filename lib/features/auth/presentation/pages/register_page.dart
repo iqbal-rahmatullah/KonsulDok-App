@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
+import 'package:konsul_dok/widgets/radio_button.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -13,14 +16,60 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> formData = {
+    "name": TextEditingController(),
+    "email": TextEditingController(),
+    "password": TextEditingController(),
+    "confirm_password": TextEditingController(),
+    "no_hp": TextEditingController(),
+    "gender": "",
+    "age": TextEditingController(),
+  };
+
+  @override
+  void dispose() {
+    formData.forEach((key, value) {
+      value.dispose();
+    });
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: MySpacing.paddingPage,
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [headerComponent(), formComponent()],
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  state.message,
+                  style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+              ));
+            } else if (state is AuthSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  "Berhasil mendaftar",
+                  style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
+                ),
+                backgroundColor: Colors.green,
+              ));
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Column(
+              children: [headerComponent(), formComponent()],
+            );
+          },
         ),
       ),
     );
@@ -72,36 +121,101 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          textFormField(hintText: "Masukkan Nama", label: "Nama"),
-          const SizedBox(
-            height: 10,
-          ),
-          textFormField(
-              hintText: "Masukkan Nomor Telepon", label: "Nomor Telepon"),
-          const SizedBox(
-            height: 10,
-          ),
-          textFormField(hintText: "Masukkan Email", label: "Email"),
-          const SizedBox(
-            height: 10,
-          ),
-          textFormField(hintText: "Masukkan Sandi", label: "Sandi"),
-          const SizedBox(
-            height: 10,
-          ),
-          textFormField(hintText: "Masukkan Konfirmasi Sandi", label: "Sandi"),
-          const SizedBox(
-            height: 40,
-          ),
-          myButtonWidget(
-              text: "Daftar",
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SizedBox(),
-                    ));
-              }),
+          Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextForm(
+                    hintText: "Masukkan Nama",
+                    label: "Nama",
+                    controller: formData["name"],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextForm(
+                    hintText: "Masukkan Nomor Telepon",
+                    label: "Nomor Telepon",
+                    controller: formData["no_hp"],
+                    isNumberOnly: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RadioButton(
+                      gender: formData['gender'],
+                      onChanged: (value) {
+                        setState(() {
+                          formData['gender'] = value;
+                        });
+                      }),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextForm(
+                    hintText: "Masukkan Umur",
+                    label: "Umur",
+                    controller: formData["age"],
+                    isNumberOnly: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextForm(
+                    hintText: "Masukkan Email",
+                    label: "Email",
+                    controller: formData["email"],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextForm(
+                    hintText: "Masukkan Sandi",
+                    label: "Sandi",
+                    controller: formData["password"],
+                    isObsecure: true,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextForm(
+                    hintText: "Masukkan Konfirmasi Sandi",
+                    label: "Konfirmasi Sandi",
+                    controller: formData["confirm_password"],
+                    isObsecure: true,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  myButtonWidget(
+                      text: "Daftar",
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (formData['password'].text !=
+                              formData['confirm_password'].text) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                "Password tidak sama",
+                                style: MyTextStyle.deskripsi
+                                    .copyWith(color: Colors.white),
+                              ),
+                              backgroundColor: Colors.red,
+                            ));
+                            return;
+                          }
+
+                          context.read<AuthBloc>().add(AuthSignUp(
+                                email: formData['email'].text,
+                                password: formData['password'].text,
+                                name: formData['name'].text,
+                                phone: formData['no_hp'].text,
+                                age: int.parse(formData['age'].text),
+                                gender: formData['gender'],
+                              ));
+                        }
+                      }),
+                ],
+              )),
           const SizedBox(
             height: 10,
           ),
