@@ -3,7 +3,7 @@ import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/utils/error/failure.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, User>> loginAccount({
+  Future<Either<Failure, String>> loginAccount({
     required String email,
     required String password,
   });
@@ -15,4 +15,6 @@ abstract class AuthRepository {
     required int age,
     required String gender,
   });
+
+  void saveToken({required String token});
 }

@@ -4,7 +4,7 @@ import 'package:konsul_dok/utils/api.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login({
+  Future<String> login({
     required String email,
     required String password,
   });
@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl(this.dio);
   @override
-  Future<UserModel> login({
+  Future<String> login({
     required String email,
     required String password,
   }) async {
@@ -33,12 +33,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         "password": password,
       });
 
-      if (response.statusCode != 200) {
-        throw ServerException(response.statusMessage!);
-      }
-
-      return UserModel.fromJson(response.data);
+      return response.data['token'];
     } catch (e) {
+      if (e is DioException && e.response!.statusCode == 401) {
+        throw ServerException(e.response!.data['message']);
+      } else if (e is DioException && e.response!.statusCode == 400) {
+        throw ServerException(e.response!.data['message'][0]['message']);
+      }
       throw ServerException(e.toString());
     }
   }

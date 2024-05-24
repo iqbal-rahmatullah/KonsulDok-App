@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     formData.forEach((key, value) {
-      value.dispose();
+      if (key != "gender") value.dispose();
     });
     super.dispose();
   }

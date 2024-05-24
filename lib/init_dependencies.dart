@@ -1,10 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:konsul_dok/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
+import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signup.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:path_provider/path_provider.dart' as path;
 
 final serviceLocator = GetIt.instance;
 
@@ -13,6 +19,11 @@ Future<void> initDependencies() async {
 
   final Dio dio = Dio();
   serviceLocator.registerLazySingleton(() => dio);
+
+  final dir = await path.getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
+  Box<String> sessionBox = await Hive.openBox<String>('session');
+  serviceLocator.registerLazySingleton(() => sessionBox);
 }
 
 void _initAuth() {
@@ -22,8 +33,11 @@ void _initAuth() {
         serviceLocator(),
       ),
     )
+    ..registerFactory<AuthLocalDataSource>(
+        () => AuthLocalDataSourceImpl(box: serviceLocator()))
     ..registerFactory<AuthRepository>(
       () => AuthRepositoryImpl(
+        serviceLocator(),
         serviceLocator(),
       ),
     )
@@ -32,9 +46,21 @@ void _initAuth() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => UserSignIn(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => SaveToken(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
+        userSignIn: serviceLocator(),
+        saveToken: serviceLocator(),
       ),
     );
 }

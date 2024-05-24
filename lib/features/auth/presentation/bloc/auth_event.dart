@@ -19,3 +19,16 @@ final class AuthSignUp extends AuthEvent {
       required this.age,
       required this.gender});
 }
+
+final class AuthSignIn extends AuthEvent {
+  final String email;
+  final String password;
+
+  AuthSignIn({required this.email, required this.password});
+}
+
+final class AuthSaveToken extends AuthEvent {
+  final String token;
+
+  AuthSaveToken({required this.token});
+}

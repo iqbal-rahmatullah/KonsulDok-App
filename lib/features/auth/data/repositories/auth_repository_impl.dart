@@ -1,4 +1,5 @@
 import 'package:fpdart/src/either.dart';
+import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/domain/repositories/auth_repositories.dart';
@@ -7,10 +8,11 @@ import 'package:konsul_dok/utils/error/failure.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  AuthRepositoryImpl(this.remoteDataSource);
+  final AuthLocalDataSource localDataSource;
+  AuthRepositoryImpl(this.remoteDataSource, this.localDataSource);
 
   @override
-  Future<Either<Failure, User>> loginAccount({
+  Future<Either<Failure, String>> loginAccount({
     required String email,
     required String password,
   }) async {
@@ -48,5 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
+  }
+
+  @override
+  void saveToken({required String token}) {
+    localDataSource.addToken(token);
   }
 }
