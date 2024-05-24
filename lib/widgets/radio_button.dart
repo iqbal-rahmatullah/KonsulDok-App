@@ -11,6 +11,7 @@ class RadioButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -21,12 +22,14 @@ class RadioButton extends StatelessWidget {
           height: 6,
         ),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             GestureDetector(
               onTap: () {
                 onChanged('pria');
               },
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Radio(
                     activeColor: Colors.blue, // Ganti dengan warna yang sesuai
@@ -45,6 +48,7 @@ class RadioButton extends StatelessWidget {
                 onChanged('wanita');
               },
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Radio(
                     activeColor: Colors.blue, // Ganti dengan warna yang sesuai

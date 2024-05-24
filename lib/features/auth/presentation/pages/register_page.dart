@@ -124,6 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextForm(
                     hintText: "Masukkan Nama",
@@ -142,21 +143,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(
                     height: 10,
                   ),
-                  RadioButton(
-                      gender: formData['gender'],
-                      onChanged: (value) {
-                        setState(() {
-                          formData['gender'] = value;
-                        });
-                      }),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextForm(
-                    hintText: "Masukkan Umur",
-                    label: "Umur",
-                    controller: formData["age"],
-                    isNumberOnly: true,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RadioButton(
+                          gender: formData['gender'],
+                          onChanged: (value) {
+                            setState(() {
+                              formData['gender'] = value;
+                            });
+                          }),
+                      TextForm(
+                        hintText: "Umur",
+                        label: "Umur",
+                        controller: formData["age"],
+                        isNumberOnly: true,
+                        isSmall: true,
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
