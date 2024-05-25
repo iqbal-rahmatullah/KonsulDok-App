@@ -101,35 +101,35 @@ class _HomePageState extends State<HomePage> {
   Widget menuPoliklinik() {
     const polikliknik = [
       {
-        "name": "Poli Umum",
+        "name": "Umum",
         "image": "poli_umum.png",
       },
       {
-        "name": "Poli Gigi",
+        "name": "Gigi",
         "image": "poli_gigi.png",
       },
       {
-        "name": "Poli Mata",
+        "name": "Mata",
         "image": "poli_mata.png",
       },
       {
-        "name": "Poli Anak",
+        "name": "Anak",
         "image": "poli_anak.png",
       },
       {
-        "name": "Poli Kandungan",
+        "name": "Kandungan",
         "image": "poli_kandungan.png",
       },
       {
-        "name": "Poli Penyakit Dalam",
+        "name": "Penyakit Dalam",
         "image": "poli_penyakit_dalam.png",
       },
       {
-        "name": "Poli Jantung",
+        "name": "Jantung",
         "image": "poli_jantung.png",
       },
       {
-        "name": "Poli Bedah",
+        "name": "Bedah",
         "image": "poli_bedah.png",
       },
     ];

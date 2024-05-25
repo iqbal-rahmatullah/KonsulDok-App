@@ -1,20 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:konsul_dok/pages/detail_dokter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 
-Widget cardDokter({required BuildContext context}) {
+Widget cardDokter({
+  required BuildContext context,
+  required String name,
+  required String hospitalName,
+  required String photoProfile,
+  required String id,
+  required String kategori,
+}) {
   return GestureDetector(
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const DetailDokter(),
-        ),
-      );
+      context.goNamed('detail_dokter',
+          pathParameters: {'id': id, "name": kategori});
     },
     child: Card(
         margin: const EdgeInsets.only(bottom: 10),
@@ -25,19 +30,23 @@ Widget cardDokter({required BuildContext context}) {
           child: Column(
             children: [
               ListTile(
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage(
-                    "assets/images/doctor-example.jpg",
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    photoProfile,
                   ),
+                  radius: 30,
                 ),
-                title: const Row(
+                title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Dr. Ahmad Muzakki',
-                      style: MyTextStyle.subheder,
+                    Expanded(
+                      child: Text(
+                        name,
+                        style: MyTextStyle.subheder,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.favorite_border_outlined,
                       size: 20,
                       color: MyColor.abuForm,
@@ -47,8 +56,8 @@ Widget cardDokter({required BuildContext context}) {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Rumah Sakit PEMNS',
+                    Text(
+                      hospitalName,
                       style: MyTextStyle.deskripsi,
                     ),
                     const SizedBox(
@@ -97,15 +106,7 @@ Widget cardDokter({required BuildContext context}) {
               const SizedBox(
                 height: 7,
               ),
-              myButtonWidget(
-                  text: "Buat janji",
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SizedBox(),
-                        ));
-                  })
+              myButtonWidget(text: "Buat janji", onTap: () {})
             ],
           ),
         )),

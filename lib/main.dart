@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/dashboard/cubit/navbar_cubit.dart';
+import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/route.dart';
@@ -16,6 +17,9 @@ void main() async {
       ),
       BlocProvider<NavbarCubit>(
         create: (context) => serviceLocator<NavbarCubit>(),
+      ),
+      BlocProvider<DoctorBloc>(
+        create: (context) => serviceLocator<DoctorBloc>(),
       ),
     ],
     child: const MainApp(),
