@@ -61,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   backgroundColor: Colors.green,
                 ));
+                context.goNamed('login');
               }
             },
             builder: (context, state) {

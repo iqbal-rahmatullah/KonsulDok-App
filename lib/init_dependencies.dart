@@ -10,6 +10,7 @@ import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signup.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/dashboard/cubit/navbar_cubit.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
 final serviceLocator = GetIt.instance;
@@ -23,7 +24,9 @@ Future<void> initDependencies() async {
   final dir = await path.getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Box<String> sessionBox = await Hive.openBox<String>('session');
+  // sessionBox.clear();
   serviceLocator.registerLazySingleton(() => sessionBox);
+  serviceLocator.registerLazySingleton(() => NavbarCubit());
 }
 
 void _initAuth() {

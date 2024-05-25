@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else if (state is AuthLoginSuccess) {
             context.read<AuthBloc>().add(AuthSaveToken(token: state.message));
+            setState(() {});
           } else if (state is AuthSuccessSaveToken) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -44,6 +45,9 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.green,
               ),
             );
+            context.read<AuthBloc>().add(AuthGetUser());
+          } else if (state is AuthGetUserSuccess) {
+            context.goNamed('home');
           }
         },
         builder: (context, state) {

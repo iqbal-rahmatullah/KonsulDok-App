@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final res = await _getUser(NoParams());
         res.fold(
           (failure) => emit(AuthFailure(message: failure.message)),
-          (user) => emit(AuthSuccess(user: user)),
+          (user) => emit(AuthGetUserSuccess(user: user)),
         );
       },
     );

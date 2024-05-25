@@ -11,7 +11,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> addToken(String token) async {
-    await box.clear();
-    await box.add(token);
+    await box.put('token', token);
   }
 }

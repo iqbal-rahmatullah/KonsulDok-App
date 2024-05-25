@@ -19,6 +19,12 @@ final class AuthLoginSuccess extends AuthState {
   AuthLoginSuccess({required this.message});
 }
 
+final class AuthGetUserSuccess extends AuthState {
+  final User user;
+
+  AuthGetUserSuccess({required this.user});
+}
+
 final class AuthFailure extends AuthState {
   final String message;
 

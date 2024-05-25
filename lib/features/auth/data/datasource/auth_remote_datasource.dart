@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/auth/data/models/user_model.dart';
 import 'package:konsul_dok/utils/api.dart';
@@ -83,11 +84,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getUser() async {
     try {
-      if (box.isEmpty) {
+      final session = box.get('token');
+
+      if (session == null) {
         throw AuthException("Token not found");
       }
 
-      final session = box.getAt(0);
       final response = await dio.get(
         "${ApiEnv.apiUrl}/users",
         options: Options(

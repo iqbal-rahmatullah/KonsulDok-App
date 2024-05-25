@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/dashboard/presentation/pages/loading/loading_home_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -23,12 +24,12 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthLoading) {
-            return const SizedBox();
+            return const LoadingHomePage();
           } else if (state is AuthFailure) {
             return Center(
               child: Text(state.message),
             );
-          } else if (state is AuthSuccess) {
+          } else if (state is AuthGetUserSuccess) {
             return SingleChildScrollView(
               child: Padding(
                 padding: MySpacing.paddingPage,
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
   Widget topBar() {
     final authState = context.read<AuthBloc>().state;
 
-    if (authState is AuthSuccess) {
+    if (authState is AuthGetUserSuccess) {
       return Container(
         margin: MySpacing.defaultMarginItem,
         child: Row(
