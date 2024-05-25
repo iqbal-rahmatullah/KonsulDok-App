@@ -29,7 +29,7 @@ Widget buttonPoliklinik(
           ),
           child: Image.asset(
             "assets/images/icon_poliklinik/${image}",
-            width: 25,
+            width: MediaQuery.sizeOf(context).width * 0.1,
           ),
         ),
       ),
