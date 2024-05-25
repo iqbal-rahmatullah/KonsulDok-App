@@ -21,10 +21,16 @@ class PoliPage extends StatefulWidget {
 
 class _PoliPageState extends State<PoliPage> {
   @override
+  void didChangeDependencies() {
+    BlocProvider.of<DoctorBloc>(context)
+        .add(DoctorGetCategory(name: widget.namaPoli));
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     BlocProvider.of<DoctorBloc>(context)
         .add(DoctorGetCategory(name: widget.namaPoli));
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,7 +76,7 @@ class _PoliPageState extends State<PoliPage> {
   Widget listDokter() {
     final state = BlocProvider.of<DoctorBloc>(context).state;
 
-    if (state is DoctorLoading || state is DoctorGetByIdLoaded) {
+    if (state is DoctorLoading) {
       return const LoadingPoliPage();
     } else if (state is DoctorGetCategoryLoaded) {
       if (state.doctors.isEmpty) {

@@ -77,8 +77,7 @@ class _DetailDokterState extends State<DetailDokter> {
           child: BlocConsumer<DoctorBloc, DoctorState>(
               listener: (context, state) {},
               builder: (context, state) {
-                if (state is DoctorLoading ||
-                    state is DoctorGetCategoryLoaded) {
+                if (state is DoctorLoading) {
                   return const Center(
                     child: LoadingDetailDokterPage(),
                   );
