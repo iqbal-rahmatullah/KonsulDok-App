@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -8,8 +9,19 @@ import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:konsul_dok/widgets/radio_button_jam.dart';
 
-class OrderPage extends StatelessWidget {
-  const OrderPage({super.key});
+class OrderPage extends StatefulWidget {
+  final Doctor doctor;
+  const OrderPage({super.key, required this.doctor});
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  Map formData = {
+    "date": DatePickerController(),
+    "time": 0,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,6 @@ class OrderPage extends StatelessWidget {
         child: Column(
           children: [
             headerProfileDokter(),
-            // cardDetailDokter(),
             inputTimeSection(),
             actionChatSection(),
           ],
@@ -39,11 +50,8 @@ class OrderPage extends StatelessWidget {
         child: myButtonWidget(
           text: "Buat Janji",
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SizedBox(),
-                ));
+            print(formData['time']);
+            print(formData['date']);
           },
         ),
       ),
@@ -57,10 +65,10 @@ class OrderPage extends StatelessWidget {
       child: Row(
         children: [
           Stack(children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 35,
-              backgroundImage: AssetImage(
-                "assets/images/doctor-example.jpg",
+              backgroundImage: NetworkImage(
+                widget.doctor.photoProfile,
               ),
             ),
             // Positioned(
@@ -75,13 +83,13 @@ class OrderPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Dr. Budi Wiranto",
+                widget.doctor.name,
                 style: MyTextStyle.subheder.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                "Poli Umum",
+                "Poli ${widget.doctor.kategori}",
                 style: MyTextStyle.deskripsi.copyWith(
                   color: MyColor.abuTextDescription,
                 ),
@@ -100,7 +108,7 @@ class OrderPage extends StatelessWidget {
                     width: 3,
                   ),
                   Text(
-                    "RSUD dr Soetomo, Surabaya",
+                    widget.doctor.hospitalName,
                     style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                   )
                 ],
@@ -125,7 +133,16 @@ class OrderPage extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 10,
+          ),
+          Text(
+            "Hari",
+            style: MyTextStyle.deskripsi.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           DatePicker(
             DateTime.now(),
@@ -144,7 +161,7 @@ class OrderPage extends StatelessWidget {
               color: const Color(0xff4C4242),
             ),
             locale: 'id',
-            daysCount: 10,
+            daysCount: 7,
             height: 90,
             onDateChange: (date) {},
           ),
@@ -152,8 +169,8 @@ class OrderPage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Atur Jadwal",
-            style: MyTextStyle.subheder.copyWith(
+            "Jam",
+            style: MyTextStyle.deskripsi.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -170,9 +187,13 @@ class OrderPage extends StatelessWidget {
                     children: [
                       customRadioButton(
                         label: "${index >= 2 ? "" : "0"}${8 + index++}:00",
-                        isSelected: index == 1,
+                        isSelected: index == formData['time'],
                         isDisabled: index == 2,
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            formData['time'] = index;
+                          });
+                        },
                       ),
                       const SizedBox(
                         width: 5,

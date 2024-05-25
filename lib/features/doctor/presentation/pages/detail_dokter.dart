@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
-import 'package:konsul_dok/pages/order_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:konsul_dok/widgets/card_rating.dart';
-import 'package:konsul_dok/widgets/loading_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DetailDokter extends StatefulWidget {
   final String id;
@@ -38,37 +35,38 @@ class _DetailDokterState extends State<DetailDokter> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            myButtonWidget(
-              text: "Chat",
-              isLarge: false,
-              ukuran: MediaQuery.of(context).size.width / 2 - 35,
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SizedBox(),
-                    ));
-              },
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            myButtonWidget(
-                text: "Buat Janji",
-                isLarge: false,
-                ukuran: MediaQuery.of(context).size.width / 2 - 35,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OrderPage(),
-                      ));
-                }),
-          ],
+        child: BlocBuilder<DoctorBloc, DoctorState>(
+          builder: (context, state) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                myButtonWidget(
+                  text: "Chat",
+                  isLarge: false,
+                  ukuran: MediaQuery.of(context).size.width / 2 - 35,
+                  onTap: () {},
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                myButtonWidget(
+                    text: "Buat Janji",
+                    isLarge: false,
+                    ukuran: MediaQuery.of(context).size.width / 2 - 35,
+                    onTap: () {
+                      if (state is DoctorGetByIdLoaded) {
+                        context.goNamed('order',
+                            extra: state.doctor,
+                            pathParameters: {
+                              'name': state.doctor.kategori,
+                              'id': state.doctor.id.toString(),
+                            });
+                      }
+                    }),
+              ],
+            );
+          },
         ),
       ),
       body: Container(

@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/appointment/presentation/pages/order_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
 import 'package:konsul_dok/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/main.dart';
@@ -47,15 +49,25 @@ final GoRouter router = GoRouter(routes: [
         },
         routes: [
           GoRoute(
-            path: 'dokter/:id',
-            name: "detail_dokter",
-            builder: (context, state) {
-              final String id = state.pathParameters['id']!;
-              return DetailDokter(
-                id: id,
-              );
-            },
-          ),
+              path: 'dokter/:id',
+              name: "detail_dokter",
+              builder: (context, state) {
+                final String id = state.pathParameters['id']!;
+
+                return DetailDokter(
+                  id: id,
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'order',
+                  name: "order",
+                  builder: (context, state) {
+                    final Doctor doctor = state.extra as Doctor;
+                    return OrderPage(doctor: doctor);
+                  },
+                ),
+              ]),
         ],
       )
     ],
