@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -17,57 +17,80 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: MySpacing.paddingPage,
-        child: Column(
-          children: [
-            topBar(),
-            searchInput(),
-            menuPoliklinik(),
-            riwayatJanji(),
-          ],
-        ),
+    BlocProvider.of<AuthBloc>(context).add(AuthGetUser());
+
+    return Scaffold(
+      body: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return const SizedBox();
+          } else if (state is AuthFailure) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else if (state is AuthSuccess) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: MySpacing.paddingPage,
+                child: Column(
+                  children: [
+                    topBar(),
+                    searchInput(),
+                    menuPoliklinik(),
+                    riwayatJanji(),
+                  ],
+                ),
+              ),
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }
 
   Widget topBar() {
-    return Container(
-      margin: MySpacing.defaultMarginItem,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Image.asset('assets/images/small_icon.png'),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                "Halo",
-                style: MyTextStyle.subheder
-                    .copyWith(fontWeight: FontWeight.normal),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text("Abireya",
-                  style: MyTextStyle.subheder.copyWith(
-                    fontWeight: FontWeight.w800,
-                  )),
-            ],
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications_active,
-              color: MyColor.biru,
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      return Container(
+        margin: MySpacing.defaultMarginItem,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset('assets/images/small_icon.png'),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Halo",
+                  style: MyTextStyle.subheder
+                      .copyWith(fontWeight: FontWeight.normal),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(authState.user.name,
+                    style: MyTextStyle.subheder.copyWith(
+                      fontWeight: FontWeight.w800,
+                    )),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.notifications_active,
+                color: MyColor.biru,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   Widget searchInput() {

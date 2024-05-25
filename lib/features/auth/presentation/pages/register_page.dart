@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/radio_button.dart';
+import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -37,39 +39,41 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: MySpacing.paddingPage,
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  state.message,
-                  style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
-                ),
-                backgroundColor: Colors.red,
-              ));
-            } else if (state is AuthSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                  "Berhasil mendaftar",
-                  style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
-                ),
-                backgroundColor: Colors.green,
-              ));
-            }
-          },
-          builder: (context, state) {
-            if (state is AuthLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: MySpacing.paddingPage,
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state is AuthFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    state.message,
+                    style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.red,
+                ));
+              } else if (state is AuthSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Berhasil mendaftar",
+                    style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.green,
+                ));
+              }
+            },
+            builder: (context, state) {
+              if (state is AuthLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Column(
+                children: [headerComponent(), formComponent()],
               );
-            }
-            return Column(
-              children: [headerComponent(), formComponent()],
-            );
-          },
+            },
+          ),
         ),
       ),
     );
@@ -230,11 +234,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Sudah memiliki akun?",
                 style: MyTextStyle.deskripsi,
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Masuk disini",
-                    style: MyTextStyle.deskripsi.copyWith(color: MyColor.biru)),
-              ),
+              textAction(
+                text: "Masuk disini",
+                onTap: () {
+                  context.goNamed('login');
+                },
+              )
             ],
           )
         ],

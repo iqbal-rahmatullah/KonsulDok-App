@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:konsul_dok/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/domain/repositories/auth_repositories.dart';
+import 'package:konsul_dok/features/auth/domain/usecase/get_user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signup.dart';
@@ -30,6 +30,7 @@ void _initAuth() {
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
         serviceLocator(),
       ),
     )
@@ -57,10 +58,16 @@ void _initAuth() {
       ),
     )
     ..registerLazySingleton(
+      () => GetUser(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
         userSignIn: serviceLocator(),
         saveToken: serviceLocator(),
+        getUser: serviceLocator(),
       ),
     );
 }

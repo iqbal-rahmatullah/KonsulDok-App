@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:konsul_dok/features/auth/data/models/user_model.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> addToken(String token);

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/auth/data/models/user_model.dart';
 import 'package:konsul_dok/utils/api.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
@@ -16,12 +17,14 @@ abstract class AuthRemoteDataSource {
     required int age,
     required String gender,
   });
+  Future<UserModel> getUser();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Dio dio;
+  final Box<String> box;
 
-  AuthRemoteDataSourceImpl(this.dio);
+  AuthRemoteDataSourceImpl(this.dio, this.box);
   @override
   Future<String> login({
     required String email,
@@ -73,6 +76,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else if (e is DioException && e.response!.statusCode == 400) {
         throw ServerException(e.response!.data['message'][0]['message']);
       }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserModel> getUser() async {
+    try {
+      if (box.isEmpty) {
+        throw AuthException("Token not found");
+      }
+
+      final session = box.getAt(0);
+      final response = await dio.get(
+        "${ApiEnv.apiUrl}/users",
+        options: Options(
+          headers: {
+            'Authorization': session,
+          },
+        ),
+      );
+
+      return UserModel.fromJson(response.data['data']);
+    } catch (e) {
       throw ServerException(e.toString());
     }
   }

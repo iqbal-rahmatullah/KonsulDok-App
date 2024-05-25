@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
+import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,49 +25,51 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
-          );
-        } else if (state is AuthLoginSuccess) {
-          context.read<AuthBloc>().add(AuthSaveToken(token: state.message));
-        } else if (state is AuthSuccessSaveToken) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-      },
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Scaffold(
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } else if (state is AuthLoginSuccess) {
+            context.read<AuthBloc>().add(AuthSaveToken(token: state.message));
+          } else if (state is AuthSuccessSaveToken) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        return SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: MySpacing.paddingPage.copyWith(top: 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  headerComponent(),
-                  formComponent(),
-                ],
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: MySpacing.paddingPage.copyWith(top: 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    headerComponent(),
+                    formComponent(),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -172,11 +176,15 @@ class _LoginPageState extends State<LoginPage> {
                 "Belum punya akun?",
                 style: MyTextStyle.deskripsi,
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Daftar disini",
-                    style: MyTextStyle.deskripsi.copyWith(color: MyColor.biru)),
+              const SizedBox(
+                width: 5,
               ),
+              textAction(
+                text: "Daftar disini",
+                onTap: () {
+                  context.goNamed('register');
+                },
+              )
             ],
           )
         ],

@@ -56,4 +56,16 @@ class AuthRepositoryImpl implements AuthRepository {
   void saveToken({required String token}) {
     localDataSource.addToken(token);
   }
+
+  @override
+  Future<Either<Failure, User>> getUser() async {
+    try {
+      final result = await remoteDataSource.getUser();
+      return right(result);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    } on AuthException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

@@ -32,3 +32,5 @@ final class AuthSaveToken extends AuthEvent {
 
   AuthSaveToken({required this.token});
 }
+
+final class AuthGetUser extends AuthEvent {}

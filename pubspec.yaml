@@ -7,7 +7,6 @@ environment:
   sdk: ">=3.3.2 <4.0.0"
 
 dependencies:
-  bloc_generic_streams: ^2.0.0
   date_picker_timeline: ^1.2.6
   dio: ^5.4.3+1
   flutter:
@@ -23,6 +22,7 @@ dependencies:
   simple_gradient_text: ^1.3.0
   svg_flutter: ^0.0.1
   internet_connection_checker_plus: ^2.2.0
+  go_router: ^14.1.3
 
 dev_dependencies:
   flutter_test:

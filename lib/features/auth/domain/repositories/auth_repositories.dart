@@ -17,4 +17,6 @@ abstract class AuthRepository {
   });
 
   void saveToken({required String token});
+
+  Future<Either<Failure, User>> getUser();
 }
