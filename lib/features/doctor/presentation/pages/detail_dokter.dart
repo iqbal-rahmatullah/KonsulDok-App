@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
 import 'package:konsul_dok/pages/order_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
@@ -9,14 +10,22 @@ import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:konsul_dok/widgets/card_rating.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:konsul_dok/widgets/loading_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
-class DetailDokter extends StatelessWidget {
-  const DetailDokter({super.key});
+class DetailDokter extends StatefulWidget {
+  final String id;
+  const DetailDokter({super.key, required this.id});
 
   @override
+  State<DetailDokter> createState() => _DetailDokterState();
+}
+
+class _DetailDokterState extends State<DetailDokter> {
+  @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DoctorBloc>(context).add(DoctorGetById(id: widget.id));
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -56,7 +65,7 @@ class DetailDokter extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OrderPage(),
+                        builder: (context) => const OrderPage(),
                       ));
                 }),
           ],
@@ -65,21 +74,40 @@ class DetailDokter extends StatelessWidget {
       body: Container(
         padding: MySpacing.paddingInsetPage,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              imageDokter(),
-              titleDokter(),
-              cardDetailDokter(),
-              descriptionSection(),
-              ratingSection(),
-            ],
-          ),
+          child: BlocConsumer<DoctorBloc, DoctorState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is DoctorLoading ||
+                    state is DoctorGetCategoryLoaded) {
+                  return const Center(
+                    child: LoadingDetailDokterPage(),
+                  );
+                } else if (state is DoctorError) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                } else if (state is DoctorGetByIdLoaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      imageDokter(state),
+                      titleDokter(state),
+                      cardDetailDokter(
+                          experience: state.doctor.experience,
+                          price: state.doctor.price.toString()),
+                      descriptionSection(state),
+                      ratingSection(),
+                    ],
+                  );
+                }
+                return const SizedBox();
+              }),
         ),
       ),
     );
   }
 
-  Widget imageDokter() {
+  Widget imageDokter(DoctorGetByIdLoaded state) {
     return Container(
       height: 230,
       width: double.infinity,
@@ -89,15 +117,15 @@ class DetailDokter extends StatelessWidget {
         image: DecorationImage(
           fit: BoxFit.cover,
           alignment: Alignment.center,
-          image: AssetImage(
-            "assets/images/dokter_banner_example.jpg",
+          image: NetworkImage(
+            state.doctor.photoProfile,
           ),
         ),
       ),
     );
   }
 
-  Widget titleDokter() {
+  Widget titleDokter(DoctorGetByIdLoaded state) {
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Row(
@@ -107,7 +135,7 @@ class DetailDokter extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Dr. Uchiha Santoso",
+                state.doctor.name,
                 style: MyTextStyle.subheder.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -115,7 +143,7 @@ class DetailDokter extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Poli Mata",
+                    "Poli ${state.doctor.kategori}",
                     style: MyTextStyle.deskripsi.copyWith(
                       color: MyColor.abu,
                     ),
@@ -133,7 +161,7 @@ class DetailDokter extends StatelessWidget {
                     width: 8,
                   ),
                   Text(
-                    "Rumah Sakit Konoha",
+                    state.doctor.hospitalName,
                     style: MyTextStyle.deskripsi.copyWith(
                       color: MyColor.abu,
                     ),
@@ -152,7 +180,7 @@ class DetailDokter extends StatelessWidget {
     );
   }
 
-  Widget descriptionSection() {
+  Widget descriptionSection(DoctorGetByIdLoaded state) {
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Column(
@@ -168,7 +196,7 @@ class DetailDokter extends StatelessWidget {
             height: 10,
           ),
           Text(
-            "Dr. Uchiha Santoso adalah dokter spesialis mata yang sudah berpengalaman selama 1 tahun. Beliau sudah menangani banyak pasien dengan berbagai keluhan mata. Dr. Uchiha Santoso juga sudah banyak mendapatkan sertifikat dan penghargaan dari berbagai event kesehatan.",
+            state.doctor.description,
             style: MyTextStyle.deskripsi.copyWith(
               color: MyColor.abu,
             ),

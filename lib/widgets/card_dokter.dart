@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
-import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
+import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';

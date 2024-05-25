@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_poli_page.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/card_dokter.dart';
@@ -41,13 +42,15 @@ class _PoliPageState extends State<PoliPage> {
               child: Text(state.message),
             );
           } else {
-            return Container(
-              padding: MySpacing.paddingInsetPage,
-              child: Column(
-                children: [
-                  searchField(),
-                  listDokter(),
-                ],
+            return SingleChildScrollView(
+              child: Container(
+                padding: MySpacing.paddingInsetPage,
+                child: Column(
+                  children: [
+                    searchField(),
+                    listDokter(),
+                  ],
+                ),
               ),
             );
           }
@@ -67,10 +70,8 @@ class _PoliPageState extends State<PoliPage> {
   Widget listDokter() {
     final state = BlocProvider.of<DoctorBloc>(context).state;
 
-    if (state is DoctorLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (state is DoctorLoading || state is DoctorGetByIdLoaded) {
+      return const LoadingPoliPage();
     } else if (state is DoctorGetCategoryLoaded) {
       if (state.doctors.isEmpty) {
         return const Center(

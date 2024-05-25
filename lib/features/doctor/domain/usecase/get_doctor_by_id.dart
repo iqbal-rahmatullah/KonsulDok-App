@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/domain/repositories/doctor_repository.dart';
 import 'package:konsul_dok/utils/error/failure.dart';

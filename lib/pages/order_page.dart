@@ -28,7 +28,7 @@ class OrderPage extends StatelessWidget {
         child: Column(
           children: [
             headerProfileDokter(),
-            cardDetailDokter(),
+            // cardDetailDokter(),
             inputTimeSection(),
             actionChatSection(),
           ],
