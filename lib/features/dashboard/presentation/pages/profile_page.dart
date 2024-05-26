@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:konsul_dok/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -11,13 +12,14 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Profile",
-          style: MyTextStyle.header,
+        centerTitle: true,
+        title: Text(
+          'Profile',
+          style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: Container(
+        padding: MySpacing.paddingInsetPage,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -67,7 +69,7 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 children: [
                   MenuProfile(
-                    text: "Lihat atau edit Profile",
+                    text: "Edit Profile",
                     icon: Icon(
                       Icons.person_2,
                       color: MyColor.biru,
@@ -86,7 +88,7 @@ class ProfilePage extends StatelessWidget {
                     height: 5,
                   ),
                   MenuProfile(
-                    text: "Favorite",
+                    text: "Favorit",
                     icon: Icon(
                       Icons.favorite,
                       color: MyColor.biru,
@@ -124,7 +126,7 @@ class ProfilePage extends StatelessWidget {
                     height: 5,
                   ),
                   MenuProfile(
-                    text: "Bantuan",
+                    text: "Tanya Jawab",
                     icon: Icon(
                       Icons.help_center_outlined,
                       color: MyColor.biru,
@@ -143,20 +145,12 @@ class ProfilePage extends StatelessWidget {
                     height: 5,
                   ),
                   MenuProfile(
-                    text: "Logout",
+                    text: "Keluar",
                     icon: Icon(
                       Icons.logout,
                       color: MyColor.biru,
                     ),
                     destination: FavoritePage(),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Divider(
-                    color: MyColor.abuDivider,
-                    thickness: 1,
-                    height: 15,
                   ),
                 ],
               ),

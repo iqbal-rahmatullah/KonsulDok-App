@@ -53,6 +53,14 @@ final GoRouter router = GoRouter(routes: [
         },
         routes: [
           GoRoute(
+            path: 'orderpoli',
+            name: "order_from_poli",
+            builder: (context, state) {
+              final Doctor doctor = state.extra as Doctor;
+              return OrderPage(doctor: doctor);
+            },
+          ),
+          GoRoute(
               path: 'dokter/:id',
               name: "detail_dokter",
               builder: (context, state) {
@@ -82,14 +90,6 @@ final GoRouter router = GoRouter(routes: [
               appointmentPatient: state.extra as AppointmentPatient,
             );
           }),
-      GoRoute(
-        path: 'orderpoli',
-        name: "order_from_poli",
-        builder: (context, state) {
-          final Doctor doctor = state.extra as Doctor;
-          return OrderPage(doctor: doctor);
-        },
-      ),
     ],
   ),
   GoRoute(

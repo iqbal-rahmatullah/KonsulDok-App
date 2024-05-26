@@ -6,6 +6,7 @@ import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_poliklinik.dart';
+import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/text_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -145,20 +146,11 @@ class _HomePageState extends State<HomePage> {
                 "Poliklinik",
                 style: MyTextStyle.subheder,
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Lihat Semua",
-                  style: MyTextStyle.deskripsi.copyWith(
-                    color: MyColor.biru,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              )
+              textAction(onTap: () {}, text: "Lihat semua"),
             ],
           ),
           const SizedBox(
-            height: 7,
+            height: 15,
           ),
           GridView.count(
             padding: EdgeInsets.zero,
@@ -179,6 +171,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget riwayatJanji() {
     return Container(
+      margin: MySpacing.defaultMarginItem,
       child: Column(
         children: [
           Row(
@@ -188,17 +181,11 @@ class _HomePageState extends State<HomePage> {
                 "Riwayat jadwal janji",
                 style: MyTextStyle.subheder,
               ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Lihat Semua",
-                  style: MyTextStyle.deskripsi.copyWith(
-                    color: MyColor.biru,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+              textAction(onTap: () {}, text: "Lihat semua"),
             ],
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Container(
             width: double.infinity,
