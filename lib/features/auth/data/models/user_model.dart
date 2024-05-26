@@ -8,10 +8,12 @@ class UserModel extends User {
     required super.phone,
     required super.age,
     required super.gender,
+    required super.id,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['id'],
       email: json['email'],
       password: json['password'],
       name: json['name'],

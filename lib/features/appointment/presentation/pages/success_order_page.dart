@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
+import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/card_detail_success_order.dart';
 
 class SuccesOrderPage extends StatelessWidget {
-  const SuccesOrderPage({super.key});
+  final SuccessOrderArgs args;
+
+  const SuccesOrderPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +36,9 @@ class SuccesOrderPage extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: MySpacing.paddingPage.copyWith(bottom: 50),
         child: myButtonWidget(
-          text: "Lihat Detail",
+          text: "Kembali ke Beranda",
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SizedBox(),
-                ));
+            context.goNamed('home');
           },
         ),
       ),
@@ -66,12 +66,12 @@ class SuccesOrderPage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               textAlign: TextAlign.center,
-              "Anda telah berhasil membuat janji dengan \nDr. Uchiha Santoso",
+              "Anda telah berhasil membuat janji dengan \n${args.doctor.name}",
               style: MyTextStyle.deskripsi,
             )
           ],
@@ -85,13 +85,27 @@ class SuccesOrderPage extends StatelessWidget {
       margin: MySpacing.defaultMarginItem,
       child: Column(
         children: [
-          cardDetailSuccesOrder(),
-          cardDetailSuccesOrder(),
+          cardDetailSuccesOrder(
+              icon: "pasien_icon.png",
+              title: "Nama Pasien",
+              value: args.user.name),
+          cardDetailSuccesOrder(
+              icon: "harga_icon.png",
+              title: "Harga",
+              value: "Rp. ${args.doctor.price}"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              cardDetailSuccesOrder(),
-              cardDetailSuccesOrder(),
+              cardDetailSuccesOrder(
+                  icon: "tanggal_icon.png",
+                  title: "Tanggal",
+                  value: args.appointment.date,
+                  isSmall: true),
+              cardDetailSuccesOrder(
+                  icon: "jam_icon.png",
+                  title: "Jam",
+                  value: "${args.appointment.time} WIB",
+                  isSmall: true),
             ],
           ),
           const SizedBox(

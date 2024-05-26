@@ -16,7 +16,9 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
   @override
   Future<List<DoctorModel>> getAllDoctors({required String name}) async {
     try {
-      final result = await dio.get('${ApiEnv.apiUrl}/doctors/category/$name');
+      final result = await dio
+          .get('${ApiEnv.apiUrl}/doctors/category/$name')
+          .timeout(const Duration(seconds: 10));
       final List<DoctorModel> doctors = [];
       for (var item in result.data['data']) {
         doctors.add(DoctorModel.fromJson(item));
@@ -34,7 +36,9 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
   @override
   Future<DoctorModel> getDoctorById({required String id}) async {
     try {
-      final result = await dio.get('${ApiEnv.apiUrl}/doctors/$id');
+      final result = await dio
+          .get('${ApiEnv.apiUrl}/doctors/$id')
+          .timeout(const Duration(seconds: 10));
       return DoctorModel.fromJson(result.data['data']);
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 404) {

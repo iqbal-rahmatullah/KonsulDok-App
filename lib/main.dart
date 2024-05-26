@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/dashboard/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
@@ -20,6 +21,9 @@ void main() async {
       ),
       BlocProvider<DoctorBloc>(
         create: (context) => serviceLocator<DoctorBloc>(),
+      ),
+      BlocProvider<AppointmentBloc>(
+        create: (context) => serviceLocator<AppointmentBloc>(),
       ),
     ],
     child: const MainApp(),

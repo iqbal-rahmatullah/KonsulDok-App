@@ -87,12 +87,8 @@ class _PoliPageState extends State<PoliPage> {
         return Column(
             children: List.generate(state.doctors.length, (index) {
           return cardDokter(
-            hospitalName: state.doctors[index].hospitalName,
-            name: state.doctors[index].name,
             context: context,
-            photoProfile: state.doctors[index].photoProfile,
-            id: state.doctors[index].id.toString(),
-            kategori: state.doctors[index].kategori,
+            doctor: state.doctors[index],
           );
         }));
       }

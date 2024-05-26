@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/order_page.dart';
+import 'package:konsul_dok/features/appointment/presentation/pages/success_order_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
 import 'package:konsul_dok/features/dashboard/presentation/pages/dashboard_page.dart';
@@ -8,6 +9,7 @@ import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/main.dart';
 import 'package:konsul_dok/pages/loading_page.dart';
+import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 
 final GoRouter router = GoRouter(routes: [
   GoRoute(
@@ -68,6 +70,14 @@ final GoRouter router = GoRouter(routes: [
                   },
                 ),
               ]),
+          GoRoute(
+            path: 'orderpoli',
+            name: "order_from_poli",
+            builder: (context, state) {
+              final Doctor doctor = state.extra as Doctor;
+              return OrderPage(doctor: doctor);
+            },
+          ),
         ],
       )
     ],
@@ -77,6 +87,15 @@ final GoRouter router = GoRouter(routes: [
     name: "loading",
     builder: (context, state) {
       return const LoadingPage();
+    },
+  ),
+  GoRoute(
+    path: '/success_order',
+    name: "success_order",
+    builder: (context, state) {
+      return SuccesOrderPage(
+        args: state.extra as SuccessOrderArgs,
+      );
     },
   ),
 ], routerNeglect: true, initialLocation: '/loading');
