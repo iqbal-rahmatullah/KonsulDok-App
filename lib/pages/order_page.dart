@@ -8,8 +8,18 @@ import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:konsul_dok/widgets/radio_button_jam.dart';
 
-class OrderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
+
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  Map formData = {
+    "date": DateTime.now(),
+    "time": 0,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +49,11 @@ class OrderPage extends StatelessWidget {
         child: myButtonWidget(
           text: "Buat Janji",
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SizedBox(),
-                ));
+            String dateSubmit =
+                "${formData['date'].day}-${formData['date'].month}-${formData['date'].year}";
+            String timeSubmit = "${7 + formData['time']}:00";
+            print(dateSubmit);
+            print(timeSubmit);
           },
         ),
       ),
@@ -125,7 +135,16 @@ class OrderPage extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 10,
+          ),
+          Text(
+            "Hari",
+            style: MyTextStyle.deskripsi.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           DatePicker(
             DateTime.now(),
@@ -144,16 +163,18 @@ class OrderPage extends StatelessWidget {
               color: const Color(0xff4C4242),
             ),
             locale: 'id',
-            daysCount: 10,
+            daysCount: 7,
             height: 90,
-            onDateChange: (date) {},
+            onDateChange: (date) {
+              formData['date'] = date;
+            },
           ),
           const SizedBox(
             height: 10,
           ),
           Text(
-            "Atur Jadwal",
-            style: MyTextStyle.subheder.copyWith(
+            "Jam",
+            style: MyTextStyle.deskripsi.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -164,15 +185,19 @@ class OrderPage extends StatelessWidget {
             constraints: const BoxConstraints(maxHeight: 50),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: 7,
                 itemBuilder: (context, index) {
                   return Row(
                     children: [
                       customRadioButton(
                         label: "${index >= 2 ? "" : "0"}${8 + index++}:00",
-                        isSelected: index == 1,
+                        isSelected: index == formData['time'],
                         isDisabled: index == 2,
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            formData['time'] = index;
+                          });
+                        },
                       ),
                       const SizedBox(
                         width: 5,
