@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
+import 'package:konsul_dok/features/appointment/presentation/pages/detail_janji_pasien.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/order_page.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/success_order_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
@@ -70,16 +72,24 @@ final GoRouter router = GoRouter(routes: [
                   },
                 ),
               ]),
-          GoRoute(
-            path: 'orderpoli',
-            name: "order_from_poli",
-            builder: (context, state) {
-              final Doctor doctor = state.extra as Doctor;
-              return OrderPage(doctor: doctor);
-            },
-          ),
         ],
-      )
+      ),
+      GoRoute(
+          path: "detail_appointment",
+          name: "detail_appointment",
+          builder: (context, state) {
+            return DetailJanjiPasien(
+              appointmentPatient: state.extra as AppointmentPatient,
+            );
+          }),
+      GoRoute(
+        path: 'orderpoli',
+        name: "order_from_poli",
+        builder: (context, state) {
+          final Doctor doctor = state.extra as Doctor;
+          return OrderPage(doctor: doctor);
+        },
+      ),
     ],
   ),
   GoRoute(

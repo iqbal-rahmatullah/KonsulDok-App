@@ -7,13 +7,15 @@ Widget myButtonWidget({
   bool isLarge = true,
   double? ukuran,
   required Function onTap,
+  Color? color,
 }) {
   return Container(
     width: (isLarge) ? double.infinity : ukuran,
     height: 45,
     decoration: BoxDecoration(
-      gradient: MyColor.gradientBiru,
+      gradient: color == null ? MyColor.gradientBiru : null,
       borderRadius: BorderRadius.circular(50),
+      color: color,
     ),
     child: ElevatedButton(
       onPressed: () {

@@ -1,9 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
+import 'package:konsul_dok/widgets/button_widget.dart';
 
 class DetailJanjiPasien extends StatefulWidget {
-  const DetailJanjiPasien({super.key});
+  final AppointmentPatient appointmentPatient;
+  const DetailJanjiPasien({super.key, required this.appointmentPatient});
 
   @override
   State<DetailJanjiPasien> createState() => _DetailJanjiPasienState();
@@ -14,45 +20,44 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_outlined),
-          onPressed: () {},
-        ),
         centerTitle: true,
         title: Text(
           'Janji Saya',
           style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
         ),
       ),
-      body: Column(
-        children: [
-          cardHome(),
-          detailDokter(),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(24, 10, 24, 10),
-            child: Divider(
-              color: MyColor.abuText,
-              thickness: 1,
+      bottomNavigationBar: Padding(
+        padding: MySpacing.paddingInsetPage.copyWith(bottom: 20),
+        child: myButtonWidget(
+            text: "Batalkan", onTap: () {}, color: const Color(0xffFF6161)),
+      ),
+      body: Container(
+        padding: MySpacing.paddingInsetPage,
+        child: Column(
+          children: [
+            cardHome(),
+            const SizedBox(
+              height: 15,
             ),
-          ),
-          detailJanji(),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(24, 10, 24, 10),
-            child: Divider(
-              color: MyColor.abuText,
-              thickness: 1,
+            detailDokter(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Divider(
+                color: MyColor.abuText,
+                thickness: 1,
+              ),
             ),
-          ),
-          detailPasien(),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(24, 10, 24, 10),
-            child: Divider(
-              color: MyColor.abuText,
-              thickness: 1,
+            detailJanji(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Divider(
+                color: MyColor.abuText,
+                thickness: 1,
+              ),
             ),
-          ),
-          detailStatus()
-        ],
+            detailPasien(),
+          ],
+        ),
       ),
     );
   }
@@ -60,84 +65,72 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
   Widget cardHome() {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      // width: MediaQuery.sizeOf(context).width,
-      // height: MediaQuery.sizeOf(context).width,
       children: [
         Center(
-          // margin: const EdgeInsets.only(bottom: 20),
           child: Container(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-            width: MediaQuery.sizeOf(context).width * 7 / 8,
             decoration: BoxDecoration(
                 gradient: MyColor.gradientBiru,
                 borderRadius: BorderRadius.circular(20)),
             child: IntrinsicHeight(
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    flex: 5,
-                    child: SizedBox(
-                      height: 90,
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Rabu,",
-                            textAlign: TextAlign.center,
-                            style: MyTextStyle.subheder
-                                .copyWith(color: MyColor.putih),
-                          ),
-                          Text(
-                            "01 Mei 2024",
-                            textAlign: TextAlign.center,
-                            style:
-                                MyTextStyle.name.copyWith(color: MyColor.putih),
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            "08.00",
-                            textAlign: TextAlign.center,
-                            style:
-                                MyTextStyle.name.copyWith(color: MyColor.putih),
-                          )
-                        ],
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.appointmentPatient.date,
+                        textAlign: TextAlign.center,
+                        style: MyTextStyle.subheder.copyWith(
+                            color: MyColor.putih, fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "${widget.appointmentPatient.time} WIB",
+                        textAlign: TextAlign.center,
+                        style: MyTextStyle.subheder.copyWith(
+                            color: MyColor.putih, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   const VerticalDivider(
-                    thickness: 2,
+                    thickness: 1,
                     color: MyColor.putih,
                   ),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Expanded(
-                    flex: 9,
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 5),
-                      height: 90,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Dr. Abireya Nur Zidan",
-                            style:
-                                MyTextStyle.name.copyWith(color: MyColor.putih),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.appointmentPatient.doctor.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: MyTextStyle.name.copyWith(
+                            color: MyColor.putih,
                           ),
-                          Text(
-                            "Poli Bedah Dalam",
-                            style: MyTextStyle.subheder
-                                .copyWith(color: MyColor.putih),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "RS PEMNS",
-                            style:
-                                MyTextStyle.name.copyWith(color: MyColor.putih),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          "Poli ${widget.appointmentPatient.doctor.kategori}",
+                          style: MyTextStyle.deskripsi.copyWith(
+                              color: MyColor.putih,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          widget.appointmentPatient.doctor.hospitalName,
+                          style: MyTextStyle.deskripsi.copyWith(
+                              color: MyColor.putih,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -184,10 +177,11 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
             textAlign: TextAlign.left,
             style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
           ),
-          rowDescript("Nama dokter", "Dr. Abireya Nur Zidan"),
-          rowDescript("Poliklinik", "Poli Bedah Dalam"),
-          rowDescript("Rumah sakit", "RS PEMNS"),
-          rowDescript("Lokasi", "Sukolilo, Surabaya"),
+          rowDescript("Nama dokter", widget.appointmentPatient.doctor.name),
+          rowDescript("Poliklinik",
+              "Poli ${widget.appointmentPatient.doctor.kategori}"),
+          rowDescript(
+              "Rumah sakit", widget.appointmentPatient.doctor.hospitalName),
         ],
       ),
     );
@@ -205,8 +199,9 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
             textAlign: TextAlign.left,
             style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
           ),
-          rowDescript("Tanggal", "Rabu, 01 Mei 2024"),
-          rowDescript("Jam", "08.00"),
+          rowDescript("Tanggal", widget.appointmentPatient.date),
+          rowDescript("Jam", "${widget.appointmentPatient.time} WIB"),
+          rowDescript("Status", widget.appointmentPatient.status),
         ],
       ),
     );
@@ -224,27 +219,10 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
             textAlign: TextAlign.left,
             style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
           ),
-          rowDescript("Nama pasien", "Gendra Padmawan"),
-          rowDescript("Jenis kelamin", "Laki-laki"),
-          rowDescript("Usia", "68 tahun"),
-        ],
-      ),
-    );
-  }
-
-  Widget detailStatus() {
-    return SizedBox(
-      // padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      width: MediaQuery.sizeOf(context).width * 7 / 8,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Status',
-            textAlign: TextAlign.left,
-            style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
-          ),
-          rowDescript("Status", "Disetujui"),
+          rowDescript("Nama pasien", widget.appointmentPatient.patient.name),
+          rowDescript(
+              "Jenis kelamin", widget.appointmentPatient.patient.gender),
+          rowDescript("Usia", "${widget.appointmentPatient.patient.age} tahun"),
         ],
       ),
     );
