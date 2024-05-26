@@ -1,21 +1,21 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
-import 'package:konsul_dok/widgets/button_widget.dart';
 
 Widget cardTransaction(
-    {bool isOrdered = false, required BuildContext context}) {
+    {bool isOrdered = false,
+    required BuildContext context,
+    required AppointmentPatient appointment}) {
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
       Card(
         color: MyColor.putih,
-        margin: const EdgeInsets.only(bottom: 20),
+        margin: const EdgeInsets.only(bottom: 10),
         child: Padding(
-          padding: MySpacing.padingCard, 
+          padding: MySpacing.padingCard,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -23,11 +23,11 @@ Widget cardTransaction(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Rabu, 5 Maret 2023",
+                    appointment.date,
                     style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                   ),
                   Text(
-                    "08.00 WIB",
+                    "${appointment.time} WIB",
                     style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                   ),
                 ],
@@ -37,7 +37,9 @@ Widget cardTransaction(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(appointment.doctor.photoProfile),
                     ),
                   ),
                   const SizedBox(
@@ -47,7 +49,7 @@ Widget cardTransaction(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Putri",
+                        appointment.doctor.name,
                         style: MyTextStyle.subheder.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -56,8 +58,9 @@ Widget cardTransaction(
                         height: 3,
                       ),
                       Text(
-                        "Poli Kandungan",
-                        style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
+                        "Poli ${appointment.doctor.kategori}",
+                        style:
+                            MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
                       ),
                       const SizedBox(
                         height: 3,
@@ -73,8 +76,9 @@ Widget cardTransaction(
                             width: 3,
                           ),
                           Text(
-                            "Rumah Sakit PEMNS",
-                            style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
+                            appointment.doctor.hospitalName,
+                            style: MyTextStyle.deskripsi
+                                .copyWith(color: MyColor.abu),
                           )
                         ],
                       )
