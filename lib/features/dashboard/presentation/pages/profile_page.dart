@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -30,10 +29,10 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)),
                 width: MediaQuery.of(context).size.width * 0.87,
                 height: 87,
-                child: const Row(
+                child: Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: CircleAvatar(
                         radius: 30,
                         backgroundColor: Colors.white,
@@ -50,18 +49,12 @@ class ProfilePage extends StatelessWidget {
                       children: [
                         Text(
                           "Abdul Manab",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              fontFamily: 'outfit',
-                              fontSize: 18),
+                          style: MyTextStyle.name.copyWith(color: Colors.white),
                         ),
                         Text(
                           "0898-7865-1342",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: 'outfit'),
+                          style: MyTextStyle.deskripsi
+                              .copyWith(color: Colors.white),
                         )
                       ],
                     )
@@ -70,7 +63,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             const Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
               child: Column(
                 children: [
                   MenuProfile(
@@ -187,32 +180,38 @@ class MenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            icon,
-            SizedBox(
-              width: 4,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              text,
-              style: TextStyle(fontSize: 15),
-            )
-          ],
-        ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => destination));
-          },
-          child: Icon(Icons.arrow_forward_ios),
-        )
-      ],
+    return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => destination));
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              icon,
+              const SizedBox(
+                width: 4,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                text,
+                style:
+                    MyTextStyle.subheder.copyWith(fontWeight: FontWeight.w400),
+              )
+            ],
+          ),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 15,
+          )
+        ],
+      ),
     );
   }
 }
