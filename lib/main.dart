@@ -6,6 +6,7 @@ import 'package:konsul_dok/pages/login_page.dart';
 import 'package:konsul_dok/pages/order_page.dart';
 import 'package:konsul_dok/pages/profile_dokter.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/widgets/navbar.dart';
 
 void main() {
   runApp(const MainApp());
@@ -33,16 +34,15 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       color: MyColor.putih,
       home: Scaffold(
-        // body: page[selectedIndex],
-        // bottomNavigationBar: MyBottomNavigationBar(
-        //   selectedIndex: selectedIndex,
-        //   onItemTapped: (index) {
-        //     setState(() {
-        //       selectedIndex = index;
-        //     });
-        //   },
-        // ),
-        body: const OrderPage(),
+        body: page[selectedIndex],
+        bottomNavigationBar: MyBottomNavigationBar(
+          selectedIndex: selectedIndex,
+          onItemTapped: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
