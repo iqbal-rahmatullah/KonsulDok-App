@@ -16,6 +16,7 @@ Future<void> initDependencies() async {
   // sessionBox.clear();
   serviceLocator.registerLazySingleton(() => sessionBox);
   serviceLocator.registerLazySingleton(() => NavbarCubit());
+  serviceLocator.registerLazySingleton(() => NavbarDoctorCubit());
 }
 
 void _initAppointment() {

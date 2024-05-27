@@ -5,6 +5,7 @@ import 'package:konsul_dok/features/appointment/presentation/pages/order_page.da
 import 'package:konsul_dok/features/appointment/presentation/pages/success_order_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
+import 'package:konsul_dok/features/dashboard/doctor/pages/dashboard_doctor.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/dashboard_page.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
@@ -91,6 +92,13 @@ final GoRouter router = GoRouter(routes: [
             );
           }),
     ],
+  ),
+  GoRoute(
+    path: '/home_doctor',
+    name: "home_doctor",
+    builder: (context, state) {
+      return const DashboardDoctorPage();
+    },
   ),
   GoRoute(
     path: '/loading',

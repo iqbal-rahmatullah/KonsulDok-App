@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
@@ -19,6 +20,9 @@ void main() async {
       ),
       BlocProvider<NavbarCubit>(
         create: (context) => serviceLocator<NavbarCubit>(),
+      ),
+      BlocProvider<NavbarDoctorCubit>(
+        create: (context) => serviceLocator<NavbarDoctorCubit>(),
       ),
       BlocProvider<DoctorBloc>(
         create: (context) => serviceLocator<DoctorBloc>(),
@@ -47,7 +51,11 @@ class _MainAppState extends State<MainApp> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthGetUserSuccess) {
-          router.go('/home');
+          if (state.user.role == 'patient') {
+            router.go('/home');
+          } else {
+            router.goNamed('home_doctor');
+          }
         } else if (state is AuthFailure) {
           router.go('/login');
         }

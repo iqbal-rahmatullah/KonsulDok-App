@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/utils/navbar_item.dart';
 import 'package:konsul_dok/widgets/navbar.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+class DashboardDoctorPage extends StatefulWidget {
+  const DashboardDoctorPage({super.key});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<DashboardDoctorPage> createState() => _DashboardDoctorPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _DashboardDoctorPageState extends State<DashboardDoctorPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavbarCubit, int>(
+    return BlocBuilder<NavbarDoctorCubit, int>(
       builder: (context, state) {
         return Scaffold(
-          body: BlocProvider.of<NavbarCubit>(context).pageNow,
+          body: BlocProvider.of<NavbarDoctorCubit>(context).pageNow,
           bottomNavigationBar: MyBottomNavigationBar(
-            itemNavbar: NavbarItem.navbar,
+            itemNavbar: NavbarItem.navbarDoctor,
             selectedIndex: state,
             onItemTapped: (index) {
-              context.read<NavbarCubit>().change(index);
+              context.read<NavbarDoctorCubit>().change(index);
             },
           ),
         );
