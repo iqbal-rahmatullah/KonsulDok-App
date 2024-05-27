@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:konsul_dok/features/dashboard/presentation/pages/loading/loading_home_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/loading/loading_home_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';

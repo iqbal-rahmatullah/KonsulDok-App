@@ -17,7 +17,7 @@ import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signup.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:konsul_dok/features/dashboard/cubit/navbar_cubit.dart';
+import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/data/datasource/doctor_remote_data_source.dart';
 import 'package:konsul_dok/features/doctor/data/repositories/doctor_repository_impl.dart';
 import 'package:konsul_dok/features/doctor/domain/repositories/doctor_repository.dart';

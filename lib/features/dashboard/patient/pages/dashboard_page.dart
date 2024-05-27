@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:konsul_dok/features/dashboard/cubit/navbar_cubit.dart';
-import 'package:konsul_dok/features/dashboard/presentation/pages/home_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/widgets/navbar.dart';
 
 class DashboardPage extends StatefulWidget {
