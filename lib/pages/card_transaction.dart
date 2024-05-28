@@ -5,13 +5,18 @@ import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget cardTransaction(
-    {bool isOrdered = false,
-    required BuildContext context,
-    required AppointmentPatient appointment}) {
+Widget cardTransaction({
+  bool isOrdered = false,
+  required BuildContext context,
+  required AppointmentPatient appointment,
+  bool pageDoctor = false,
+}) {
   return GestureDetector(
     onTap: () {
-      context.goNamed('detail_appointment', extra: appointment);
+      context.goNamed(
+        pageDoctor ? 'detail_appointment_doctor' : 'detail_appointment',
+        extra: appointment,
+      );
     },
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -43,8 +48,12 @@ Widget cardTransaction(
                     ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(appointment.doctor.photoProfile),
+                        backgroundImage: pageDoctor
+                            ? const Image(
+                                    image: AssetImage(
+                                        "assets/images/patient_profile.png"))
+                                .image
+                            : NetworkImage(appointment.doctor.photoProfile),
                       ),
                     ),
                     const SizedBox(
@@ -54,7 +63,9 @@ Widget cardTransaction(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          appointment.doctor.name,
+                          pageDoctor
+                              ? appointment.patient.name
+                              : appointment.doctor.name,
                           style: MyTextStyle.subheder.copyWith(
                             fontWeight: FontWeight.bold,
                           ),

@@ -37,4 +37,16 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
       return Left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentDoctor(
+      {required int id}) async {
+    try {
+      final result =
+          await appointmentRemoteDataSource.getDetailAppointmentDoctor(id: id);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
 }

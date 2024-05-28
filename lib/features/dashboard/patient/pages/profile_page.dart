@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -10,6 +12,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authState = context.read<AuthBloc>().state as AuthGetUserSuccess;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,11 +54,11 @@ class ProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Abdul Manab",
+                          authState.user.name,
                           style: MyTextStyle.name.copyWith(color: Colors.white),
                         ),
                         Text(
-                          "0898-7865-1342",
+                          authState.user.phone,
                           style: MyTextStyle.deskripsi
                               .copyWith(color: Colors.white),
                         )

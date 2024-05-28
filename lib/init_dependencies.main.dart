@@ -38,13 +38,19 @@ void _initAppointment() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => GetAppointmentDoctor(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AppointmentBloc(
         createAppointment: serviceLocator(),
       ),
     )
-    ..registerLazySingleton(
-        () => AppointmentPatientBloc(getAppointmentPatient: serviceLocator()));
+    ..registerLazySingleton(() => AppointmentPatientBloc(
+        getAppointmentPatient: serviceLocator(),
+        getAppointmentDoctor: serviceLocator()));
 }
 
 void _initDoctor() {

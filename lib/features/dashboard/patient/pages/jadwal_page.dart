@@ -106,12 +106,14 @@ class _JadwalPageState extends State<JadwalPage>
                             style: MyTextStyle.deskripsi,
                           ),
                         )
-                      : Column(
-                          children: List.generate(
-                            appointments.length,
-                            (index) => cardTransaction(
-                              context: context,
-                              appointment: appointments[index],
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: List.generate(
+                              appointments.length,
+                              (index) => cardTransaction(
+                                context: context,
+                                appointment: appointments[index],
+                              ),
                             ),
                           ),
                         ),
@@ -122,13 +124,15 @@ class _JadwalPageState extends State<JadwalPage>
                             style: MyTextStyle.deskripsi,
                           ),
                         )
-                      : Column(
-                          children: List.generate(
-                            appointmentsDone.length,
-                            (index) => cardTransaction(
-                              context: context,
-                              appointment: appointmentsDone[index],
-                              isOrdered: true,
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: List.generate(
+                              appointmentsDone.length,
+                              (index) => cardTransaction(
+                                context: context,
+                                appointment: appointmentsDone[index],
+                                isOrdered: true,
+                              ),
                             ),
                           ),
                         ),

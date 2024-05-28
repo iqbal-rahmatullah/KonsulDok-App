@@ -13,6 +13,8 @@ abstract class AppointmentRemoteDataSource {
   });
 
   Future<List<AppointmentPatientModel>> getDetailAppointment({required int id});
+  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor(
+      {required int id});
 }
 
 class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
@@ -46,6 +48,28 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
     try {
       final result = await dio
           .get('${ApiEnv.apiUrl}/appointment/patient/$id')
+          .timeout(const Duration(seconds: 10));
+      List<AppointmentPatientModel> appointments = [];
+
+      for (var item in result.data['data']) {
+        appointments.add(AppointmentPatientModel.fromJson(item));
+      }
+
+      return appointments;
+    } catch (e) {
+      if (e is DioException && e.response!.statusCode == 404) {
+        throw ServerException(e.response!.data['message']);
+      }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor(
+      {required int id}) async {
+    try {
+      final result = await dio
+          .get('${ApiEnv.apiUrl}/appointment/doctor/$id')
           .timeout(const Duration(seconds: 10));
       List<AppointmentPatientModel> appointments = [];
 

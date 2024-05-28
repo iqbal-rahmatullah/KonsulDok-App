@@ -99,6 +99,18 @@ final GoRouter router = GoRouter(routes: [
     builder: (context, state) {
       return const DashboardDoctorPage();
     },
+    routes: [
+      GoRoute(
+        path: "detail_appointment_doctor",
+        name: "detail_appointment_doctor",
+        builder: (context, state) {
+          return DetailJanjiPasien(
+            appointmentPatient: state.extra as AppointmentPatient,
+            pageDoctor: true,
+          );
+        },
+      )
+    ],
   ),
   GoRoute(
     path: '/loading',

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
@@ -9,7 +7,13 @@ import 'package:konsul_dok/widgets/button_widget.dart';
 
 class DetailJanjiPasien extends StatefulWidget {
   final AppointmentPatient appointmentPatient;
-  const DetailJanjiPasien({super.key, required this.appointmentPatient});
+  final bool pageDoctor;
+
+  const DetailJanjiPasien({
+    super.key,
+    required this.appointmentPatient,
+    this.pageDoctor = false,
+  });
 
   @override
   State<DetailJanjiPasien> createState() => _DetailJanjiPasienState();
@@ -109,14 +113,18 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.appointmentPatient.doctor.name,
+                          widget.pageDoctor
+                              ? widget.appointmentPatient.patient.name
+                              : widget.appointmentPatient.doctor.name,
                           overflow: TextOverflow.ellipsis,
                           style: MyTextStyle.name.copyWith(
                             color: MyColor.putih,
                           ),
                         ),
                         Text(
-                          "Poli ${widget.appointmentPatient.doctor.kategori}",
+                          widget.pageDoctor
+                              ? widget.appointmentPatient.patient.gender
+                              : "Dokter ${widget.appointmentPatient.doctor.kategori}",
                           style: MyTextStyle.deskripsi.copyWith(
                               color: MyColor.putih,
                               fontWeight: FontWeight.bold),
@@ -125,7 +133,9 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
                           height: 15,
                         ),
                         Text(
-                          widget.appointmentPatient.doctor.hospitalName,
+                          widget.pageDoctor
+                              ? "${widget.appointmentPatient.patient.age} Tahun"
+                              : widget.appointmentPatient.doctor.hospitalName,
                           style: MyTextStyle.deskripsi.copyWith(
                               color: MyColor.putih,
                               fontWeight: FontWeight.bold),
