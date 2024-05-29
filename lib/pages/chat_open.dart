@@ -3,6 +3,7 @@ import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/text_field.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatOpenPage extends StatefulWidget {
   const ChatOpenPage({super.key});
@@ -12,6 +13,39 @@ class ChatOpenPage extends StatefulWidget {
 }
 
 class _ChatOpenPageState extends State<ChatOpenPage> {
+  late IO.Socket socket;
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    connect();
+  }
+
+  void connect() {
+    socket = IO.io('http://10.252.135.5:3000', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+    });
+
+    socket.on('connect', (_) {
+      print('connected');
+      socket.emit('signin', 42);
+
+      socket.on("message", (msg) {
+        print(msg);
+      });
+    });
+  }
+
+  void sendMessage() {
+    socket.emit('message', {
+      "message": controller.text,
+      "sender_id": 1,
+      "receiver_id": 2,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +120,12 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
             SizedBox(
               height: 14,
             ),
-            textField(),
+            textField(controller: controller),
+            ElevatedButton(
+                onPressed: () {
+                  sendMessage();
+                },
+                child: const Icon(Icons.send)),
           ],
         ),
       ),

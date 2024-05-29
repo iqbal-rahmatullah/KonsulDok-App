@@ -71,7 +71,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget searchInput() {
-    return Container(margin: MySpacing.defaultMarginItem, child: textField());
+    return Container(
+      margin: MySpacing.defaultMarginItem,
+    );
   }
 
   Widget menuPoliklinik() {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget textField() {
+Widget textField({required TextEditingController controller}) {
   return TextField(
+    controller: controller,
     decoration: InputDecoration(
       hintText: "Cari Dokter",
       hintStyle: MyTextStyle.deskripsi.copyWith(color: MyColor.abuForm),
