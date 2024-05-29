@@ -7,7 +7,7 @@ class Doctor {
   final String photoProfile;
   final String experience;
   final String name;
-  final List rating;
+  final List? rating;
 
   Doctor({
     required this.id,

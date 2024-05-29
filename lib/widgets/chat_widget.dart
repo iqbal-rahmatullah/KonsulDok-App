@@ -1,41 +1,49 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:konsul_dok/pages/chat_open.dart';
+import 'package:konsul_dok/features/auth/domain/entities/user.dart';
+import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
+import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
+import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget chatWidget({required BuildContext context}) {
-  return Container(
-    margin: const EdgeInsets.only(bottom: 10),
-    decoration: const BoxDecoration(
-      border: Border(
-        bottom: BorderSide(
-          color: MyColor.abuForm,
-          width: 0.5,
+Widget chatWidget({
+  required BuildContext context,
+  Doctor? doctor,
+  User? patient,
+  required List<ChatDetail> messages,
+}) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatOpenPage(),
+        ),
+      );
+    },
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: MyColor.abuForm,
+            width: 0.5,
+          ),
         ),
       ),
-    ),
-    child: GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatOpenPage(),
-            ));
-      },
       child: Padding(
         padding: MySpacing.padingCard,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               backgroundImage: AssetImage(
                 "assets/images/doctor-example.jpg",
               ),
             ),
             const SizedBox(
-              width: 5,
+              width: 10,
             ),
             Expanded(
               child: Row(
@@ -43,20 +51,21 @@ Widget chatWidget({required BuildContext context}) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Dr. Hyuuga Narji",
+                        doctor != null ? doctor.name : patient!.name,
                         style: MyTextStyle.subheder.copyWith(
                           color: MyColor.hitam,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.check,
                             color: MyColor.biruIndicator,
                             size: 15,
@@ -65,7 +74,7 @@ Widget chatWidget({required BuildContext context}) {
                             width: 3,
                           ),
                           Text(
-                            "Checkup jam 17.00 dok",
+                            messages.last.message,
                             style: MyTextStyle.deskripsi
                                 .copyWith(color: MyColor.hitam),
                           )

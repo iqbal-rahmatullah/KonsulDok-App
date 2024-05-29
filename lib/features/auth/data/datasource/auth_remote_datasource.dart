@@ -35,7 +35,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post("${ApiEnv.apiUrl}/login", data: {
         "email": email,
         "password": password,
-      });
+      }).timeout(const Duration(seconds: 10));
 
       return response.data['token'];
     } catch (e) {
@@ -90,14 +90,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw AuthException("Token not found");
       }
 
-      final response = await dio.get(
-        "${ApiEnv.apiUrl}/users",
-        options: Options(
-          headers: {
-            'Authorization': session,
-          },
-        ),
-      );
+      final response = await dio
+          .get(
+            "${ApiEnv.apiUrl}/users",
+            options: Options(
+              headers: {
+                'Authorization': session,
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: 10));
 
       return UserModel.fromJson(response.data['data']);
     } catch (e) {

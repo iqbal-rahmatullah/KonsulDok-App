@@ -6,6 +6,7 @@ Future<void> initDependencies() async {
   _initAuth();
   _initDoctor();
   _initAppointment();
+  initChat();
 
   final Dio dio = Dio();
   serviceLocator.registerLazySingleton(() => dio);
@@ -17,6 +18,23 @@ Future<void> initDependencies() async {
   serviceLocator.registerLazySingleton(() => sessionBox);
   serviceLocator.registerLazySingleton(() => NavbarCubit());
   serviceLocator.registerLazySingleton(() => NavbarDoctorCubit());
+}
+
+void initChat() {
+  serviceLocator
+    ..registerFactory<ChatRemoteDataSource>(() =>
+        ChatRemoteDataSourceImpl(dio: serviceLocator(), box: serviceLocator()))
+    ..registerFactory<ChatRepository>(
+      () => ChatRepositoryImpl(
+        remoteDataSource: serviceLocator(),
+      ),
+    )
+    ..registerFactory(() => GetChat(chatRepository: serviceLocator()))
+    ..registerLazySingleton(
+      () => ChatBloc(
+        getChat: serviceLocator(),
+      ),
+    );
 }
 
 void _initAppointment() {
