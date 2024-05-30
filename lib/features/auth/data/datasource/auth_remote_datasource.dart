@@ -19,6 +19,7 @@ abstract class AuthRemoteDataSource {
     required String gender,
   });
   Future<UserModel> getUser();
+  Future<void> changePassword(String password);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -26,6 +27,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final Box<String> box;
 
   AuthRemoteDataSourceImpl(this.dio, this.box);
+
   @override
   Future<String> login({
     required String email,
@@ -92,6 +94,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final response = await dio.get(
         "${ApiEnv.apiUrl}/users",
+        data: {
+          
+        },
         options: Options(
           headers: {
             'Authorization': session,
@@ -100,6 +105,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       return UserModel.fromJson(response.data['data']);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changePassword(String password) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null){
+        throw AuthException("Token not found");
+      }
+
+      final response = await dio.put("${ApiEnv.apiUrl}/users/change-password",
+        data: {
+          "password" : password
+        },     
+       options:Options(
+        headers: {
+          'Authorization' : session
+        }
+      ));
     } catch (e) {
       throw ServerException(e.toString());
     }

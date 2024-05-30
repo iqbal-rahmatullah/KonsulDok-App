@@ -42,45 +42,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
           },
         ),
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: MySpacing.paddingPage,
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  _buildProfileImage(),
-                  SizedBox(height: 32.0), // Tambahkan jarak lebih besar di sini
-                  _buildEditField(
-                    controller: _nameController,
-                    label: 'Nama',
-                  ),
-                  SizedBox(height: 16.0),
-                  _buildEditField(
-                    controller: _specializationController,
-                    label: 'Spesialis',
-                  ),
-                  SizedBox(height: 16.0),
-                  _buildEditField(
-                    controller: _practicePlaceController,
-                    label: 'Tempat Praktik',
-                  ),
-                  SizedBox(height: 16.0),
-                  _buildEditField(
-                    controller: _cityController,
-                    label: 'Kota',
-                  ),
-                  SizedBox(height: 100.0), // Added space to prevent overlapping with the button
-                ],
+      body: Padding(
+        padding: MySpacing.paddingPage,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              SizedBox(height: 32.0), // Tambahkan jarak lebih besar di sini
+              _buildEditField(
+                controller: _nameController,
+                label: 'Nama',
               ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: ElevatedButton(
+              SizedBox(height: 16.0),
+              _buildEditField(
+                controller: _specializationController,
+                label: 'Spesialis',
+              ),
+              SizedBox(height: 16.0),
+              _buildEditField(
+                controller: _practicePlaceController,
+                label: 'Tempat Praktik',
+              ),
+              SizedBox(height: 16.0),
+              _buildEditField(
+                controller: _cityController,
+                label: 'Kota',
+              ),
+              SizedBox(height: 40.0), // Added space to prevent overlapping with the button
+              TextButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Save the profile
@@ -89,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     );
                   }
                 },
-                style: ElevatedButton.styleFrom(
+                style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0),
@@ -101,56 +90,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     borderRadius: BorderRadius.circular(32.0),
                   ),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 100.0),
+                    padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 115.0),
                     child: Text(
                       'Simpan Perubahan',
                       style: MyTextStyle.subheder.copyWith(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProfileImage() {
-    return Column(
-      children: [
-        SizedBox(height: 8), // Tambahkan jarak di sini
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/profile_image.jpg'), // Ganti dengan gambar profil yang sesuai
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: () {
-                  // Tambahkan logika untuk mengubah gambar profil
-                },
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: MyColor.biru,
-                  ),
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ),
-          ],
         ),
-      ],
+      ),
     );
   }
 

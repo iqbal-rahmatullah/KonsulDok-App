@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:konsul_dok/pages/change_password.dart';
+import 'package:konsul_dok/pages/edit_profile_pages.dart';
 import 'package:konsul_dok/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -74,7 +76,7 @@ class ProfilePage extends StatelessWidget {
                       Icons.person_2,
                       color: MyColor.biru,
                     ),
-                    destination: FavoritePage(),
+                    destination: EditProfilePage(),
                   ),
                   SizedBox(
                     height: 15,
@@ -112,7 +114,7 @@ class ProfilePage extends StatelessWidget {
                       Icons.lock_outlined,
                       color: MyColor.biru,
                     ),
-                    destination: FavoritePage(),
+                    destination: ChangePassword(),
                   ),
                   SizedBox(
                     height: 15,
