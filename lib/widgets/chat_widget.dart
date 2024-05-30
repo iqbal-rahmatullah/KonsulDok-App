@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -12,15 +15,16 @@ Widget chatWidget({
   Doctor? doctor,
   User? patient,
   required List<ChatDetail> messages,
+  required int idChat,
 }) {
+  final allChats =
+      messages.where((element) => element.chatId == idChat).toList();
+
   return GestureDetector(
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ChatOpenPage(),
-        ),
-      );
+      context.goNamed('open_chat', extra: allChats, pathParameters: {
+        'name': doctor != null ? doctor.name : patient!.name
+      });
     },
     child: Container(
       margin: const EdgeInsets.only(bottom: 10),

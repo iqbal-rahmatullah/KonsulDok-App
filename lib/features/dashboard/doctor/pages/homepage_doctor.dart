@@ -5,6 +5,7 @@ import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_pa
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/pages/card_transaction.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/utils/socket/socket_config.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
@@ -18,10 +19,12 @@ class HomepageDoctor extends StatefulWidget {
 class _HomepageDoctorState extends State<HomepageDoctor>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late SocketConfig socketConfig;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    socketConfig = SocketConfig(context: context);
     super.initState();
   }
 
@@ -68,6 +71,8 @@ class _HomepageDoctorState extends State<HomepageDoctor>
               child: Text(state.message),
             );
           } else if (state is AppointmentPatientLoaded) {
+            socketConfig.connect(doctor.user.id);
+
             List<AppointmentPatient> appointments = state.appointments
                 .where((element) => element.status == "ongoing")
                 .toList();

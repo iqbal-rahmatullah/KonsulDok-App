@@ -30,9 +30,27 @@ void initChat() {
       ),
     )
     ..registerFactory(() => GetChat(chatRepository: serviceLocator()))
+    ..registerFactory(
+      () => AddChatCase(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetDetailChatCase(
+        chatRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetMessageById(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => ChatBloc(
         getChat: serviceLocator(),
+        addChat: serviceLocator(),
+        getDetailChat: serviceLocator(),
+        getMessageById: serviceLocator(),
       ),
     );
 }

@@ -69,7 +69,10 @@ class _PoliPageState extends State<PoliPage> {
   Widget searchField() {
     return Container(
       margin: MySpacing.defaultMarginItem,
-      child: textField(),
+      child: textField(
+          hintText: "Cari dokter",
+          controller: TextEditingController(),
+          prefixIcon: const Icon(Icons.search)),
     );
   }
 

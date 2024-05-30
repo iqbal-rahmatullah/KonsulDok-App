@@ -13,8 +13,6 @@ class ChatModel extends Chat {
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
-    print(json['doctor']);
-
     return ChatModel(
       id: json['id'],
       chat: (json['chat'] as List).map((item) {

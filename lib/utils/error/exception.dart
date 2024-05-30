@@ -9,3 +9,9 @@ class AuthException implements Exception {
 
   AuthException(this.message);
 }
+
+class NotFoundException implements Exception {
+  final String message;
+
+  NotFoundException(this.message);
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -45,7 +46,30 @@ class _DetailDokterState extends State<DetailDokter> {
                   text: "Chat",
                   isLarge: false,
                   ukuran: MediaQuery.of(context).size.width / 2 - 35,
-                  onTap: () {},
+                  onTap: () {
+                    if (state is DoctorGetByIdLoaded) {
+                      context.read<ChatBloc>().add(GetDetailChatEvent(
+                            doctorId: int.parse(widget.id),
+                          ));
+
+                      BlocListener<ChatBloc, ChatState>(
+                        listener: (context, stateChat) {
+                          if (stateChat is ChatDetailLoaded) {
+                            context.goNamed('chat_dokter',
+                                extra: stateChat.chatDetails,
+                                pathParameters: {
+                                  'name': state.doctor.kategori,
+                                  'id': state.doctor.id.toString(),
+                                });
+                          } else if (stateChat is ChatError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(stateChat.message)),
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(
                   width: 20,
@@ -69,36 +93,55 @@ class _DetailDokterState extends State<DetailDokter> {
           },
         ),
       ),
-      body: Container(
-        padding: MySpacing.paddingInsetPage,
-        child: SingleChildScrollView(
-          child: BlocConsumer<DoctorBloc, DoctorState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is DoctorLoading) {
+      body: BlocListener<ChatBloc, ChatState>(
+        listener: (context, stateChat) {
+          if (stateChat is ChatDetailLoaded) {
+            final doctorState =
+                context.read<DoctorBloc>().state as DoctorGetByIdLoaded;
+
+            context.goNamed(
+              'chat_dokter',
+              extra: stateChat.chatDetails,
+              pathParameters: {
+                'name': doctorState.doctor.kategori,
+                'id': doctorState.doctor.id.toString(),
+              },
+            );
+          } else if (stateChat is ChatError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(stateChat.message)),
+            );
+          }
+        },
+        child: Container(
+          padding: MySpacing.paddingInsetPage,
+          child: SingleChildScrollView(
+            child: BlocConsumer<DoctorBloc, DoctorState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is DoctorError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else if (state is DoctorGetByIdLoaded) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        imageDokter(state),
+                        titleDokter(state),
+                        cardDetailDokter(
+                            experience: state.doctor.experience,
+                            price: state.doctor.price.toString()),
+                        descriptionSection(state),
+                        ratingSection(),
+                      ],
+                    );
+                  }
                   return const Center(
                     child: LoadingDetailDokterPage(),
                   );
-                } else if (state is DoctorError) {
-                  return Center(
-                    child: Text(state.message),
-                  );
-                } else if (state is DoctorGetByIdLoaded) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      imageDokter(state),
-                      titleDokter(state),
-                      cardDetailDokter(
-                          experience: state.doctor.experience,
-                          price: state.doctor.price.toString()),
-                      descriptionSection(state),
-                      ratingSection(),
-                    ],
-                  );
-                }
-                return const SizedBox();
-              }),
+                }),
+          ),
         ),
       ),
     );
