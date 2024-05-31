@@ -83,14 +83,26 @@ void _initAppointment() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => GetClockAppointmentCase(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AppointmentBloc(
         createAppointment: serviceLocator(),
       ),
     )
-    ..registerLazySingleton(() => AppointmentPatientBloc(
-        getAppointmentPatient: serviceLocator(),
-        getAppointmentDoctor: serviceLocator()));
+    ..registerLazySingleton(
+      () => AppointmentPatientBloc(
+          getAppointmentPatient: serviceLocator(),
+          getAppointmentDoctor: serviceLocator()),
+    )
+    ..registerLazySingleton(
+      () => ClockAppointmentBloc(
+        getClockAppointment: serviceLocator(),
+      ),
+    );
 }
 
 void _initDoctor() {

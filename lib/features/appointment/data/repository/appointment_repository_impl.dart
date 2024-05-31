@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:konsul_dok/features/appointment/data/datasource/appointment_remote_datasource.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
+import 'package:konsul_dok/features/appointment/domain/entities/clock_appointment.dart';
 import 'package:konsul_dok/features/appointment/domain/repository/appointment_repository.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
 import 'package:konsul_dok/utils/error/failure.dart';
@@ -43,6 +44,18 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
     try {
       final result =
           await appointmentRemoteDataSource.getDetailAppointmentDoctor();
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ClockAppointment>>> getClockAppointment(
+      {required int doctorId, required String date}) async {
+    try {
+      final result = await appointmentRemoteDataSource.getClockAppointment(
+          doctorId: doctorId, date: date);
       return Right(result);
     } on ServerException catch (e) {
       return Left(Failure(e.message));

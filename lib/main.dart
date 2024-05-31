@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
@@ -33,6 +34,9 @@ void main() async {
       ),
       BlocProvider<AppointmentPatientBloc>(
         create: (context) => serviceLocator<AppointmentPatientBloc>(),
+      ),
+      BlocProvider<ClockAppointmentBloc>(
+        create: (context) => serviceLocator<ClockAppointmentBloc>(),
       ),
       BlocProvider<ChatBloc>(
         create: (context) => serviceLocator<ChatBloc>()..add(GetChatsEvent()),

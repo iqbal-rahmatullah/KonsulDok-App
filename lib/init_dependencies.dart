@@ -8,9 +8,11 @@ import 'package:konsul_dok/features/appointment/data/repository/appointment_repo
 import 'package:konsul_dok/features/appointment/domain/repository/appointment_repository.dart';
 import 'package:konsul_dok/features/appointment/domain/usecase/create_appointment.dart';
 import 'package:konsul_dok/features/appointment/domain/usecase/get_appointment_patient.dart';
+import 'package:konsul_dok/features/appointment/domain/usecase/get_clock_appointment.dart';
 import 'package:konsul_dok/features/appointment/domain/usecase/get_detail_appointment_doctor.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:konsul_dok/features/auth/data/repositories/auth_repository_impl.dart';

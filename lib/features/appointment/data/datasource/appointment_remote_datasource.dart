@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/appointment/data/model/appointment_model.dart';
 import 'package:konsul_dok/features/appointment/data/model/appointment_patient_model.dart';
+import 'package:konsul_dok/features/appointment/data/model/clock_appointment_model.dart';
 import 'package:konsul_dok/utils/api.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
 
@@ -15,6 +16,8 @@ abstract class AppointmentRemoteDataSource {
 
   Future<List<AppointmentPatientModel>> getDetailAppointment();
   Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor();
+  Future<List<ClockAppointmentModel>> getClockAppointment(
+      {required int doctorId, required String date});
 }
 
 class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
@@ -122,6 +125,38 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 404) {
         throw ServerException(e.response!.data['message']);
+      }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<ClockAppointmentModel>> getClockAppointment(
+      {required int doctorId, required String date}) async {
+    try {
+      final result = await dio
+          .get(
+            '${ApiEnv.apiUrl}/appointment/clock/$doctorId',
+            data: {
+              "date": date,
+            },
+            options: Options(
+              headers: {
+                'Authorization': box.get('token'),
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: 10));
+
+      List<ClockAppointmentModel> clockAppointmens = [];
+      for (var item in result.data['data']) {
+        clockAppointmens.add(ClockAppointmentModel.fromJson(item));
+      }
+
+      return clockAppointmens;
+    } catch (e) {
+      if (e is DioException && e.response!.statusCode == 404) {
+        return [];
       }
       throw ServerException(e.toString());
     }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:konsul_dok/utils/clock.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/success_order/success_order_args.dart';
@@ -24,8 +26,20 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   Map formData = {
     "date": DateTime.now(),
-    "time": 0,
+    "time": null,
   };
+
+  @override
+  void initState() {
+    context.read<ClockAppointmentBloc>().add(
+          GetClockAppointmentEvent(
+            doctorId: widget.doctor.id,
+            date:
+                "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
+          ),
+        );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +128,6 @@ class _OrderPageState extends State<OrderPage> {
                 widget.doctor.photoProfile,
               ),
             ),
-            // Positioned(
-            //     bottom: 0,
-            //     right: -25,
-            //     child: ),
           ]),
           const SizedBox(
             width: 10,
@@ -164,6 +174,8 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   Widget inputTimeSection() {
+    DatePickerController _dateController = DatePickerController();
+
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Column(
@@ -189,6 +201,7 @@ class _OrderPageState extends State<OrderPage> {
           ),
           DatePicker(
             DateTime.now(),
+            controller: _dateController,
             initialSelectedDate: DateTime.now(),
             selectionColor: MyColor.biru,
             selectedTextColor: Colors.white,
@@ -207,7 +220,14 @@ class _OrderPageState extends State<OrderPage> {
             daysCount: 7,
             height: 90,
             onDateChange: (date) {
+              formData['time'] = null;
               formData['date'] = date;
+              context.read<ClockAppointmentBloc>().add(
+                    GetClockAppointmentEvent(
+                      doctorId: widget.doctor.id,
+                      date: "${date.year}-${date.month}-${date.day}",
+                    ),
+                  );
             },
           ),
           const SizedBox(
@@ -224,28 +244,37 @@ class _OrderPageState extends State<OrderPage> {
           ),
           Container(
             constraints: const BoxConstraints(maxHeight: 50),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      customRadioButton(
-                        label: "${index >= 2 ? "" : "0"}${8 + index++}:00",
-                        isSelected: index == formData['time'],
-                        isDisabled: index == 2,
-                        onTap: () {
-                          setState(() {
-                            formData['time'] = index;
-                          });
-                        },
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                    ],
-                  );
-                }),
+            child: BlocBuilder<ClockAppointmentBloc, ClockAppointmentState>(
+                builder: (context, state) {
+              if (state is ClockAppointmentLoaded) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Clock.date.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          customRadioButton(
+                            label: Clock.date[index],
+                            isSelected: formData['time'] == index,
+                            isDisabled: state.clockAppointments
+                                .any((e) => e.time == Clock.date[index]),
+                            onTap: () {
+                              setState(() {
+                                formData['time'] = index;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                        ],
+                      );
+                    });
+              } else if (state is ClockAppointmentError) {
+                return Text(state.message);
+              }
+              return const CircularProgressIndicator();
+            }),
           )
         ],
       ),
