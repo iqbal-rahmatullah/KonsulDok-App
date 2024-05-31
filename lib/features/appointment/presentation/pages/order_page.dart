@@ -13,6 +13,7 @@ import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:konsul_dok/widgets/custom_snackbar.dart';
 import 'package:konsul_dok/widgets/radio_button_jam.dart';
 
 class OrderPage extends StatefulWidget {
@@ -97,6 +98,11 @@ class _OrderPageState extends State<OrderPage> {
         child: myButtonWidget(
           text: "Buat Janji",
           onTap: () {
+            if (formData['time'] == null) {
+              CustomSnackbar.showErrorSnackbar(
+                  context, "Anda belum memilih waktu");
+              return;
+            }
             String dateSubmit =
                 "${formData['date'].day}-${formData['date'].month}-${formData['date'].year}";
             String timeSubmit = "${7 + formData['time']}:00";
