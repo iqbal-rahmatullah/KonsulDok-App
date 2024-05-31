@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:konsul_dok/features/appointment/data/datasource/appointment_remote_datasource.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
@@ -27,11 +27,10 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   }
 
   @override
-  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentPatient(
-      {required int id}) async {
+  Future<Either<Failure, List<AppointmentPatient>>>
+      getAppointmentPatient() async {
     try {
-      final result =
-          await appointmentRemoteDataSource.getDetailAppointment(id: id);
+      final result = await appointmentRemoteDataSource.getDetailAppointment();
       return Right(result);
     } on ServerException catch (e) {
       return Left(Failure(e.message));
@@ -39,11 +38,11 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   }
 
   @override
-  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentDoctor(
-      {required int id}) async {
+  Future<Either<Failure, List<AppointmentPatient>>>
+      getAppointmentDoctor() async {
     try {
       final result =
-          await appointmentRemoteDataSource.getDetailAppointmentDoctor(id: id);
+          await appointmentRemoteDataSource.getDetailAppointmentDoctor();
       return Right(result);
     } on ServerException catch (e) {
       return Left(Failure(e.message));

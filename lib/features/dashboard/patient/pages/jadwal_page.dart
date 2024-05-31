@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:konsul_dok/features/appointment/data/model/appointment_patient_model.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
-import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/pages/card_transaction.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
@@ -35,9 +33,8 @@ class _JadwalPageState extends State<JadwalPage>
 
   @override
   Widget build(BuildContext context) {
-    final patient = context.read<AuthBloc>().state as AuthGetUserSuccess;
     BlocProvider.of<AppointmentPatientBloc>(context)
-        .add(GetAppointmentPatientEvent(id: patient.user.id));
+        .add(GetAppointmentPatientEvent());
 
     return Scaffold(
       appBar: AppBar(

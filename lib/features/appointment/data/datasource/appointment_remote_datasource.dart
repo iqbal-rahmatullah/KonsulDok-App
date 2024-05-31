@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/appointment/data/model/appointment_model.dart';
 import 'package:konsul_dok/features/appointment/data/model/appointment_patient_model.dart';
 import 'package:konsul_dok/utils/api.dart';
@@ -12,15 +13,15 @@ abstract class AppointmentRemoteDataSource {
     required String time,
   });
 
-  Future<List<AppointmentPatientModel>> getDetailAppointment({required int id});
-  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor(
-      {required int id});
+  Future<List<AppointmentPatientModel>> getDetailAppointment();
+  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor();
 }
 
 class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   final Dio dio;
+  final Box<String> box;
 
-  AppointmentRemoteDataSourceImpl({required this.dio});
+  AppointmentRemoteDataSourceImpl({required this.dio, required this.box});
 
   @override
   Future<AppointmentModel> createAppointment(
@@ -29,12 +30,28 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
       required String date,
       required String time}) async {
     try {
-      final result = await dio.post('${ApiEnv.apiUrl}/appointment/', data: {
-        'patient_id': patientId,
-        'doctor_id': doctorId,
-        'date': date,
-        'time': time,
-      }).timeout(const Duration(seconds: 10));
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
+      final result = await dio
+          .post(
+            '${ApiEnv.apiUrl}/appointment/',
+            data: {
+              'patient_id': patientId,
+              'doctor_id': doctorId,
+              'date': date,
+              'time': time,
+            },
+            options: Options(
+              headers: {
+                'Authorization': session,
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: 10));
 
       return AppointmentModel.fromJson(result.data['data']);
     } catch (e) {
@@ -43,11 +60,23 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   }
 
   @override
-  Future<List<AppointmentPatientModel>> getDetailAppointment(
-      {required int id}) async {
+  Future<List<AppointmentPatientModel>> getDetailAppointment() async {
     try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
       final result = await dio
-          .get('${ApiEnv.apiUrl}/appointment/patient/$id')
+          .get(
+            '${ApiEnv.apiUrl}/appointment/patient/',
+            options: Options(
+              headers: {
+                'Authorization': session,
+              },
+            ),
+          )
           .timeout(const Duration(seconds: 10));
       List<AppointmentPatientModel> appointments = [];
 
@@ -65,11 +94,23 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   }
 
   @override
-  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor(
-      {required int id}) async {
+  Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor() async {
     try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
       final result = await dio
-          .get('${ApiEnv.apiUrl}/appointment/doctor/$id')
+          .get(
+            '${ApiEnv.apiUrl}/appointment/doctor/',
+            options: Options(
+              headers: {
+                'Authorization': session,
+              },
+            ),
+          )
           .timeout(const Duration(seconds: 10));
       List<AppointmentPatientModel> appointments = [];
 

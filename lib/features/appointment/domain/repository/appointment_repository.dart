@@ -11,9 +11,7 @@ abstract class AppointmentRepository {
     required String time,
   });
 
-  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentPatient(
-      {required int id});
+  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentPatient();
 
-  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentDoctor(
-      {required int id});
+  Future<Either<Failure, List<AppointmentPatient>>> getAppointmentDoctor();
 }

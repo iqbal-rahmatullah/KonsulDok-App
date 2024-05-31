@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (state is AuthGetUserSuccess) {
             BlocProvider.of<AppointmentPatientBloc>(context)
-                .add(GetAppointmentPatientEvent(id: state.user.id));
+                .add(GetAppointmentPatientEvent());
 
             socketConfig.connect(state.user.id);
 

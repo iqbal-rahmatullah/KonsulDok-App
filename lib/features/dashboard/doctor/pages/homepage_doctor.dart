@@ -38,7 +38,7 @@ class _HomepageDoctorState extends State<HomepageDoctor>
   Widget build(BuildContext context) {
     final doctor = context.read<AuthBloc>().state as AuthGetUserSuccess;
     BlocProvider.of<AppointmentPatientBloc>(context)
-        .add(GetAppointmentDoctorEvent(id: doctor.user.id));
+        .add(GetAppointmentDoctorEvent());
 
     return Scaffold(
       appBar: AppBar(

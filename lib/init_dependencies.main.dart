@@ -58,7 +58,11 @@ void initChat() {
 void _initAppointment() {
   serviceLocator
     ..registerFactory<AppointmentRemoteDataSource>(
-        () => AppointmentRemoteDataSourceImpl(dio: serviceLocator()))
+      () => AppointmentRemoteDataSourceImpl(
+        dio: serviceLocator(),
+        box: serviceLocator(),
+      ),
+    )
     ..registerFactory<AppointmentRepository>(
       () => AppointmentRepositoryImpl(
         appointmentRemoteDataSource: serviceLocator(),
