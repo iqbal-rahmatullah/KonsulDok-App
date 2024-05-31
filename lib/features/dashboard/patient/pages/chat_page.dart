@@ -53,6 +53,11 @@ class _ChatPageState extends State<ChatPage> {
         },
         builder: (context, state) {
           if (state is ChatLoaded) {
+            if (state.chats.isEmpty) {
+              return const Center(
+                child: Text('Belum ada chat'),
+              );
+            }
             return Padding(
               padding: MySpacing.paddingInsetPage.copyWith(top: 20),
               child: Column(

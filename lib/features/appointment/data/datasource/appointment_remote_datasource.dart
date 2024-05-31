@@ -90,7 +90,7 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
       return appointments;
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 404) {
-        throw ServerException(e.response!.data['message']);
+        return [];
       }
       throw ServerException(e.toString());
     }

@@ -6,6 +6,7 @@ import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
+import 'package:konsul_dok/widgets/custom_snackbar.dart';
 import 'package:konsul_dok/widgets/radio_button.dart';
 import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
@@ -45,22 +46,9 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: MySpacing.paddingPage,
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is AuthFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    state.message,
-                    style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
-                  ),
-                  backgroundColor: Colors.red,
-                ));
-              } else if (state is AuthSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "Berhasil mendaftar",
-                    style: MyTextStyle.deskripsi.copyWith(color: Colors.white),
-                  ),
-                  backgroundColor: Colors.green,
-                ));
+              if (state is AuthSuccess) {
+                CustomSnackbar.showSuccessSnackbar(
+                    context, "Anda berhasil mendaftarkan akun");
                 context.goNamed('login');
               }
             },
@@ -202,14 +190,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (_formKey.currentState!.validate()) {
                           if (formData['password'].text !=
                               formData['confirm_password'].text) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                "Password tidak sama",
-                                style: MyTextStyle.deskripsi
-                                    .copyWith(color: Colors.white),
-                              ),
-                              backgroundColor: Colors.red,
-                            ));
+                            CustomSnackbar.showErrorSnackbar(context,
+                                "Password yang anda masukkan tidak sama");
                             return;
                           }
 

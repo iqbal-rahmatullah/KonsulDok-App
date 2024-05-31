@@ -51,6 +51,9 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
       return chats;
     } catch (e) {
+      if (e is DioException && e.response!.statusCode == 404) {
+        return [];
+      }
       throw ServerException(e.toString());
     }
   }
@@ -110,10 +113,8 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
       return chats;
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 404) {
-          throw NotFoundException("Chat not found");
-        }
+      if (e is DioException && e.response!.statusCode == 404) {
+        return [];
       }
       throw ServerException(e.toString());
     }
@@ -144,10 +145,8 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
       return chats;
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 404) {
-          throw NotFoundException("Chat not found");
-        }
+      if (e is DioException && e.response!.statusCode == 404) {
+        return [];
       }
       throw ServerException(e.toString());
     }
