@@ -69,7 +69,7 @@ class _MainAppState extends State<MainApp> {
           } else {
             router.goNamed('home_doctor');
           }
-        } else if (state is AuthFailure) {
+        } else if (state is AuthLogoutSuccess || state is AuthFailure) {
           router.go('/login');
         }
       },

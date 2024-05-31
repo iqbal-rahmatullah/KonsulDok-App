@@ -37,10 +37,14 @@ class _LoginPageState extends State<LoginPage> {
             context.read<AuthBloc>().add(AuthGetUser());
           } else if (state is AuthGetUserSuccess) {
             context.goNamed('home');
-            CustomSnackbar.showSuccessSnackbar(context, "Anda berhasil login");
           }
         },
         builder: (context, state) {
+          if (state is AuthLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -50,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     headerComponent(),
-                    formComponent(state),
+                    formComponent(),
                   ],
                 ),
               ),
@@ -88,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget formComponent(AuthState state) {
+  Widget formComponent() {
     return Container(
       width: double.infinity,
       margin: MySpacing.defaultMarginItem,
@@ -130,6 +134,18 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 15,
                   ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: TextButton(
+                  //     onPressed: () {},
+                  //     child: Text("Lupa Sandi?",
+                  //         style: MyTextStyle.deskripsi
+                  //             .copyWith(color: MyColor.abuForm)),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   myButtonWidget(
                       text: "Masuk",
                       onTap: () {

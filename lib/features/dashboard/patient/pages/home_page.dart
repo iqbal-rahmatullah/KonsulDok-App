@@ -32,16 +32,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AuthBloc>(context).add(AuthGetUser());
-
     return Scaffold(
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is AuthFailure) {
-            return Center(
-              child: Text(state.message),
-            );
-          } else if (state is AuthGetUserSuccess) {
+          if (state is AuthGetUserSuccess) {
             BlocProvider.of<AppointmentPatientBloc>(context)
                 .add(GetAppointmentPatientEvent());
 
@@ -64,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-                return const SizedBox();
+                return const LoadingHomePage();
               },
             );
           }

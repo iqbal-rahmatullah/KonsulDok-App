@@ -177,6 +177,7 @@ void _initAuth() {
         userSignIn: serviceLocator(),
         saveToken: serviceLocator(),
         getUser: serviceLocator(),
+        authLocalDataSource: serviceLocator(),
       ),
     );
 }

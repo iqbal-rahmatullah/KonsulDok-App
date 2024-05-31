@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> addToken(String token);
+  void removeToken();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -12,5 +13,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> addToken(String token) async {
     await box.put('token', token);
+  }
+
+  @override
+  void removeToken() {
+    box.clear();
   }
 }

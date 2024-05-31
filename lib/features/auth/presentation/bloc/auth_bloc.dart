@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/get_user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
@@ -15,16 +16,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignIn _userSignIn;
   final SaveToken _saveToken;
   final GetUser _getUser;
+  final AuthLocalDataSource _authLocalDataSource;
 
   AuthBloc({
     required UserSignUp userSignUp,
     required UserSignIn userSignIn,
     required SaveToken saveToken,
     required GetUser getUser,
+    required AuthLocalDataSource authLocalDataSource,
   })  : _userSignUp = userSignUp,
         _userSignIn = userSignIn,
         _saveToken = saveToken,
         _getUser = getUser,
+        _authLocalDataSource = authLocalDataSource,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
@@ -37,6 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (failure) => emit(AuthFailure(message: failure.message)),
           (user) => emit(AuthGetUserSuccess(user: user)),
         );
+      },
+    );
+    on<AuthLogout>(
+      (event, emit) {
+        _authLocalDataSource.removeToken();
+        emit(AuthLogoutSuccess());
       },
     );
   }

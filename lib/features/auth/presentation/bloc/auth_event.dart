@@ -34,3 +34,5 @@ final class AuthSaveToken extends AuthEvent {
 }
 
 final class AuthGetUser extends AuthEvent {}
+
+final class AuthLogout extends AuthEvent {}

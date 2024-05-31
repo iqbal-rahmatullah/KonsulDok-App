@@ -36,3 +36,5 @@ final class AuthSuccessSaveToken extends AuthState {
 
   AuthSuccessSaveToken({required this.message});
 }
+
+final class AuthLogoutSuccess extends AuthState {}
