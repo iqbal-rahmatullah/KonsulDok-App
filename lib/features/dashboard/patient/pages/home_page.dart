@@ -10,6 +10,7 @@ import 'package:konsul_dok/utils/socket/socket_config.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_poliklinik.dart';
+import 'package:konsul_dok/widgets/custom_snackbar.dart';
 import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/text_field.dart';
 
@@ -169,7 +170,12 @@ class _HomePageState extends State<HomePage> {
                 "Poliklinik",
                 style: MyTextStyle.subheder,
               ),
-              textAction(onTap: () {}, text: "Lihat semua"),
+              textAction(
+                  onTap: () {
+                    CustomSnackbar.showErrorSnackbar(
+                        context, "Email/password yang anda masukkan salah");
+                  },
+                  text: "Lihat semua"),
             ],
           ),
           const SizedBox(

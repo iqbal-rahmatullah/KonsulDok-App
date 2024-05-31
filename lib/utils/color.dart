@@ -25,4 +25,10 @@ class MyColor {
   static const Color abuDivider = Color(0xffB5B5B5);
   static const Color abuTextDescription = Color(0xff343232);
   static const Color buttonDisabled = Color(0xff6B779A);
+  static const Map<String, Color> colorSnackbar = {
+    "success_bg": Color(0xffF1F6F3),
+    "success_icon": Color(0xff49D95D),
+    "error_bg": Color(0xffFAF0ED),
+    "error_icon": Color(0xffF95B51),
+  };
 }

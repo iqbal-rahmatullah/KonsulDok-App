@@ -6,6 +6,7 @@ import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
+import 'package:konsul_dok/widgets/custom_snackbar.dart';
 import 'package:konsul_dok/widgets/text_action.dart';
 import 'package:konsul_dok/widgets/textform_field.dart';
 
@@ -29,34 +30,17 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+            CustomSnackbar.showErrorSnackbar(context, state.message);
           } else if (state is AuthLoginSuccess) {
             context.read<AuthBloc>().add(AuthSaveToken(token: state.message));
-            setState(() {});
           } else if (state is AuthSuccessSaveToken) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.green,
-              ),
-            );
             context.read<AuthBloc>().add(AuthGetUser());
           } else if (state is AuthGetUserSuccess) {
             context.goNamed('home');
+            CustomSnackbar.showSuccessSnackbar(context, "Anda berhasil login");
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
           return SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -66,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     headerComponent(),
-                    formComponent(),
+                    formComponent(state),
                   ],
                 ),
               ),
@@ -104,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget formComponent() {
+  Widget formComponent(AuthState state) {
     return Container(
       width: double.infinity,
       margin: MySpacing.defaultMarginItem,
@@ -146,18 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: TextButton(
-                  //     onPressed: () {},
-                  //     child: Text("Lupa Sandi?",
-                  //         style: MyTextStyle.deskripsi
-                  //             .copyWith(color: MyColor.abuForm)),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
                   myButtonWidget(
                       text: "Masuk",
                       onTap: () {
