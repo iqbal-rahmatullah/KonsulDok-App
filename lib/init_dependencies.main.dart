@@ -197,6 +197,11 @@ void _initAuth() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => ChangePasswordCase(
+        serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AuthBloc(
         userSignUp: serviceLocator(),
@@ -204,6 +209,7 @@ void _initAuth() {
         saveToken: serviceLocator(),
         getUser: serviceLocator(),
         authLocalDataSource: serviceLocator(),
+        changePasswordCase: serviceLocator(),
       ),
     );
 }

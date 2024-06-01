@@ -44,3 +44,11 @@ final class AuthSuccessSaveToken extends AuthState {
 }
 
 final class AuthLogoutSuccess extends AuthState {}
+
+final class AuthChangePasswordSucces extends AuthState {}
+
+final class AuthChangePasswordFailed extends AuthState {
+  final String message;
+
+  AuthChangePasswordFailed({required this.message});
+}

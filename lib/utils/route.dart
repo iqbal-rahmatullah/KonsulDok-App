@@ -14,6 +14,7 @@ import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/main.dart';
 import 'package:konsul_dok/pages/loading_page.dart';
+import 'package:konsul_dok/pages/ubah_sandi_page.dart';
 import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 
 final GoRouter router = GoRouter(routes: [
@@ -127,6 +128,12 @@ final GoRouter router = GoRouter(routes: [
           );
         },
       ),
+      GoRoute(
+          path: 'change_password',
+          name: "change_password",
+          builder: (context, state) {
+            return UbahSandiPage();
+          }),
     ],
   ),
   GoRoute(

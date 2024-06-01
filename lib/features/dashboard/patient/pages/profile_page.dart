@@ -136,7 +136,7 @@ class ProfilePage extends StatelessWidget {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          const FavoritePage();
+                          context.goNamed('change_password');
                         },
                       ),
                       const SizedBox(

@@ -36,3 +36,11 @@ final class AuthSaveToken extends AuthEvent {
 final class AuthGetUser extends AuthEvent {}
 
 final class AuthLogout extends AuthEvent {}
+
+final class AuthChangePasswordEvent extends AuthEvent {
+  final String oldPassword;
+  final String newPassword;
+
+  AuthChangePasswordEvent(
+      {required this.oldPassword, required this.newPassword});
+}

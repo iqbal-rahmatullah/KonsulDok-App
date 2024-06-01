@@ -19,6 +19,10 @@ abstract class AuthRemoteDataSource {
     required String gender,
   });
   Future<UserModel> getUser();
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -103,6 +107,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return UserModel.fromJson(response.data['data']);
     } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> changePassword(
+      {required String oldPassword, required String newPassword}) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
+      final response = await dio.put('${ApiEnv.apiUrl}/users/change-password',
+          options: Options(
+            headers: {
+              'Authorization': session,
+            },
+          ),
+          data: {
+            "last_password": oldPassword,
+            "password": newPassword,
+          }).timeout(const Duration(seconds: 10));
+    } catch (e) {
+      if (e is DioException && e.response!.statusCode == 401) {
+        throw ServerException(e.response!.data['message']);
+      } else if (e is DioException && e.response!.statusCode == 400) {
+        throw ServerException(e.response!.data['message'][0]['message']);
+      }
       throw ServerException(e.toString());
     }
   }

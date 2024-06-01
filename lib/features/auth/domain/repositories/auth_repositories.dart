@@ -19,4 +19,9 @@ abstract class AuthRepository {
   void saveToken({required String token});
 
   Future<Either<Failure, User>> getUser();
+
+  Future<Either<Failure, void>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  });
 }
