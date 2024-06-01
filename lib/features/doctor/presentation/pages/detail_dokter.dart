@@ -1,7 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
@@ -15,7 +18,12 @@ import 'package:konsul_dok/widgets/text_action.dart';
 
 class DetailDokter extends StatefulWidget {
   final String id;
-  const DetailDokter({super.key, required this.id});
+  final Doctor doctor;
+  const DetailDokter({
+    Key? key,
+    required this.id,
+    required this.doctor,
+  }) : super(key: key);
 
   @override
   State<DetailDokter> createState() => _DetailDokterState();
@@ -24,7 +32,6 @@ class DetailDokter extends StatefulWidget {
 class _DetailDokterState extends State<DetailDokter> {
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DoctorBloc>(context).add(DoctorGetById(id: widget.id));
     BlocProvider.of<RatingBloc>(context).add(GetRatingByDoctorEvent(widget.id));
 
     return Scaffold(
@@ -50,28 +57,9 @@ class _DetailDokterState extends State<DetailDokter> {
                   isLarge: false,
                   ukuran: MediaQuery.of(context).size.width / 2 - 35,
                   onTap: () {
-                    if (state is DoctorGetByIdLoaded) {
-                      context.read<ChatBloc>().add(GetDetailChatEvent(
-                            doctorId: int.parse(widget.id),
-                          ));
-
-                      BlocListener<ChatBloc, ChatState>(
-                        listener: (context, stateChat) {
-                          if (stateChat is ChatDetailLoaded) {
-                            context.goNamed('chat_dokter',
-                                extra: stateChat.chatDetails,
-                                pathParameters: {
-                                  'name': state.doctor.kategori,
-                                  'id': state.doctor.id.toString(),
-                                });
-                          } else if (stateChat is ChatError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(stateChat.message)),
-                            );
-                          }
-                        },
-                      );
-                    }
+                    context.read<ChatBloc>().add(GetDetailChatEvent(
+                          doctorId: int.parse(widget.doctor.id.toString()),
+                        ));
                   },
                 ),
                 const SizedBox(
@@ -82,14 +70,12 @@ class _DetailDokterState extends State<DetailDokter> {
                     isLarge: false,
                     ukuran: MediaQuery.of(context).size.width / 2 - 35,
                     onTap: () {
-                      if (state is DoctorGetByIdLoaded) {
-                        context.goNamed('order',
-                            extra: state.doctor,
-                            pathParameters: {
-                              'name': state.doctor.kategori,
-                              'id': state.doctor.id.toString(),
-                            });
-                      }
+                      context.goNamed('order', extra: {
+                        'doctor': widget.doctor,
+                      }, pathParameters: {
+                        'name': widget.doctor.kategori,
+                        'id': widget.doctor.id.toString(),
+                      });
                     }),
               ],
             );
@@ -99,15 +85,16 @@ class _DetailDokterState extends State<DetailDokter> {
       body: BlocListener<ChatBloc, ChatState>(
         listener: (context, stateChat) {
           if (stateChat is ChatDetailLoaded) {
-            final doctorState =
-                context.read<DoctorBloc>().state as DoctorGetByIdLoaded;
-
             context.goNamed(
               'chat_dokter',
-              extra: stateChat.chatDetails,
+              extra: {
+                'doctor': widget.doctor,
+                'chats': stateChat.chatDetails,
+              },
               pathParameters: {
-                'name': doctorState.doctor.kategori,
-                'id': doctorState.doctor.id.toString(),
+                'name': widget.doctor.kategori,
+                'id': widget.doctor.id.toString(),
+                'name_dokter': widget.doctor.name,
               },
             );
           } else if (stateChat is ChatError) {
@@ -119,38 +106,25 @@ class _DetailDokterState extends State<DetailDokter> {
         child: Container(
           padding: MySpacing.paddingInsetPage,
           child: SingleChildScrollView(
-            child: BlocConsumer<DoctorBloc, DoctorState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  if (state is DoctorError) {
-                    return Center(
-                      child: Text(state.message),
-                    );
-                  } else if (state is DoctorGetByIdLoaded) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        imageDokter(state),
-                        titleDokter(state),
-                        cardDetailDokter(
-                            experience: state.doctor.experience,
-                            price: state.doctor.price.toString()),
-                        descriptionSection(state),
-                        ratingSection(),
-                      ],
-                    );
-                  }
-                  return const Center(
-                    child: LoadingDetailDokterPage(),
-                  );
-                }),
-          ),
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              imageDokter(widget.doctor),
+              titleDokter(widget.doctor),
+              cardDetailDokter(
+                experience: widget.doctor.experience,
+                price: widget.doctor.price.toString(),
+              ),
+              descriptionSection(widget.doctor),
+              ratingSection(),
+            ],
+          )),
         ),
       ),
     );
   }
 
-  Widget imageDokter(DoctorGetByIdLoaded state) {
+  Widget imageDokter(Doctor state) {
     return Container(
       height: 230,
       width: double.infinity,
@@ -161,14 +135,14 @@ class _DetailDokterState extends State<DetailDokter> {
           fit: BoxFit.cover,
           alignment: Alignment.center,
           image: NetworkImage(
-            "${state.doctor.photoProfile}&s=${state.doctor.id}",
+            "${state.photoProfile}&s=${state.id}",
           ),
         ),
       ),
     );
   }
 
-  Widget titleDokter(DoctorGetByIdLoaded state) {
+  Widget titleDokter(Doctor state) {
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Row(
@@ -178,7 +152,7 @@ class _DetailDokterState extends State<DetailDokter> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                state.doctor.name,
+                state.name,
                 style: MyTextStyle.subheder.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -186,7 +160,7 @@ class _DetailDokterState extends State<DetailDokter> {
               Row(
                 children: [
                   Text(
-                    "Poli ${state.doctor.kategori}",
+                    "Poli ${state.kategori}",
                     style: MyTextStyle.deskripsi.copyWith(
                       color: MyColor.abu,
                     ),
@@ -204,7 +178,7 @@ class _DetailDokterState extends State<DetailDokter> {
                     width: 8,
                   ),
                   Text(
-                    state.doctor.hospitalName,
+                    state.hospitalName,
                     style: MyTextStyle.deskripsi.copyWith(
                       color: MyColor.abu,
                     ),
@@ -223,7 +197,7 @@ class _DetailDokterState extends State<DetailDokter> {
     );
   }
 
-  Widget descriptionSection(DoctorGetByIdLoaded state) {
+  Widget descriptionSection(Doctor state) {
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Column(
@@ -239,7 +213,7 @@ class _DetailDokterState extends State<DetailDokter> {
             height: 10,
           ),
           Text(
-            state.doctor.description,
+            state.description,
             style: MyTextStyle.deskripsi.copyWith(
               color: MyColor.abu,
             ),
@@ -292,7 +266,7 @@ class _DetailDokterState extends State<DetailDokter> {
             ]),
           );
         }
-        return const Center(child: CircularProgressIndicator());
+        return const LoadingDetailDokterPage();
       },
     );
   }

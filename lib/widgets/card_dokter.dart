@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
-import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
-import 'package:konsul_dok/utils/route.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 
@@ -15,6 +12,8 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
       context.goNamed('detail_dokter', pathParameters: {
         'id': doctor.id.toString(),
         "name": doctor.kategori
+      }, extra: {
+        'doctor': doctor,
       });
     },
     child: Card(
@@ -106,11 +105,11 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
               myButtonWidget(
                   text: "Buat janji",
                   onTap: () {
-                    context.goNamed('order_from_poli',
-                        extra: doctor,
-                        pathParameters: {
-                          'name': doctor.kategori,
-                        });
+                    context.goNamed('order_from_poli', extra: {
+                      "doctor": doctor,
+                    }, pathParameters: {
+                      'name': doctor.kategori,
+                    });
                   })
             ],
           ),

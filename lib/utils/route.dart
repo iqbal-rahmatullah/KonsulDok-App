@@ -63,7 +63,10 @@ final GoRouter router = GoRouter(routes: [
             path: 'orderpoli',
             name: "order_from_poli",
             builder: (context, state) {
-              final Doctor doctor = state.extra as Doctor;
+              final Map<String, dynamic> extraData =
+                  state.extra as Map<String, dynamic>;
+              final Doctor doctor = extraData['doctor'] as Doctor;
+
               return OrderPage(doctor: doctor);
             },
           ),
@@ -72,29 +75,37 @@ final GoRouter router = GoRouter(routes: [
               name: "detail_dokter",
               builder: (context, state) {
                 final String id = state.pathParameters['id']!;
+                final Map<String, dynamic> extraData =
+                    state.extra as Map<String, dynamic>;
+
+                final Doctor doctor = extraData['doctor'] as Doctor;
 
                 return DetailDokter(
                   id: id,
+                  doctor: doctor,
                 );
               },
               routes: [
                 GoRoute(
-                  path: 'chat_dokter',
+                  path: 'chat_dokter/:name_dokter',
                   name: "chat_dokter",
                   builder: (context, state) {
-                    final doctorState =
-                        context.read<DoctorBloc>().state as DoctorGetByIdLoaded;
+                    final doctorState = state.pathParameters['name_dokter']!;
+                    final Map<String, dynamic> extraData =
+                        state.extra as Map<String, dynamic>;
                     final List<ChatDetail> chats =
-                        state.extra as List<ChatDetail>;
+                        extraData['chats'] as List<ChatDetail>;
                     return ChatOpenPage(
-                        chat: chats, receipeintName: doctorState.doctor.name);
+                        chat: chats, receipeintName: doctorState);
                   },
                 ),
                 GoRoute(
                   path: 'order',
                   name: "order",
                   builder: (context, state) {
-                    final Doctor doctor = state.extra as Doctor;
+                    final Map<String, dynamic> extraData =
+                        state.extra as Map<String, dynamic>;
+                    final Doctor doctor = extraData['doctor'] as Doctor;
                     return OrderPage(doctor: doctor);
                   },
                 ),
