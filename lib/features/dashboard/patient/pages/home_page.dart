@@ -4,7 +4,7 @@ import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_pa
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/loading/loading_home_page.dart';
-import 'package:konsul_dok/pages/card_transaction.dart';
+import 'package:konsul_dok/widgets/card_transaction.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/socket/socket_config.dart';
 import 'package:konsul_dok/utils/spacing.dart';

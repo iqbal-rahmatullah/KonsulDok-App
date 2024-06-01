@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
@@ -47,19 +48,18 @@ class _RegisterPageState extends State<RegisterPage> {
           child: BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccess) {
-                CustomSnackbar.showSuccessSnackbar(
-                    context, "Anda berhasil mendaftarkan akun");
                 context.goNamed('login');
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  CustomSnackbar.showSuccessSnackbar(
+                      context, "Anda berhasil mendaftarkan akun");
+                });
+              } else if (state is AuthRegisterFailed) {
+                CustomSnackbar.showErrorSnackbar(context, state.message);
               }
             },
             builder: (context, state) {
-              if (state is AuthLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
               return Column(
-                children: [headerComponent(), formComponent()],
+                children: [headerComponent(), formComponent(state)],
               );
             },
           ),
@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget formComponent() {
+  Widget formComponent(AuthState state) {
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Column(
@@ -186,6 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   myButtonWidget(
                       text: "Daftar",
+                      isLoading: state is AuthLoading,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           if (formData['password'].text !=
@@ -195,14 +196,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             return;
                           }
 
-                          context.read<AuthBloc>().add(AuthSignUp(
-                                email: formData['email'].text,
-                                password: formData['password'].text,
-                                name: formData['name'].text,
-                                phone: formData['no_hp'].text,
-                                age: int.parse(formData['age'].text),
-                                gender: formData['gender'],
-                              ));
+                          context.read<AuthBloc>().add(
+                                AuthSignUp(
+                                  email: formData['email'].text,
+                                  password: formData['password'].text,
+                                  name: formData['name'].text,
+                                  phone: formData['no_hp'].text,
+                                  age: int.parse(formData['age'].text),
+                                  gender: formData['gender'],
+                                ),
+                              );
                         }
                       }),
                 ],

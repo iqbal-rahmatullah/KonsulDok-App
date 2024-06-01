@@ -9,6 +9,16 @@ class MyColor {
     colors: [Color(0xff67C6E3), Color(0xff378CE7)],
   );
 
+  static LinearGradient gradientLoading = LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    stops: const [0.1, 1],
+    colors: [
+      const Color(0xff67C6E3).withOpacity(0.5),
+      const Color(0xff378CE7).withOpacity(0.5)
+    ],
+  );
+
   static const List<Color> gradientText = [
     Color(0xff67C6E3),
     Color(0xff378CE7)

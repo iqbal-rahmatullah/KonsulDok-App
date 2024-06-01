@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
@@ -36,15 +37,14 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is AuthSuccessSaveToken) {
             context.read<AuthBloc>().add(AuthGetUser());
           } else if (state is AuthGetUserSuccess) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              CustomSnackbar.showSuccessSnackbar(
+                  context, "Anda berhasil login");
+            });
             context.goNamed('home');
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           return SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     headerComponent(),
-                    formComponent(),
+                    formComponent(state),
                   ],
                 ),
               ),
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget formComponent() {
+  Widget formComponent(AuthState state) {
     return Container(
       width: double.infinity,
       margin: MySpacing.defaultMarginItem,
@@ -148,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                   // ),
                   myButtonWidget(
                       text: "Masuk",
+                      isLoading: state is AuthLoading,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(AuthSignIn(

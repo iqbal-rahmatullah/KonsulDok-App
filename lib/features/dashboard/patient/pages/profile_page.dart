@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
@@ -20,6 +21,9 @@ class ProfilePage extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthLogoutSuccess) {
           context.goNamed('login');
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            CustomSnackbar.showSuccessSnackbar(context, "Anda berhasil logout");
+          });
         }
       },
       builder: (context, state) {

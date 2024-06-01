@@ -67,7 +67,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     res.fold(
-      (failure) => emit(AuthFailure(message: failure.message)),
+      (failure) => emit(AuthRegisterFailed(message: failure.message)),
       (user) => emit(AuthSuccess(user: user)),
     );
   }

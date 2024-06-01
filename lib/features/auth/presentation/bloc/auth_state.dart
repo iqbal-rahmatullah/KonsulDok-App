@@ -31,6 +31,12 @@ final class AuthFailure extends AuthState {
   AuthFailure({required this.message});
 }
 
+final class AuthRegisterFailed extends AuthState {
+  final String message;
+
+  AuthRegisterFailed({required this.message});
+}
+
 final class AuthSuccessSaveToken extends AuthState {
   final String message;
 

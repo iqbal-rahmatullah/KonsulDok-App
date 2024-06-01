@@ -53,7 +53,8 @@ Widget cardTransaction({
                                     image: AssetImage(
                                         "assets/images/patient_profile.png"))
                                 .image
-                            : NetworkImage(appointment.doctor.photoProfile),
+                            : NetworkImage(
+                                "${appointment.doctor.photoProfile}&s=${appointment.doctor.id}"),
                       ),
                     ),
                     const SizedBox(

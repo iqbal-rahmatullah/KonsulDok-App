@@ -61,9 +61,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post(
         "${ApiEnv.apiUrl}/register",
         data: {
+          "name": name,
           "email": email,
           "password": password,
-          "name": name,
           "no_hp": phone,
           "gender": gender,
           "age": age,

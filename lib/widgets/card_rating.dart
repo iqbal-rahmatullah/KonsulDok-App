@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
 import 'package:konsul_dok/utils/color.dart';
-import 'package:konsul_dok/utils/parse_mont.dart';
+import 'package:konsul_dok/utils/parse_month.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
