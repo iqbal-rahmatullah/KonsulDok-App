@@ -1,3 +1,5 @@
+import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
+
 class Doctor {
   final int id;
   final String kategori;
@@ -7,7 +9,8 @@ class Doctor {
   final String photoProfile;
   final String experience;
   final String name;
-  final List? rating;
+  final int? averageRating;
+  final int? totalRating;
 
   Doctor({
     required this.id,
@@ -18,6 +21,7 @@ class Doctor {
     required this.photoProfile,
     required this.experience,
     required this.name,
-    required this.rating,
+    this.averageRating,
+    this.totalRating,
   });
 }

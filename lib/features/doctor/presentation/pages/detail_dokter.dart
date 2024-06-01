@@ -4,12 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:konsul_dok/widgets/card_rating.dart';
+import 'package:konsul_dok/widgets/text_action.dart';
 
 class DetailDokter extends StatefulWidget {
   final String id;
@@ -23,6 +25,7 @@ class _DetailDokterState extends State<DetailDokter> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<DoctorBloc>(context).add(DoctorGetById(id: widget.id));
+    BlocProvider.of<RatingBloc>(context).add(GetRatingByDoctorEvent(widget.id));
 
     return Scaffold(
       appBar: AppBar(
@@ -158,7 +161,7 @@ class _DetailDokterState extends State<DetailDokter> {
           fit: BoxFit.cover,
           alignment: Alignment.center,
           image: NetworkImage(
-            state.doctor.photoProfile,
+            "${state.doctor.photoProfile}&s=${state.doctor.id}",
           ),
         ),
       ),
@@ -247,38 +250,50 @@ class _DetailDokterState extends State<DetailDokter> {
   }
 
   Widget ratingSection() {
-    return Container(
-      margin: MySpacing.defaultMarginItem,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Ulasan",
-                style:
-                    MyTextStyle.subheder.copyWith(fontWeight: FontWeight.w600),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Lihat Semua (10)",
-                  style: MyTextStyle.deskripsi.copyWith(
-                    color: MyColor.biru,
-                    fontWeight: FontWeight.w500,
+    return BlocBuilder<RatingBloc, RatingState>(
+      builder: (context, state) {
+        if (state is RatingError) {
+          return Text(state.message);
+        } else if (state is RatingLoaded) {
+          return Container(
+            margin: MySpacing.defaultMarginItem,
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Ulasan",
+                    style: MyTextStyle.subheder
+                        .copyWith(fontWeight: FontWeight.w600),
                   ),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          cardRating(),
-          cardRating(),
-          cardRating(),
-        ],
-      ),
+                  (state.ratings.length <= 3)
+                      ? const SizedBox()
+                      : textAction(onTap: () {}, text: "Lihat Semua (10)")
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              (state.ratings.isEmpty)
+                  ? const SizedBox(
+                      height: 150,
+                      child: Center(
+                        child: Text(
+                          "Belum ada rating dari dokter ini",
+                          style: MyTextStyle.deskripsi,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: List.generate(state.ratings.length, (index) {
+                        return cardRating(rating: state.ratings[index]);
+                      }),
+                    )
+            ]),
+          );
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

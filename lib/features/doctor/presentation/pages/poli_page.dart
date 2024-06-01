@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_poli_page.dart';
@@ -33,6 +35,7 @@ class _PoliPageState extends State<PoliPage> {
         .add(DoctorGetCategory(name: widget.namaPoli));
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           "Poli ${widget.namaPoli}",
@@ -48,15 +51,13 @@ class _PoliPageState extends State<PoliPage> {
               child: Text(state.message),
             );
           } else {
-            return SingleChildScrollView(
-              child: Container(
-                padding: MySpacing.paddingInsetPage,
-                child: Column(
-                  children: [
-                    searchField(),
-                    listDokter(),
-                  ],
-                ),
+            return Container(
+              padding: MySpacing.paddingInsetPage,
+              child: Column(
+                children: [
+                  searchField(),
+                  Expanded(child: SingleChildScrollView(child: listDokter())),
+                ],
               ),
             );
           }

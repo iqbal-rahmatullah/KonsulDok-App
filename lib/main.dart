@@ -8,6 +8,7 @@ import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/route.dart';
@@ -40,6 +41,9 @@ void main() async {
       ),
       BlocProvider<ChatBloc>(
         create: (context) => serviceLocator<ChatBloc>()..add(GetChatsEvent()),
+      ),
+      BlocProvider<RatingBloc>(
+        create: (context) => serviceLocator<RatingBloc>(),
       ),
     ],
     child: const MainApp(),

@@ -28,7 +28,7 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
               ListTile(
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(
-                    doctor.photoProfile,
+                    "${doctor.photoProfile}&s=${doctor.id}",
                   ),
                   radius: 30,
                 ),
@@ -66,7 +66,8 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
                           children: [
                             RatingBar.builder(
                               itemSize: 20,
-                              initialRating: 4.5,
+                              initialRating:
+                                  doctor.averageRating?.toDouble() ?? 0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: true,
@@ -82,7 +83,7 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
                               width: 5,
                             ),
                             Text(
-                              "4.7",
+                              doctor.averageRating?.toString() ?? "0",
                               style: MyTextStyle.deskripsi.copyWith(
                                 color: MyColor.abuForm,
                               ),
@@ -90,7 +91,7 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
                           ],
                         ),
                         Text(
-                          "50 Ulasan",
+                          "${doctor.totalRating} Ulasan",
                           style: MyTextStyle.deskripsi
                               .copyWith(color: MyColor.abuText),
                         )

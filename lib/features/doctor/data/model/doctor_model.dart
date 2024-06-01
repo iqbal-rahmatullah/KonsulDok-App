@@ -1,4 +1,6 @@
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:konsul_dok/features/rating/data/model/rating_model.dart';
+import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
 
 class DoctorModel extends Doctor {
   DoctorModel({
@@ -10,7 +12,8 @@ class DoctorModel extends Doctor {
     required super.photoProfile,
     required super.experience,
     required super.name,
-    required super.rating,
+    super.averageRating,
+    super.totalRating,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
@@ -23,7 +26,8 @@ class DoctorModel extends Doctor {
       photoProfile: json['photo_profile'],
       experience: json['experience'],
       name: json['user']['name'],
-      rating: json['rating'],
+      averageRating: json['averageRatting'] ?? 0,
+      totalRating: json['countRating'] ?? 0,
     );
   }
 }

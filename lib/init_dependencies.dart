@@ -38,6 +38,11 @@ import 'package:konsul_dok/features/doctor/domain/repositories/doctor_repository
 import 'package:konsul_dok/features/doctor/domain/usecase/get_doctor_by_category.dart';
 import 'package:konsul_dok/features/doctor/domain/usecase/get_doctor_by_id.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'package:konsul_dok/features/rating/data/datasource/rating_remote_datasource.dart';
+import 'package:konsul_dok/features/rating/data/repositories/rating_repository_impl.dart';
+import 'package:konsul_dok/features/rating/domain/repositories/rating_repository.dart';
+import 'package:konsul_dok/features/rating/domain/usecase/get_rating_doctor.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
 part 'init_dependencies.main.dart';

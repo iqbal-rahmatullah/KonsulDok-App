@@ -248,7 +248,9 @@ class _HomePageState extends State<HomePage> {
           else
             Column(
               children: List.generate(
-                3,
+                (appointmentState.appointments.length > 3)
+                    ? 3
+                    : appointmentState.appointments.length,
                 (index) => cardTransaction(
                   context: context,
                   appointment: appointmentState.appointments[index],
