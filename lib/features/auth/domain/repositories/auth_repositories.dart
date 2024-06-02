@@ -24,4 +24,12 @@ abstract class AuthRepository {
     required String oldPassword,
     required String newPassword,
   });
+
+  Future<Either<Failure, User>> editProfile({
+    required String name,
+    required String phone,
+    required int age,
+    required String email,
+    required String gender,
+  });
 }

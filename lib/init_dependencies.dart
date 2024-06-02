@@ -18,6 +18,7 @@ import 'package:konsul_dok/features/auth/data/datasource/auth_remote_datasource.
 import 'package:konsul_dok/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:konsul_dok/features/auth/domain/repositories/auth_repositories.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/change_password.dart';
+import 'package:konsul_dok/features/auth/domain/usecase/edit_profile.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/get_user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';

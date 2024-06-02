@@ -44,3 +44,18 @@ final class AuthChangePasswordEvent extends AuthEvent {
   AuthChangePasswordEvent(
       {required this.oldPassword, required this.newPassword});
 }
+
+final class AuthEditProfileEvent extends AuthEvent {
+  final String name;
+  final String phone;
+  final int age;
+  final String email;
+  final String gender;
+
+  AuthEditProfileEvent(
+      {required this.name,
+      required this.phone,
+      required this.age,
+      required this.email,
+      required this.gender});
+}

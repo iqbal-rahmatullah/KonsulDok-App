@@ -52,3 +52,9 @@ final class AuthChangePasswordFailed extends AuthState {
 
   AuthChangePasswordFailed({required this.message});
 }
+
+final class AuthEditProfileFailed extends AuthState {
+  final String message;
+
+  AuthEditProfileFailed({required this.message});
+}

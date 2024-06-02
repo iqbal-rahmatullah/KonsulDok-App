@@ -3,20 +3,23 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:konsul_dok/pages/faq_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/custom_snackbar.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final authState = context.read<AuthBloc>().state as AuthGetUserSuccess;
+  State<ProfilePage> createState() => _ProfilePageState();
+}
 
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLogoutSuccess) {
@@ -62,22 +65,23 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              authState.user.name,
-                              style: MyTextStyle.name
-                                  .copyWith(color: Colors.white),
-                            ),
-                            Text(
-                              authState.user.phone,
-                              style: MyTextStyle.deskripsi
-                                  .copyWith(color: Colors.white),
-                            )
-                          ],
-                        )
+                        if (state is AuthGetUserSuccess)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                state.user.name,
+                                style: MyTextStyle.name
+                                    .copyWith(color: Colors.white),
+                              ),
+                              Text(
+                                state.user.phone,
+                                style: MyTextStyle.deskripsi
+                                    .copyWith(color: Colors.white),
+                              )
+                            ],
+                          )
                       ],
                     ),
                   ),
@@ -94,7 +98,10 @@ class ProfilePage extends StatelessWidget {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          FavoritePage();
+                          context.goNamed('edit_profile',
+                              extra: state is AuthGetUserSuccess
+                                  ? state.user
+                                  : null);
                         },
                       ),
                       const SizedBox(
@@ -157,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          const FaqPage();
+                          context.goNamed('faq');
                         },
                       ),
                       const SizedBox(

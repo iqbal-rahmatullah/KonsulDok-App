@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/auth/data/models/user_model.dart';
+import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/utils/api.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
 
@@ -22,6 +23,14 @@ abstract class AuthRemoteDataSource {
   Future<void> changePassword({
     required String oldPassword,
     required String newPassword,
+  });
+
+  Future<User> editProfile({
+    required String name,
+    required String phone,
+    required int age,
+    required String email,
+    required String gender,
   });
 }
 
@@ -133,6 +142,47 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           }).timeout(const Duration(seconds: 10));
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 401) {
+        throw ServerException(e.response!.data['message']);
+      } else if (e is DioException && e.response!.statusCode == 400) {
+        throw ServerException(e.response!.data['message'][0]['message']);
+      }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<User> editProfile(
+      {required String name,
+      required String phone,
+      required int age,
+      required String email,
+      required String gender}) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
+      final response = await dio.put(
+        '${ApiEnv.apiUrl}/users',
+        options: Options(
+          headers: {
+            'Authorization': session,
+          },
+        ),
+        data: {
+          "name": name,
+          "email": email,
+          "no_hp": phone,
+          "age": age,
+          "gender": gender,
+        },
+      ).timeout(const Duration(seconds: 10));
+
+      return UserModel.fromJson(response.data['data']);
+    } catch (e) {
+      if (e is DioException && e.response!.statusCode == 409) {
         throw ServerException(e.response!.data['message']);
       } else if (e is DioException && e.response!.statusCode == 400) {
         throw ServerException(e.response!.data['message'][0]['message']);

@@ -3,18 +3,21 @@ import 'package:konsul_dok/features/appointment/domain/entities/appointment_pati
 import 'package:konsul_dok/features/appointment/presentation/pages/detail_janji_pasien.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/order_page.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/success_order_page.dart';
+import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
 import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
 import 'package:konsul_dok/features/dashboard/doctor/pages/dashboard_doctor.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/dashboard_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/main.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/edit_profile_pages.dart';
 import 'package:konsul_dok/pages/loading_page.dart';
-import 'package:konsul_dok/pages/ubah_sandi_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/ubah_sandi_page.dart';
 import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 
 final GoRouter router = GoRouter(routes: [
@@ -129,11 +132,29 @@ final GoRouter router = GoRouter(routes: [
         },
       ),
       GoRoute(
-          path: 'change_password',
-          name: "change_password",
-          builder: (context, state) {
-            return UbahSandiPage();
-          }),
+        path: 'change_password',
+        name: "change_password",
+        builder: (context, state) {
+          return const UbahSandiPage();
+        },
+      ),
+      GoRoute(
+        path: 'edit_profile',
+        name: "edit_profile",
+        builder: (context, state) {
+          final User user = state.extra as User;
+          return EditProfilePage(
+            user: user,
+          );
+        },
+      ),
+      GoRoute(
+        path: 'faq',
+        name: "faq",
+        builder: (context, state) {
+          return const FaqPage();
+        },
+      ),
     ],
   ),
   GoRoute(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/change_password.dart';
+import 'package:konsul_dok/features/auth/domain/usecase/edit_profile.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/get_user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
@@ -17,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignIn _userSignIn;
   final SaveToken _saveToken;
   final GetUser _getUser;
+  final EditProfileCase _editProfileCase;
   final AuthLocalDataSource _authLocalDataSource;
   final ChangePasswordCase _changePasswordCase;
 
@@ -27,12 +29,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required GetUser getUser,
     required AuthLocalDataSource authLocalDataSource,
     required ChangePasswordCase changePasswordCase,
+    required EditProfileCase editProfileCase,
   })  : _userSignUp = userSignUp,
         _userSignIn = userSignIn,
         _saveToken = saveToken,
         _getUser = getUser,
         _authLocalDataSource = authLocalDataSource,
         _changePasswordCase = changePasswordCase,
+        _editProfileCase = editProfileCase,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
@@ -64,6 +68,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (message) => emit(AuthChangePasswordSucces()),
       );
     });
+    on<AuthEditProfileEvent>(
+      (event, emit) async {
+        final response = await _editProfileCase(
+          EditProfileParams(
+              name: event.name,
+              phone: event.phone,
+              age: event.age,
+              email: event.email,
+              gender: event.gender),
+        );
+
+        response.fold(
+          (failure) => emit(AuthEditProfileFailed(message: failure.message)),
+          (message) => emit(AuthGetUserSuccess(user: message)),
+        );
+      },
+    );
   }
 
   void _onAuthSignUp(
