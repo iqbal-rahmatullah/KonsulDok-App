@@ -31,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           context,
           MyColor.putih,
           'Mulai Sekarang',
-          'Kemudahan Anda adalah prioritas kami. Mari kita mulai pedjwalan kesehatan yang lebih mudah dan lebih baik bersama KonsulDok.',
+          'Kemudahan Anda adalah prioritas kami. Mari kita mulai penjadwalan kesehatan yang lebih mudah dan lebih baik bersama KonsulDok.',
           'assets/images/ob_mulai2.png'),
     ];
   }
