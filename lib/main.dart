@@ -12,6 +12,8 @@ import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/route.dart';
+import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
+import 'package:konsul_dok/utils/socket/socket_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +46,10 @@ void main() async {
       ),
       BlocProvider<RatingBloc>(
         create: (context) => serviceLocator<RatingBloc>(),
+      ),
+      BlocProvider<SocketBloc>(
+        create: (context) =>
+            SocketBloc(socketConfig: SocketConfig(context: context)),
       ),
     ],
     child: const MainApp(),

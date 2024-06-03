@@ -45,6 +45,8 @@ import 'package:konsul_dok/features/rating/data/repositories/rating_repository_i
 import 'package:konsul_dok/features/rating/domain/repositories/rating_repository.dart';
 import 'package:konsul_dok/features/rating/domain/usecase/get_rating_doctor.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
+import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
+import 'package:konsul_dok/utils/socket/socket_config.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
 part 'init_dependencies.main.dart';

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
 import 'package:konsul_dok/widgets/card_transaction.dart';
 import 'package:konsul_dok/utils/color.dart';
-import 'package:konsul_dok/utils/socket/socket_config.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
@@ -19,12 +19,11 @@ class HomepageDoctor extends StatefulWidget {
 class _HomepageDoctorState extends State<HomepageDoctor>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late SocketConfig socketConfig;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-    socketConfig = SocketConfig(context: context);
+
     super.initState();
   }
 
@@ -36,7 +35,6 @@ class _HomepageDoctorState extends State<HomepageDoctor>
 
   @override
   Widget build(BuildContext context) {
-    final doctor = context.read<AuthBloc>().state as AuthGetUserSuccess;
     BlocProvider.of<AppointmentPatientBloc>(context)
         .add(GetAppointmentDoctorEvent());
 
@@ -71,8 +69,6 @@ class _HomepageDoctorState extends State<HomepageDoctor>
               child: Text(state.message),
             );
           } else if (state is AppointmentPatientLoaded) {
-            socketConfig.connect(doctor.user.id);
-
             List<AppointmentPatient> appointments = state.appointments
                 .where((element) => element.status == "ongoing")
                 .toList();
@@ -136,44 +132,55 @@ class _HomepageDoctorState extends State<HomepageDoctor>
   }
 
   Widget topBar() {
-    final authState = context.read<AuthBloc>().state as AuthGetUserSuccess;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Container(
-        margin: MySpacing.defaultMarginItem,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is AuthGetUserSuccess) {
+          context.read<SocketBloc>().add(
+                SocketConnect(
+                  state.user.id,
+                ),
+              );
+        }
+        return Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Container(
+            margin: MySpacing.defaultMarginItem,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/small_icon.png'),
-                const SizedBox(
-                  width: 10,
+                Row(
+                  children: [
+                    Image.asset('assets/images/small_icon.png'),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Halo, ",
+                      style: MyTextStyle.subheder
+                          .copyWith(fontWeight: FontWeight.normal),
+                    ),
+                    if (state is AuthGetUserSuccess)
+                      Text(
+                        state.user.name,
+                        style: MyTextStyle.subheder.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                  ],
                 ),
-                Text(
-                  "Halo, ",
-                  style: MyTextStyle.subheder
-                      .copyWith(fontWeight: FontWeight.normal),
-                ),
-                Text(
-                  authState.user.name,
-                  style: MyTextStyle.subheder.copyWith(
-                    fontWeight: FontWeight.w800,
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.notifications_active,
+                    color: MyColor.biru,
                   ),
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications_active,
-                color: MyColor.biru,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:konsul_dok/features/auth/domain/usecase/get_user.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_save_token.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signin.dart';
 import 'package:konsul_dok/features/auth/domain/usecase/user_signup.dart';
+import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/utils/no_params.dart';
 
 part 'auth_event.dart';

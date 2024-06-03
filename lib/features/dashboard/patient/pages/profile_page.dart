@@ -3,6 +3,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
+import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
 import 'package:konsul_dok/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -23,10 +25,16 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLogoutSuccess) {
-          context.goNamed('login');
           SchedulerBinding.instance.addPostFrameCallback((_) {
             CustomSnackbar.showSuccessSnackbar(context, "Anda berhasil logout");
           });
+
+          Future.delayed(const Duration(milliseconds: 100), () {
+            context.goNamed('login');
+            context.read<NavbarCubit>().change(0);
+            // context.read<NavbarDoctorCubit>().change(0);
+          });
+          // context.read<NavbarDoctorCubit>().change(0);
         }
       },
       builder: (context, state) {

@@ -1,6 +1,4 @@
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
-import 'package:konsul_dok/features/rating/data/model/rating_model.dart';
-import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
 
 class DoctorModel extends Doctor {
   DoctorModel({

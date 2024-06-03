@@ -22,17 +22,17 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addChat(
+  Future<Either<Failure, int>> addChat(
       {required String message,
       required int sender_id,
       required int receive_id}) async {
     try {
-      await remoteDataSource.addChat(
+      final response = await remoteDataSource.addChat(
         message: message,
         sender_id: sender_id,
         receive_id: receive_id,
       );
-      return const Right(null);
+      return Right(response);
     } on ServerException catch (e) {
       return Left(Failure(e.message));
     }

@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:konsul_dok/features/dashboard/doctor/pages/homepage_doctor.dart';
 
-import 'package:konsul_dok/features/dashboard/patient/pages/home_page.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/chat_page.dart';
-import 'package:konsul_dok/features/dashboard/patient/pages/jadwal_page.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/profile_page.dart';
 
 class NavbarDoctorCubit extends Cubit<int> {

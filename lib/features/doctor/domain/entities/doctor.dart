@@ -1,3 +1,4 @@
+import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
 
 class Doctor {

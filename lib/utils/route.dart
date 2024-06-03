@@ -6,6 +6,7 @@ import 'package:konsul_dok/features/appointment/presentation/pages/success_order
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
+import 'package:konsul_dok/features/chat/domain/entities/chat.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
 import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
 import 'package:konsul_dok/features/dashboard/doctor/pages/dashboard_doctor.dart';
@@ -90,13 +91,14 @@ final GoRouter router = GoRouter(routes: [
                   path: 'chat_dokter/:name_dokter',
                   name: "chat_dokter",
                   builder: (context, state) {
-                    final doctorState = state.pathParameters['name_dokter']!;
                     final Map<String, dynamic> extraData =
                         state.extra as Map<String, dynamic>;
-                    final List<ChatDetail> chats =
-                        extraData['chats'] as List<ChatDetail>;
+                    final Chat chats = extraData['chats'] as Chat;
+                    final Doctor doctor = extraData['doctor'] as Doctor;
                     return ChatOpenPage(
-                        chat: chats, receipeintName: doctorState);
+                      chat: chats,
+                      doctor: doctor,
+                    );
                   },
                 ),
                 GoRoute(
@@ -124,10 +126,13 @@ final GoRouter router = GoRouter(routes: [
         path: "open_chat/:name",
         name: "open_chat",
         builder: (context, state) {
-          final List<ChatDetail> chats = state.extra as List<ChatDetail>;
+          final Map<String, dynamic> extraData =
+              state.extra as Map<String, dynamic>;
+          final Chat chats = extraData['chats'] as Chat;
+          final Doctor doctor = extraData['doctor'] as Doctor;
           return ChatOpenPage(
             chat: chats,
-            receipeintName: state.pathParameters['name']!,
+            doctor: doctor,
           );
         },
       ),
@@ -171,6 +176,21 @@ final GoRouter router = GoRouter(routes: [
           return DetailJanjiPasien(
             appointmentPatient: state.extra as AppointmentPatient,
             pageDoctor: true,
+          );
+        },
+      ),
+      GoRoute(
+        path: "doctor_chat/:name",
+        name: "doctor_chat",
+        builder: (context, state) {
+          final Map<String, dynamic> extraData =
+              state.extra as Map<String, dynamic>;
+          final Chat chats = extraData['chats'] as Chat;
+          final User patient = extraData['patient'] as User;
+
+          return ChatOpenPage(
+            chat: chats,
+            user: patient,
           );
         },
       )

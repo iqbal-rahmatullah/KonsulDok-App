@@ -41,7 +41,6 @@ class _LoginPageState extends State<LoginPage> {
               CustomSnackbar.showSuccessSnackbar(
                   context, "Anda berhasil login");
             });
-            context.goNamed('home');
           }
         },
         builder: (context, state) {

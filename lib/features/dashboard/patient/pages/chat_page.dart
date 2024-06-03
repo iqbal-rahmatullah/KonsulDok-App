@@ -23,9 +23,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = context.read<AuthBloc>().state as AuthGetUserSuccess;
-    context.read<ChatBloc>().add(GetChatsEvent());
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -58,23 +55,33 @@ class _ChatPageState extends State<ChatPage> {
                 child: Text('Belum ada chat'),
               );
             }
-            return Padding(
-              padding: MySpacing.paddingInsetPage.copyWith(top: 20),
-              child: Column(
-                  children: List.generate(
-                state.chats.length,
-                (index) => chatWidget(
-                  context: context,
-                  doctor: authState.user.role == 'patient'
-                      ? state.chats[index].doctor
-                      : null,
-                  patient: authState.user.role == 'doctor'
-                      ? state.chats[index].patient
-                      : null,
-                  messages: state.chats[index].chat,
-                  idChat: state.chats[index].id,
-                ),
-              )),
+            return BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, authState) {
+                if (authState is AuthGetUserSuccess) {
+                  return Padding(
+                    padding: MySpacing.paddingInsetPage.copyWith(top: 20),
+                    child: Column(
+                      children: List.generate(
+                        state.chats.length,
+                        (index) => chatWidget(
+                          context: context,
+                          doctor: authState.user.role == 'patient'
+                              ? state.chats[index].doctor
+                              : null,
+                          patient: authState.user.role == 'doctor'
+                              ? state.chats[index].patient
+                              : null,
+                          messages: state.chats[index],
+                          idChat: state.chats[index].id,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             );
           } else if (state is ChatError) {
             return Center(

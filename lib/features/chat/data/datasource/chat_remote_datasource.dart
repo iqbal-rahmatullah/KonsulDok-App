@@ -8,7 +8,7 @@ import 'package:konsul_dok/utils/error/exception.dart';
 
 abstract class ChatRemoteDataSource {
   Future<List<ChatModel>> getChats();
-  Future<void> addChat({
+  Future<int> addChat({
     required String message,
     required int sender_id,
     required int receive_id,
@@ -59,7 +59,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<void> addChat(
+  Future<int> addChat(
       {required String message,
       required int sender_id,
       required int receive_id}) async {
@@ -83,6 +83,8 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           },
         ),
       );
+
+      return response.data['data']['chat_id'];
     } catch (e) {
       throw ServerException(e.toString());
     }

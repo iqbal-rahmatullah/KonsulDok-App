@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
+import 'package:konsul_dok/features/chat/domain/entities/chat.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
@@ -14,17 +15,34 @@ Widget chatWidget({
   required BuildContext context,
   Doctor? doctor,
   User? patient,
-  required List<ChatDetail> messages,
+  required Chat messages,
   required int idChat,
 }) {
-  final allChats =
-      messages.where((element) => element.chatId == idChat).toList();
-
   return GestureDetector(
     onTap: () {
-      context.goNamed('open_chat', extra: allChats, pathParameters: {
-        'name': doctor != null ? doctor.name : patient!.name
-      });
+      if (doctor != null) {
+        context.goNamed(
+          'open_chat',
+          extra: {
+            "chats": messages,
+            "doctor": doctor,
+          },
+          pathParameters: {
+            "name": doctor.name,
+          },
+        );
+      } else {
+        context.goNamed(
+          'doctor_chat',
+          extra: {
+            "chats": messages,
+            "patient": patient,
+          },
+          pathParameters: {
+            "name": patient!.name,
+          },
+        );
+      }
     },
     child: Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -41,10 +59,13 @@ Widget chatWidget({
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage(
-                "assets/images/doctor-example.jpg",
-              ),
+            CircleAvatar(
+              backgroundImage: (doctor != null)
+                  ? NetworkImage(
+                      "${doctor.photoProfile}&s=${doctor.id}",
+                    )
+                  : const AssetImage("assets/images/patient_profile.png")
+                      as ImageProvider,
             ),
             const SizedBox(
               width: 10,
@@ -78,7 +99,7 @@ Widget chatWidget({
                             width: 3,
                           ),
                           Text(
-                            messages.last.message,
+                            messages.chat.last.message,
                             style: MyTextStyle.deskripsi
                                 .copyWith(color: MyColor.hitam),
                           )

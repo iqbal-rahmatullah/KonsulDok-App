@@ -5,7 +5,7 @@ import 'package:konsul_dok/utils/error/failure.dart';
 
 abstract class ChatRepository {
   Future<Either<Failure, List<Chat>>> getChats();
-  Future<Either<Failure, void>> addChat({
+  Future<Either<Failure, int>> addChat({
     required String message,
     required int sender_id,
     required int receive_id,

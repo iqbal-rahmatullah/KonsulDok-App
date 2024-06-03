@@ -3,13 +3,13 @@ import 'package:konsul_dok/features/chat/domain/repositories/chat_repositories.d
 import 'package:konsul_dok/utils/error/failure.dart';
 import 'package:konsul_dok/utils/usecase/usecase.dart';
 
-class AddChatCase extends UseCase<void, AddChatParams> {
+class AddChatCase extends UseCase<int, AddChatParams> {
   final ChatRepository repository;
 
   AddChatCase(this.repository);
 
   @override
-  Future<Either<Failure, void>> call(AddChatParams params) async {
+  Future<Either<Failure, int>> call(AddChatParams params) async {
     return await repository.addChat(
       message: params.message,
       sender_id: params.sender_id,

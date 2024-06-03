@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget ownChat({required BuildContext context, required String message}) {
+Widget ownChat(
+    {required BuildContext context,
+    required String message,
+    required ImageProvider image}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     child: Row(
@@ -33,10 +37,8 @@ Widget ownChat({required BuildContext context, required String message}) {
         const SizedBox(
           width: 7,
         ),
-        const CircleAvatar(
-          backgroundImage: AssetImage(
-            "assets/images/doctor-example.jpg",
-          ),
+        CircleAvatar(
+          backgroundImage: image,
         )
       ],
     ),

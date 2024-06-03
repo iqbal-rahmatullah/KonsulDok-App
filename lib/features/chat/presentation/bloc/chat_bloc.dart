@@ -34,7 +34,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         final result = await _getChat(NoParams());
         result.fold(
           (failure) => emit(ChatError(message: failure.message)),
-          (chats) => emit(ChatLoaded(chats: chats)),
+          (chats) {
+            emit(ChatLoaded(chats: chats));
+          },
         );
       },
     );
@@ -50,8 +52,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         await response.fold(
           (failure) async => emit(ChatError(message: failure.message)),
           (success) async {
-            final result = await _getMessageById(
-                GetMessageByIdParams(chatId: event.receive_id));
+            final result =
+                await _getMessageById(GetMessageByIdParams(chatId: success));
             result.fold(
               (failure) => emit(ChatError(message: failure.message)),
               (chats) => emit(ChatDetailLoaded(chatDetails: chats)),

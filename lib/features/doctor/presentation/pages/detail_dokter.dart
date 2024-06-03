@@ -84,12 +84,14 @@ class _DetailDokterState extends State<DetailDokter> {
       ),
       body: BlocListener<ChatBloc, ChatState>(
         listener: (context, stateChat) {
-          if (stateChat is ChatDetailLoaded) {
+          if (stateChat is ChatLoaded) {
             context.goNamed(
               'chat_dokter',
               extra: {
                 'doctor': widget.doctor,
-                'chats': stateChat.chatDetails,
+                'chats': stateChat.chats
+                    .where((element) => element.doctor.id == widget.doctor.id)
+                    .first,
               },
               pathParameters: {
                 'name': widget.doctor.kategori,

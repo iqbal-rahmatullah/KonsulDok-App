@@ -220,6 +220,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Sudah memiliki akun?",
                 style: MyTextStyle.deskripsi,
               ),
+              const SizedBox(
+                width: 3,
+              ),
               textAction(
                 text: "Masuk disini",
                 onTap: () {
