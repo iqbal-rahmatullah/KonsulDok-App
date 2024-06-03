@@ -9,4 +9,7 @@ class MyTextStyle {
       fontFamily: 'outfit', fontSize: 16, fontWeight: FontWeight.bold);
   static const TextStyle name = TextStyle(
       fontFamily: 'outfit', fontSize: 20, fontWeight: FontWeight.bold);
+  static const TextStyle onboard = TextStyle(
+      fontFamily: 'outfit', fontSize: 32, fontWeight: FontWeight.w600);
+
 }
