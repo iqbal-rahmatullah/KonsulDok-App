@@ -6,7 +6,7 @@ import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:svg_flutter/svg.dart';
 
-Widget cardDetailDokter() {
+Widget cardDetailDokter({required String price, required String experience}) {
   return Container(
     margin: MySpacing.defaultMarginItem,
     padding: MySpacing.padingCard,
@@ -72,7 +72,7 @@ Widget cardDetailDokter() {
                       ),
                     ),
                     Text(
-                      "Rp150.000",
+                      "Rp.$price",
                       style: MyTextStyle.deskripsi.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -102,7 +102,7 @@ Widget cardDetailDokter() {
                       ),
                     ),
                     Text(
-                      "1 Tahun",
+                      experience,
                       style: MyTextStyle.deskripsi.copyWith(
                         fontWeight: FontWeight.w500,
                       ),

@@ -7,10 +7,13 @@ import 'package:konsul_dok/utils/textstyle.dart';
 class MyBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
   final Function onItemTapped;
+  final List<Map> itemNavbar;
+
   const MyBottomNavigationBar({
     Key? key,
     required this.selectedIndex,
     required this.onItemTapped,
+    required this.itemNavbar,
   }) : super(key: key);
 
   @override
@@ -47,24 +50,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   MyTextStyle.deskripsi.copyWith(color: MyColor.abuText),
               showUnselectedLabels: true,
               unselectedItemColor: MyColor.abuText,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: 'Beranda',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_today),
-                  label: 'Jadwal',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.chat_bubble_outline),
-                  label: 'Chat',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_outlined),
-                  label: 'Profil',
-                ),
-              ],
+              items: List.generate(widget.itemNavbar.length, (index) {
+                return BottomNavigationBarItem(
+                  icon: widget.itemNavbar[index]['icon'] as Widget,
+                  label: widget.itemNavbar[index]['label'] as String,
+                );
+              }),
               selectedLabelStyle: MyTextStyle.deskripsi
                   .copyWith(color: MyColor.biru, fontWeight: FontWeight.w500),
               currentIndex: widget.selectedIndex,

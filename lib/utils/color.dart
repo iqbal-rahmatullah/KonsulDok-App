@@ -9,6 +9,16 @@ class MyColor {
     colors: [Color(0xff67C6E3), Color(0xff378CE7)],
   );
 
+  static LinearGradient gradientLoading = LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    stops: const [0.1, 1],
+    colors: [
+      const Color(0xff67C6E3).withOpacity(0.5),
+      const Color(0xff378CE7).withOpacity(0.5)
+    ],
+  );
+
   static const List<Color> gradientText = [
     Color(0xff67C6E3),
     Color(0xff378CE7)
@@ -25,4 +35,10 @@ class MyColor {
   static const Color abuDivider = Color(0xffB5B5B5);
   static const Color abuTextDescription = Color(0xff343232);
   static const Color buttonDisabled = Color(0xff6B779A);
+  static const Map<String, Color> colorSnackbar = {
+    "success_bg": Color(0xffF1F6F3),
+    "success_icon": Color(0xff49D95D),
+    "error_bg": Color(0xffFAF0ED),
+    "error_icon": Color(0xffF95B51),
+  };
 }

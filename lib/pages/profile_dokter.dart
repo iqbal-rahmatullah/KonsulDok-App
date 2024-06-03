@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:konsul_dok/pages/faq_page.dart';
-import 'package:konsul_dok/pages/home_page.dart';
+import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 

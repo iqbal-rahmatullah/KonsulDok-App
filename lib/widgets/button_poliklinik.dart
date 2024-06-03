@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:konsul_dok/pages/poli_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
@@ -17,9 +18,7 @@ Widget buttonPoliklinik(
         ),
         child: ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return PoliPage(namaPoli: title);
-            }));
+            context.goNamed('poli', pathParameters: {'name': title});
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(7),
@@ -30,6 +29,8 @@ Widget buttonPoliklinik(
           child: Image.asset(
             "assets/images/icon_poliklinik/${image}",
             width: MediaQuery.sizeOf(context).width * 0.1,
+            "assets/images/icon_poliklinik/$image",
+            width: 25,
           ),
         ),
       ),

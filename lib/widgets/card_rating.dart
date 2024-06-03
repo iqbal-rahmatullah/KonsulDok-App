@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:konsul_dok/features/rating/domain/entities/rating.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/utils/parse_month.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget cardRating() {
+Widget cardRating({required Rating rating}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     padding: MySpacing.padingCard,
@@ -18,7 +20,7 @@ Widget cardRating() {
         Row(
           children: [
             Text(
-              "03 Apr\n2024",
+              "${rating.createdAt.day} ${ParseMonth.convert(rating.createdAt.month)}\n${rating.createdAt.year}",
               style: MyTextStyle.deskripsi.copyWith(
                 fontSize: 10,
                 color: MyColor.abuForm,
@@ -28,7 +30,7 @@ Widget cardRating() {
               width: 10,
             ),
             Text(
-              "Intan Srikaya",
+              rating.namePatient,
               style: MyTextStyle.subheder.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -39,8 +41,7 @@ Widget cardRating() {
           children: [
             RatingBar.builder(
               itemSize: 20,
-              initialRating: 4.5,
-              minRating: 1,
+              initialRating: double.parse(rating.rating.toString()),
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
@@ -55,7 +56,7 @@ Widget cardRating() {
               width: 7,
             ),
             Text(
-              "4.7",
+              rating.rating.toString(),
               style: MyTextStyle.deskripsi.copyWith(
                 fontWeight: FontWeight.bold,
                 color: MyColor.abuForm,
