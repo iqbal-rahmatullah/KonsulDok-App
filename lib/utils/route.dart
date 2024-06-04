@@ -93,10 +93,11 @@ final GoRouter router = GoRouter(routes: [
                   builder: (context, state) {
                     final Map<String, dynamic> extraData =
                         state.extra as Map<String, dynamic>;
-                    final Chat chats = extraData['chats'] as Chat;
+                    final int idChat = extraData['idChat'];
                     final Doctor doctor = extraData['doctor'] as Doctor;
+
                     return ChatOpenPage(
-                      chat: chats,
+                      idChat: idChat,
                       doctor: doctor,
                     );
                   },
@@ -128,10 +129,10 @@ final GoRouter router = GoRouter(routes: [
         builder: (context, state) {
           final Map<String, dynamic> extraData =
               state.extra as Map<String, dynamic>;
-          final Chat chats = extraData['chats'] as Chat;
+          final int idChat = extraData['idChat'];
           final Doctor doctor = extraData['doctor'] as Doctor;
           return ChatOpenPage(
-            chat: chats,
+            idChat: idChat,
             doctor: doctor,
           );
         },
@@ -185,11 +186,11 @@ final GoRouter router = GoRouter(routes: [
         builder: (context, state) {
           final Map<String, dynamic> extraData =
               state.extra as Map<String, dynamic>;
-          final Chat chats = extraData['chats'] as Chat;
+          final int idChat = extraData['idChat'];
           final User patient = extraData['patient'] as User;
 
           return ChatOpenPage(
-            chat: chats,
+            idChat: idChat,
             user: patient,
           );
         },

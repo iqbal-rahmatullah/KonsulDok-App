@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/get_chat_doctor/get_chat_doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
@@ -57,7 +58,7 @@ class _DetailDokterState extends State<DetailDokter> {
                   isLarge: false,
                   ukuran: MediaQuery.of(context).size.width / 2 - 35,
                   onTap: () {
-                    context.read<ChatBloc>().add(GetDetailChatEvent(
+                    context.read<GetChatDoctorBloc>().add(GetChatDoctorAction(
                           doctorId: int.parse(widget.doctor.id.toString()),
                         ));
                   },
@@ -84,26 +85,26 @@ class _DetailDokterState extends State<DetailDokter> {
       ),
       body: BlocListener<ChatBloc, ChatState>(
         listener: (context, stateChat) {
-          if (stateChat is ChatLoaded) {
-            context.goNamed(
-              'chat_dokter',
-              extra: {
-                'doctor': widget.doctor,
-                'chats': stateChat.chats
-                    .where((element) => element.doctor.id == widget.doctor.id)
-                    .first,
-              },
-              pathParameters: {
-                'name': widget.doctor.kategori,
-                'id': widget.doctor.id.toString(),
-                'name_dokter': widget.doctor.name,
-              },
-            );
-          } else if (stateChat is ChatError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(stateChat.message)),
-            );
-          }
+          // if (stateChat is ChatLoaded) {
+          //   context.goNamed(
+          //     'chat_dokter',
+          //     extra: {
+          //       'doctor': widget.doctor,
+          //       'chats': stateChat.chats
+          //           .where((element) => element.doctor.id == widget.doctor.id)
+          //           .first,
+          //     },
+          //     pathParameters: {
+          //       'name': widget.doctor.kategori,
+          //       'id': widget.doctor.id.toString(),
+          //       'name_dokter': widget.doctor.name,
+          //     },
+          //   );
+          // } else if (stateChat is ChatError) {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(content: Text(stateChat.message)),
+          //   );
+          // }
         },
         child: Container(
           padding: MySpacing.paddingInsetPage,

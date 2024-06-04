@@ -49,8 +49,20 @@ void _initChat() {
     ..registerLazySingleton(
       () => ChatBloc(
         getChat: serviceLocator(),
-        addChat: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => GetChatDoctorBloc(
         getDetailChat: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => AddChatBloc(
+        addChat: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => MessageByIdBloc(
         getMessageById: serviceLocator(),
       ),
     );

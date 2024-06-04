@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/message_by_id/message_by_id_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketConfig {
   late IO.Socket socket;
-  final String url = "http://192.168.100.32:3000";
+  final String url = "http://192.168.18.75:3000";
   final BuildContext context;
 
   SocketConfig({required this.context});
@@ -22,18 +23,23 @@ class SocketConfig {
     });
 
     socket.on("message", (msg) {
-      context.read<ChatBloc>().add(GetChatsEvent());
+      Future.delayed(const Duration(milliseconds: 500), () {
+        context.read<MessageByIdBloc>().add(GetMessageByIdEvent(chatId: 1));
+        context.read<ChatBloc>().add(GetChatsEvent());
+      });
     });
   }
 
   void handleSendMessage(
       {required String message,
+      required int chatId,
       required int receiverId,
       required int senderId}) {
     socket.emit('message', {
       "message": message,
       "sender_id": senderId,
       "receiver_id": receiverId,
+      "chatId": chatId,
     });
   }
 }

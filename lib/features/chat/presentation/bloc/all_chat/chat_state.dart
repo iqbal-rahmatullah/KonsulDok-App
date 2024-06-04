@@ -18,15 +18,3 @@ final class ChatError extends ChatState {
 
   ChatError({required this.message});
 }
-
-final class ChatAdded extends ChatState {
-  final List<Chat> chats;
-
-  ChatAdded({required this.chats});
-}
-
-final class ChatDetailLoaded extends ChatState {
-  final List<ChatDetail> chatDetails;
-
-  ChatDetailLoaded({required this.chatDetails});
-}

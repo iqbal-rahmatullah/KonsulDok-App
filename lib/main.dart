@@ -4,7 +4,10 @@ import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bl
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/add_chat/add_chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/get_chat_doctor/get_chat_doctor_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/message_by_id/message_by_id_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
@@ -43,6 +46,15 @@ void main() async {
       ),
       BlocProvider<ChatBloc>(
         create: (context) => serviceLocator<ChatBloc>()..add(GetChatsEvent()),
+      ),
+      BlocProvider<AddChatBloc>(
+        create: (context) => serviceLocator<AddChatBloc>(),
+      ),
+      BlocProvider<MessageByIdBloc>(
+        create: (context) => serviceLocator<MessageByIdBloc>(),
+      ),
+      BlocProvider<GetChatDoctorBloc>(
+        create: (context) => serviceLocator<GetChatDoctorBloc>(),
       ),
       BlocProvider<RatingBloc>(
         create: (context) => serviceLocator<RatingBloc>(),

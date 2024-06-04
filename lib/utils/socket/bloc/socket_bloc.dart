@@ -21,6 +21,7 @@ class SocketBloc extends Bloc<SocketEvent, SocketState> {
         message: event.message,
         receiverId: event.receiverId,
         senderId: event.senderId,
+        chatId: event.chatId,
       );
     });
   }

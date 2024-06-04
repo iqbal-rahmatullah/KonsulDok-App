@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:konsul_dok/features/chat/presentation/bloc/chat_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -44,9 +44,9 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listener: (context, state) {
-          if (state is ChatDetailLoaded) {
-            context.read<ChatBloc>().add(GetChatsEvent());
-          }
+          // if (state is ChatDetailLoaded) {
+          //   context.read<ChatBloc>().add(GetChatsEvent());
+          // }
         },
         builder: (context, state) {
           if (state is ChatLoaded) {
