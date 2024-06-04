@@ -27,8 +27,6 @@ Widget buttonPoliklinik(
             shadowColor: Colors.transparent,
           ),
           child: Image.asset(
-            "assets/images/icon_poliklinik/${image}",
-            width: MediaQuery.sizeOf(context).width * 0.1,
             "assets/images/icon_poliklinik/$image",
             width: 25,
           ),
