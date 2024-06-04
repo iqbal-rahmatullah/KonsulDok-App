@@ -20,6 +20,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool isDoctor = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -38,6 +40,10 @@ class _ProfilePageState extends State<ProfilePage> {
         }
       },
       builder: (context, state) {
+        if (state is AuthGetUserSuccess) {
+          isDoctor = state.user.role == "doctor" ? true : false;
+        }
+
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -106,7 +112,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          context.goNamed('edit_profile',
+                          context.goNamed(
+                              isDoctor ? 'edit_profile_doctor' : 'edit_profile',
                               extra: state is AuthGetUserSuccess
                                   ? state.user
                                   : null);
@@ -151,7 +158,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          context.goNamed('change_password');
+                          context.goNamed(isDoctor
+                              ? 'change_password_doctor'
+                              : 'change_password');
                         },
                       ),
                       const SizedBox(
@@ -172,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: MyColor.biru,
                         ),
                         onTap: () {
-                          context.goNamed('faq');
+                          context.goNamed(isDoctor ? 'faq_doctor' : 'faq');
                         },
                       ),
                       const SizedBox(

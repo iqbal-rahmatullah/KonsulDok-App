@@ -193,7 +193,31 @@ final GoRouter router = GoRouter(routes: [
             user: patient,
           );
         },
-      )
+      ),
+      GoRoute(
+        path: 'change_password',
+        name: "change_password_doctor",
+        builder: (context, state) {
+          return const UbahSandiPage();
+        },
+      ),
+      GoRoute(
+        path: 'edit_profile',
+        name: "edit_profile_doctor",
+        builder: (context, state) {
+          final User user = state.extra as User;
+          return EditProfilePage(
+            user: user,
+          );
+        },
+      ),
+      GoRoute(
+        path: 'faq',
+        name: "faq_doctor",
+        builder: (context, state) {
+          return const FaqPage();
+        },
+      ),
     ],
   ),
   GoRoute(
