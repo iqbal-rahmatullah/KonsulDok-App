@@ -40,6 +40,10 @@ class _FavoritePageState extends State<FavoritePage> {
             if (state is GetFavoriteLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is GetFavoriteSuccess) {
+              if (state.favorites.isEmpty) {
+                return const Center(
+                    child: Text('Anda belum mempunyai favorite dokter'));
+              }
               return Column(
                 children: state.favorites.map((e) {
                   return CardFavoriteDoctor(

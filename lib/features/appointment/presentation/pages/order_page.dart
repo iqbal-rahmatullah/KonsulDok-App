@@ -253,17 +253,31 @@ class _OrderPageState extends State<OrderPage> {
             child: BlocBuilder<ClockAppointmentBloc, ClockAppointmentState>(
                 builder: (context, state) {
               if (state is ClockAppointmentLoaded) {
+                DateTime now = DateTime.now();
+                DateTime limitTime = now.subtract(const Duration(hours: 1));
+
                 return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: Clock.date.length,
                     itemBuilder: (context, index) {
+                      DateTime clockTime = DateTime(
+                        formData['date'].year,
+                        formData['date'].month,
+                        formData['date'].day,
+                        int.parse(Clock.date[index].split(':')[0]),
+                        int.parse(Clock.date[index].split(':')[1]),
+                      );
+
+                      bool isDisabled = state.clockAppointments
+                              .any((e) => e.time == Clock.date[index]) ||
+                          clockTime.isBefore(limitTime);
+
                       return Row(
                         children: [
                           customRadioButton(
                             label: Clock.date[index],
                             isSelected: formData['time'] == index,
-                            isDisabled: state.clockAppointments
-                                .any((e) => e.time == Clock.date[index]),
+                            isDisabled: isDisabled,
                             onTap: () {
                               setState(() {
                                 formData['time'] = index;

@@ -16,7 +16,7 @@ Widget customRadioButton({
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: (isSelected) ? MyColor.gradientBiru : null,
-        color: isDisabled ? MyColor.buttonDisabled.withOpacity(0.15) : null,
+        color: isDisabled ? MyColor.buttonDisabled.withOpacity(0.3) : null,
         border: (!isSelected || isDisabled)
             ? Border.all(
                 color: const Color(0xff6B779A).withOpacity(0.1),
