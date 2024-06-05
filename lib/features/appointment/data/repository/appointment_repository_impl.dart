@@ -61,4 +61,17 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
       return Left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateStatusAppointment(
+      {required int appointmentId, required String status}) async {
+    try {
+      final response =
+          await appointmentRemoteDataSource.updateStatusAppointment(
+              appointmentId: appointmentId, status: status);
+      return Right(response);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
 }

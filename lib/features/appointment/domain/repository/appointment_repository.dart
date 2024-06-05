@@ -18,4 +18,7 @@ abstract class AppointmentRepository {
 
   Future<Either<Failure, List<ClockAppointment>>> getClockAppointment(
       {required int doctorId, required String date});
+
+  Future<Either<Failure, void>> updateStatusAppointment(
+      {required int appointmentId, required String status});
 }

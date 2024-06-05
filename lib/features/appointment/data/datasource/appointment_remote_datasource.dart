@@ -18,6 +18,8 @@ abstract class AppointmentRemoteDataSource {
   Future<List<AppointmentPatientModel>> getDetailAppointmentDoctor();
   Future<List<ClockAppointmentModel>> getClockAppointment(
       {required int doctorId, required String date});
+  Future<void> updateStatusAppointment(
+      {required int appointmentId, required String status});
 }
 
 class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
@@ -157,6 +159,37 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 404) {
         return [];
+      }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> updateStatusAppointment(
+      {required int appointmentId, required String status}) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
+      await dio
+          .put(
+            '${ApiEnv.apiUrl}/appointment/$appointmentId',
+            data: {
+              'status': status,
+            },
+            options: Options(
+              headers: {
+                'Authorization': session,
+              },
+            ),
+          )
+          .timeout(const Duration(seconds: 10));
+    } catch (e) {
+      if (e is DioException && e.response!.statusCode == 404) {
+        throw ServerException(e.response!.data['message']);
       }
       throw ServerException(e.toString());
     }

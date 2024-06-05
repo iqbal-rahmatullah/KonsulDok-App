@@ -7,6 +7,7 @@ Widget myButtonWidget(
     bool isLarge = true,
     double? ukuran,
     required Function onTap,
+    bool isDisabled = false,
     Color? color,
     bool isLoading = false}) {
   return Container(
@@ -22,7 +23,7 @@ Widget myButtonWidget(
       color: color,
     ),
     child: ElevatedButton(
-        onPressed: isLoading ? null : () => onTap(),
+        onPressed: isLoading || isDisabled ? null : () => onTap(),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

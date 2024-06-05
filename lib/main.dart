@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/update_status_appointment/update_status_appointment_bloc.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/add_chat/add_chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
@@ -50,6 +51,9 @@ void main() async {
       ),
       BlocProvider<ClockAppointmentBloc>(
         create: (context) => serviceLocator<ClockAppointmentBloc>(),
+      ),
+      BlocProvider<UpdateStatusAppointmentBloc>(
+        create: (context) => serviceLocator<UpdateStatusAppointmentBloc>(),
       ),
       BlocProvider<ChatBloc>(
         create: (context) => serviceLocator<ChatBloc>()..add(GetChatsEvent()),

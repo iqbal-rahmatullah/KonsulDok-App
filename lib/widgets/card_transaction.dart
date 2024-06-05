@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -63,13 +64,39 @@ Widget cardTransaction({
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          pageDoctor
-                              ? appointment.patient.name
-                              : appointment.doctor.name,
-                          style: MyTextStyle.subheder.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              pageDoctor
+                                  ? appointment.patient.name
+                                  : appointment.doctor.name,
+                              style: MyTextStyle.subheder.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 7),
+                              decoration: BoxDecoration(
+                                color: (appointment.status == "ongoing")
+                                    ? MyColor.biru
+                                    : (appointment.status == "done")
+                                        ? MyColor.colorSnackbar['success_icon']
+                                        : MyColor.colorSnackbar['error_icon'],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                appointment.status,
+                                textAlign: TextAlign.left,
+                                style: MyTextStyle.deskripsi
+                                    .copyWith(color: MyColor.putih),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 3,

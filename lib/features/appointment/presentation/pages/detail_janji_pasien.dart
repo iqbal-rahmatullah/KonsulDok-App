@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
+import 'package:konsul_dok/features/appointment/domain/usecase/get_appointment_patient.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/bloc/update_status_appointment/update_status_appointment_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
+import 'package:konsul_dok/widgets/custom_snackbar.dart';
 
 class DetailJanjiPasien extends StatefulWidget {
   final AppointmentPatient appointmentPatient;
@@ -32,37 +39,110 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
       ),
       bottomNavigationBar: Padding(
         padding: MySpacing.paddingInsetPage.copyWith(bottom: 20),
-        child: myButtonWidget(
-            text: "Batalkan", onTap: () {}, color: const Color(0xffFF6161)),
+        child: widget.pageDoctor
+            ? myButtonWidget(
+                text: "Tandai telah selesai",
+                onTap: () {},
+                color: const Color(0xff49D95D),
+              )
+            : widget.appointmentPatient.status == "ongoing"
+                ? myButtonWidget(
+                    text: "Batalkan",
+                    onTap: () {
+                      showModalCancel();
+                    },
+                    color: const Color(0xffFF6161),
+                  )
+                : (widget.appointmentPatient.status == "done")
+                    ? myButtonWidget(
+                        text: "Buat ulasan",
+                        onTap: () {},
+                        color: const Color(0xff5FA1FF),
+                      )
+                    : null,
       ),
-      body: Container(
-        padding: MySpacing.paddingInsetPage,
-        child: Column(
-          children: [
-            cardHome(),
-            const SizedBox(
-              height: 15,
-            ),
-            detailDokter(),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: Divider(
-                color: MyColor.abuText,
-                thickness: 1,
+      body: BlocListener<UpdateStatusAppointmentBloc,
+          UpdateStatusAppointmentState>(
+        listener: (context, state) {
+          if (state is UpdateStatusAppointmentSuccess) {
+            Navigator.of(context).pop();
+            CustomSnackbar.showSuccessSnackbar(
+                context, "Berhasil membatalkan appointment");
+
+            Future.delayed(const Duration(milliseconds: 500), () {
+              context
+                  .read<AppointmentPatientBloc>()
+                  .add(GetAppointmentPatientEvent());
+              context.goNamed('home');
+            });
+          } else if (state is UpdateStatusAppointmentError) {
+            CustomSnackbar.showErrorSnackbar(context, state.message);
+          }
+        },
+        child: Container(
+          padding: MySpacing.paddingInsetPage,
+          child: Column(
+            children: [
+              cardHome(),
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            detailJanji(),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: Divider(
-                color: MyColor.abuText,
-                thickness: 1,
+              detailDokter(),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Divider(
+                  color: MyColor.abuText,
+                  thickness: 1,
+                ),
               ),
-            ),
-            detailPasien(),
-          ],
+              detailJanji(),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Divider(
+                  color: MyColor.abuText,
+                  thickness: 1,
+                ),
+              ),
+              detailPasien(),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Future<void> showModalCancel() {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text('Apakah Anda yakin ingin membatalkan janji ini?',
+                  style: MyTextStyle.subheder),
+              const SizedBox(height: 20),
+              BlocBuilder<UpdateStatusAppointmentBloc,
+                  UpdateStatusAppointmentState>(
+                builder: (context, state) {
+                  return myButtonWidget(
+                    text: "Konfirmasi Pembatalan",
+                    color: MyColor.colorSnackbar['error_icon'],
+                    onTap: () {
+                      context.read<UpdateStatusAppointmentBloc>().add(
+                          OnUpdateStatusAppointment(
+                              widget.appointmentPatient.id, "cancel"));
+                    },
+                    isLoading: state is UpdateStatusAppointmentLoading,
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -175,6 +255,40 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
     );
   }
 
+  Widget statusBar(String label, String isi) {
+    return Column(
+      children: [
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              textAlign: TextAlign.left,
+              style: MyTextStyle.deskripsi.copyWith(color: MyColor.blackAppbar),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 7),
+              decoration: BoxDecoration(
+                color: (isi == "ongoing")
+                    ? MyColor.biru
+                    : (isi == "done")
+                        ? MyColor.colorSnackbar['success_icon']
+                        : MyColor.colorSnackbar['error_icon'],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                isi,
+                textAlign: TextAlign.left,
+                style: MyTextStyle.deskripsi.copyWith(color: MyColor.putih),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget detailDokter() {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -211,7 +325,7 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
           ),
           rowDescript("Tanggal", widget.appointmentPatient.date),
           rowDescript("Jam", "${widget.appointmentPatient.time} WIB"),
-          rowDescript("Status", widget.appointmentPatient.status),
+          statusBar("Status", widget.appointmentPatient.status),
         ],
       ),
     );

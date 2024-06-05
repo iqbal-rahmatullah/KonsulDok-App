@@ -144,6 +144,16 @@ void _initAppointment() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => UpdateStatusAppointmentCase(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => UpdateStatusAppointmentBloc(
+        updateStatusAppointmentCase: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => AppointmentBloc(
         createAppointment: serviceLocator(),
