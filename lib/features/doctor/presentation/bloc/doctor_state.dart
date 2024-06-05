@@ -13,12 +13,6 @@ final class DoctorGetCategoryLoaded extends DoctorState {
   DoctorGetCategoryLoaded({required this.doctors});
 }
 
-final class DoctorGetByIdLoaded extends DoctorState {
-  final Doctor doctor;
-
-  DoctorGetByIdLoaded({required this.doctor});
-}
-
 final class DoctorError extends DoctorState {
   final String message;
 

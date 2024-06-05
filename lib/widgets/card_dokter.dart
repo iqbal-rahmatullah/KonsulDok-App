@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
@@ -41,11 +43,20 @@ Widget cardDokter({required BuildContext context, required Doctor doctor}) {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Icon(
-                      Icons.favorite_border_outlined,
-                      size: 20,
-                      color: MyColor.abuForm,
-                    )
+                    // BlocBuilder<CheckFavoriteBloc, CheckFavoriteState>(
+                    //   builder: (context, state) {
+                    //     if (state is CheckFavoriteSuccess) {
+                    //       return Icon(
+                    //         Icons.favorite,
+                    //         size: 20,
+                    //         color: state.isFavorite
+                    //             ? MyColor.biruIndicator
+                    //             : MyColor.abuText,
+                    //       );
+                    //     }
+                    //     return SizedBox();
+                    //   },
+                    // )
                   ],
                 ),
                 subtitle: Column(

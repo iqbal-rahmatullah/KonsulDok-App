@@ -6,7 +6,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketConfig {
   late IO.Socket socket;
-  final String url = "http://192.168.18.75:3000";
+  final String url = "http://192.168.18.75:300";
   final BuildContext context;
 
   SocketConfig({required this.context});

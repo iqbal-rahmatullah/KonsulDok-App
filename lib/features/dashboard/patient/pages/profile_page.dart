@@ -6,7 +6,7 @@ import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
-import 'package:konsul_dok/pages/favorite_page.dart';
+import 'package:konsul_dok/features/favorite/presentation/pages/favorite_page.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -130,27 +130,33 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 5,
                       ),
-                      MenuProfile(
-                        text: "Favorit",
-                        icon: const Icon(
-                          Icons.favorite,
-                          color: MyColor.biru,
-                        ),
-                        onTap: () {
-                          const FavoritePage();
-                        },
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Divider(
-                        color: MyColor.abuDivider,
-                        thickness: 1,
-                        height: 15,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      (isDoctor)
+                          ? const SizedBox()
+                          : Column(
+                              children: [
+                                MenuProfile(
+                                  text: "Favorit",
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: MyColor.biru,
+                                  ),
+                                  onTap: () {
+                                    context.goNamed('favorite');
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                const Divider(
+                                  color: MyColor.abuDivider,
+                                  thickness: 1,
+                                  height: 15,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            ),
                       MenuProfile(
                         text: "Ubah sandi",
                         icon: const Icon(

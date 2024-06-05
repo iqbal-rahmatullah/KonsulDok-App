@@ -8,9 +8,3 @@ final class DoctorGetCategory extends DoctorEvent {
 
   DoctorGetCategory({required this.name});
 }
-
-final class DoctorGetById extends DoctorEvent {
-  final String id;
-
-  DoctorGetById({required this.id});
-}

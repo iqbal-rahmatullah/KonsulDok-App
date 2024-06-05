@@ -15,6 +15,7 @@ import 'package:konsul_dok/features/dashboard/patient/pages/faq_page.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
+import 'package:konsul_dok/features/favorite/presentation/pages/favorite_page.dart';
 import 'package:konsul_dok/main.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/edit_profile_pages.dart';
 import 'package:konsul_dok/pages/loading_page.dart';
@@ -142,6 +143,13 @@ final GoRouter router = GoRouter(routes: [
         name: "change_password",
         builder: (context, state) {
           return const UbahSandiPage();
+        },
+      ),
+      GoRoute(
+        path: 'favorite',
+        name: "favorite",
+        builder: (context, state) {
+          return const FavoritePage();
         },
       ),
       GoRoute(

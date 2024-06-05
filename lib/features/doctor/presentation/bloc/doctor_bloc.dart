@@ -9,25 +9,15 @@ part 'doctor_state.dart';
 
 class DoctorBloc extends Bloc<DoctorEvent, DoctorState> {
   final GetDoctorByCategory _getDoctorByCategory;
-  final GetDoctorById _getDoctorById;
 
-  DoctorBloc(
-      {required GetDoctorByCategory getDoctorByCategory,
-      required GetDoctorById getDoctorById})
-      : _getDoctorByCategory = getDoctorByCategory,
-        _getDoctorById = getDoctorById,
+  DoctorBloc({
+    required GetDoctorByCategory getDoctorByCategory,
+  })  : _getDoctorByCategory = getDoctorByCategory,
         super(DoctorInitial()) {
     on<DoctorEvent>((event, emit) {
       emit(DoctorLoading());
     });
     on<DoctorGetCategory>(_doctorGetCategory);
-    on<DoctorGetById>(
-      (event, emit) async {
-        final result = await _getDoctorById(GetDoctorByIdParams(id: event.id));
-        result.fold((failure) => emit(DoctorError(message: failure.message)),
-            (doctor) => emit(DoctorGetByIdLoaded(doctor: doctor)));
-      },
-    );
   }
 
   void _doctorGetCategory(event, emit) async {

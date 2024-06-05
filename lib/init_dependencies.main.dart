@@ -8,6 +8,7 @@ Future<void> initDependencies() async {
   _initAppointment();
   _initRating();
   _initChat();
+  _initFavorite();
 
   final Dio dio = Dio();
   serviceLocator.registerLazySingleton(() => dio);
@@ -74,6 +75,38 @@ void _initChat() {
     ..registerLazySingleton(
       () => OpenChatBloc(
         openChat: serviceLocator(),
+      ),
+    );
+}
+
+void _initFavorite() {
+  serviceLocator
+    ..registerFactory<FavoriteRemoteDataSource>(() =>
+        FavoriteRemoteDataSourceImpl(
+            box: serviceLocator(), dio: serviceLocator()))
+    ..registerFactory<FavoriteRepository>(
+      () => FavoriteRepositoryImpl(
+        favoriteRemoteDataSource: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetFavoriteCase(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => AddFavoriteCase(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => GetFavoriteBloc(
+        getFavoriteCase: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => AddFavoriteBloc(
+        addFavoriteCase: serviceLocator(),
       ),
     );
 }
@@ -150,10 +183,34 @@ void _initDoctor() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => DeleteFavoriteCase(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => CheckFavoriteCase(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => DoctorBloc(
         getDoctorByCategory: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => GetDoctorByIdBloc(
         getDoctorById: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => CheckFavoriteBloc(
+        checkFavoriteCase: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => DeleteFavoriteBloc(
+        deleteFavoriteCase: serviceLocator(),
       ),
     );
 }

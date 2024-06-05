@@ -12,6 +12,7 @@ class Doctor {
   final String name;
   final int? averageRating;
   final int? totalRating;
+  bool isFavorite;
 
   Doctor({
     required this.id,
@@ -24,5 +25,6 @@ class Doctor {
     required this.name,
     this.averageRating,
     this.totalRating,
+    this.isFavorite = false,
   });
 }

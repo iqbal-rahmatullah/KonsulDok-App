@@ -11,7 +11,13 @@ import 'package:konsul_dok/features/chat/presentation/bloc/message_by_id/message
 import 'package:konsul_dok/features/chat/presentation/bloc/open_chat/open_chat_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
+import 'package:konsul_dok/features/doctor/domain/usecase/get_doctor_by_id.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
+import 'package:konsul_dok/features/doctor/presentation/bloc/get_doctor_by_id/get_doctor_by_id_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/add_favorite/add_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/delete_favorite/delete_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -57,11 +63,26 @@ void main() async {
       BlocProvider<GetChatDoctorBloc>(
         create: (context) => serviceLocator<GetChatDoctorBloc>(),
       ),
+      BlocProvider<GetDoctorByIdBloc>(
+        create: (context) => serviceLocator<GetDoctorByIdBloc>(),
+      ),
       BlocProvider<OpenChatBloc>(
         create: (context) => serviceLocator<OpenChatBloc>(),
       ),
       BlocProvider<RatingBloc>(
         create: (context) => serviceLocator<RatingBloc>(),
+      ),
+      BlocProvider<GetFavoriteBloc>(
+        create: (context) => serviceLocator<GetFavoriteBloc>(),
+      ),
+      BlocProvider<AddFavoriteBloc>(
+        create: (context) => serviceLocator<AddFavoriteBloc>(),
+      ),
+      BlocProvider<CheckFavoriteBloc>(
+        create: (context) => serviceLocator<CheckFavoriteBloc>(),
+      ),
+      BlocProvider<DeleteFavoriteBloc>(
+        create: (context) => serviceLocator<DeleteFavoriteBloc>(),
       ),
       BlocProvider<SocketBloc>(
         create: (context) =>

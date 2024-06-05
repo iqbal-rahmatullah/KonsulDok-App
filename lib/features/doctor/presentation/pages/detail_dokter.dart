@@ -8,6 +8,10 @@ import 'package:konsul_dok/features/chat/presentation/bloc/open_chat/open_chat_b
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/loading/loading_detail_dokter_page.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/add_favorite/add_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/delete_favorite/delete_favorite_bloc.dart';
+import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
@@ -31,6 +35,14 @@ class DetailDokter extends StatefulWidget {
 }
 
 class _DetailDokterState extends State<DetailDokter> {
+  @override
+  void initState() {
+    context
+        .read<CheckFavoriteBloc>()
+        .add(OnCheckFavorite(doctorId: widget.doctor.id));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<RatingBloc>(context).add(GetRatingByDoctorEvent(widget.id));
@@ -214,11 +226,57 @@ class _DetailDokterState extends State<DetailDokter> {
               )
             ],
           ),
-          const Icon(
-            Icons.favorite_border_outlined,
-            size: 20,
-            color: MyColor.abuForm,
-          )
+          BlocListener<DeleteFavoriteBloc, DeleteFavoriteState>(
+            listener: (context, state) {
+              if (state is DeleteFavoriteSuccess) {
+                context
+                    .read<CheckFavoriteBloc>()
+                    .add(OnCheckFavorite(doctorId: widget.doctor.id));
+              }
+            },
+            child: BlocListener<AddFavoriteBloc, AddFavoriteState>(
+              listener: (context, state) {
+                if (state is AddFavoriteSuccess) {
+                  context
+                      .read<CheckFavoriteBloc>()
+                      .add(OnCheckFavorite(doctorId: widget.doctor.id));
+                }
+              },
+              child: BlocBuilder<CheckFavoriteBloc, CheckFavoriteState>(
+                builder: (context, state) {
+                  if (state is CheckFavoriteSuccess) {
+                    return InkWell(
+                      onTap: () {
+                        state.isFavorite
+                            ? {
+                                context
+                                    .read<DeleteFavoriteBloc>()
+                                    .add(OnDeleteFavorite(widget.doctor.id))
+                              }
+                            : context
+                                .read<AddFavoriteBloc>()
+                                .add(OnAddFavorite(widget.doctor.id));
+                      },
+                      borderRadius: BorderRadius.circular(50),
+                      splashColor: Colors.grey.withOpacity(0.2),
+                      highlightColor: Colors.grey.withOpacity(0.1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Icon(
+                          Icons.favorite,
+                          size: 20,
+                          color: state.isFavorite
+                              ? MyColor.biruIndicator
+                              : MyColor.abuForm,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
