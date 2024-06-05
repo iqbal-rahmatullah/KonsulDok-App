@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:konsul_dok/features/chat/data/model/chat_detail_model.dart';
 import 'package:konsul_dok/features/chat/data/model/chat_model.dart';
+import 'package:konsul_dok/features/chat/domain/entities/chat.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
 import 'package:konsul_dok/utils/api.dart';
 import 'package:konsul_dok/utils/error/exception.dart';
@@ -13,8 +14,11 @@ abstract class ChatRemoteDataSource {
     required int sender_id,
     required int receive_id,
   });
-  Future<List<ChatDetail>> getChatDetail(int doctorId);
+  Future<ChatModel> getChatDetail(int doctorId);
   Future<List<ChatDetail>> getMessageByIdChat(int chatId);
+  Future<int> openChat({
+    required int receiverId,
+  });
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -91,7 +95,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }
 
   @override
-  Future<List<ChatDetail>> getChatDetail(int doctorId) async {
+  Future<ChatModel> getChatDetail(int doctorId) async {
     try {
       final session = box.get('token');
 
@@ -108,15 +112,10 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         ),
       );
 
-      List<ChatDetailModel> chats = [];
-      for (var item in response.data['data']['chat']) {
-        chats.add(ChatDetailModel.fromJson(item));
-      }
-
-      return chats;
+      return ChatModel.fromJson(response.data['data']);
     } catch (e) {
       if (e is DioException && e.response!.statusCode == 404) {
-        return [];
+        throw NotFoundException(e.response!.data['message']);
       }
       throw ServerException(e.toString());
     }
@@ -150,6 +149,33 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       if (e is DioException && e.response!.statusCode == 404) {
         return [];
       }
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<int> openChat({required int receiverId}) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+
+      final response = await dio.post(
+        '${ApiEnv.apiUrl}/chat/open-chat',
+        data: {
+          'receive_id': receiverId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': session,
+          },
+        ),
+      );
+
+      return response.data['data']['id'];
+    } catch (e) {
       throw ServerException(e.toString());
     }
   }

@@ -39,12 +39,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, List<ChatDetail>>> getChatDetail(int doctorId) async {
+  Future<Either<Failure, Chat>> getChatDetail(int doctorId) async {
     try {
       final result = await remoteDataSource.getChatDetail(doctorId);
       return Right(result);
-    } on NotFoundException catch (_) {
-      return const Right([]);
+    } on NotFoundException catch (e) {
+      return Left(NotFoundFailure(e.message));
     } on ServerException catch (e) {
       return Left(Failure(e.message));
     }
@@ -58,6 +58,16 @@ class ChatRepositoryImpl implements ChatRepository {
       return Right(result);
     } on NotFoundException catch (_) {
       return const Right([]);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> openChat({required int receiverId}) async {
+    try {
+      final result = await remoteDataSource.openChat(receiverId: receiverId);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(Failure(e.message));
     }

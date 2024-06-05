@@ -8,6 +8,7 @@ import 'package:konsul_dok/features/chat/presentation/bloc/add_chat/add_chat_blo
 import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/get_chat_doctor/get_chat_doctor_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/message_by_id/message_by_id_bloc.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/open_chat/open_chat_bloc.dart';
 import 'package:konsul_dok/features/dashboard/doctor/cubit/navbar_doctor_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/doctor/presentation/bloc/doctor_bloc.dart';
@@ -55,6 +56,9 @@ void main() async {
       ),
       BlocProvider<GetChatDoctorBloc>(
         create: (context) => serviceLocator<GetChatDoctorBloc>(),
+      ),
+      BlocProvider<OpenChatBloc>(
+        create: (context) => serviceLocator<OpenChatBloc>(),
       ),
       BlocProvider<RatingBloc>(
         create: (context) => serviceLocator<RatingBloc>(),

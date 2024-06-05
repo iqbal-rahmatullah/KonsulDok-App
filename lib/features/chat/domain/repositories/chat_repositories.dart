@@ -10,6 +10,9 @@ abstract class ChatRepository {
     required int sender_id,
     required int receive_id,
   });
-  Future<Either<Failure, List<ChatDetail>>> getChatDetail(int doctorId);
+  Future<Either<Failure, Chat>> getChatDetail(int doctorId);
   Future<Either<Failure, List<ChatDetail>>> getMessageByIdChat(int chatId);
+  Future<Either<Failure, int>> openChat({
+    required int receiverId,
+  });
 }

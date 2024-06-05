@@ -15,9 +15,11 @@ class ChatModel extends Chat {
   factory ChatModel.fromJson(Map<String, dynamic> json) {
     return ChatModel(
       id: json['id'],
-      chat: (json['chat'] as List).map((item) {
-        return ChatDetailModel.fromJson(item);
-      }).toList(),
+      chat: json['chat'] == null || (json['chat'] as List).isEmpty
+          ? <ChatDetailModel>[]
+          : (json['chat'] as List)
+              .map((item) => ChatDetailModel.fromJson(item))
+              .toList(),
       doctor: DoctorModel.fromJson(json['doctor']),
       patient: UserModel.fromJson(json['patient']),
     );

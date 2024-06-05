@@ -5,14 +5,13 @@ import 'package:konsul_dok/features/chat/domain/repositories/chat_repositories.d
 import 'package:konsul_dok/utils/error/failure.dart';
 import 'package:konsul_dok/utils/usecase/usecase.dart';
 
-class GetDetailChatCase extends UseCase<List<ChatDetail>, GetDetailChatParams> {
+class GetDetailChatCase extends UseCase<Chat, GetDetailChatParams> {
   final ChatRepository chatRepository;
 
   GetDetailChatCase({required this.chatRepository});
 
   @override
-  Future<Either<Failure, List<ChatDetail>>> call(
-      GetDetailChatParams params) async {
+  Future<Either<Failure, Chat>> call(GetDetailChatParams params) async {
     return await chatRepository.getChatDetail(params.idDoctor);
   }
 }

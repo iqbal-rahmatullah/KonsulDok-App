@@ -43,11 +43,7 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
-        listener: (context, state) {
-          // if (state is ChatDetailLoaded) {
-          //   context.read<ChatBloc>().add(GetChatsEvent());
-          // }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is ChatLoaded) {
             if (state.chats.isEmpty) {

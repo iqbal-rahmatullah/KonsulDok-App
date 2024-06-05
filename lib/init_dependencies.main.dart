@@ -46,6 +46,11 @@ void _initChat() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => OpenChat(
+        repository: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => ChatBloc(
         getChat: serviceLocator(),
@@ -64,6 +69,11 @@ void _initChat() {
     ..registerLazySingleton(
       () => MessageByIdBloc(
         getMessageById: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => OpenChatBloc(
+        openChat: serviceLocator(),
       ),
     );
 }
