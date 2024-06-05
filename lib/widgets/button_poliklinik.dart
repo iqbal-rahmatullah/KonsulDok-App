@@ -21,7 +21,7 @@ Widget buttonPoliklinik(
             context.goNamed('poli', pathParameters: {'name': title});
           },
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(7),
+            padding: const EdgeInsets.all(0),
             shape: const CircleBorder(),
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,

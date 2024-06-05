@@ -4,6 +4,7 @@ import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_pa
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/dashboard/patient/cubit/navbar_cubit.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/loading/loading_home_page.dart';
+import 'package:konsul_dok/utils/const.dart';
 import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
 import 'package:konsul_dok/widgets/card_transaction.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -95,13 +96,13 @@ class _HomePageState extends State<HomePage> {
                   )),
             ],
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications_active,
-              color: MyColor.biru,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(
+          //     Icons.notifications_active,
+          //     color: MyColor.biru,
+          //   ),
+          // ),
         ],
       ),
     );
@@ -113,45 +114,12 @@ class _HomePageState extends State<HomePage> {
         child: textField(
             hintText: "Cari poliklinik",
             prefixIcon: const Icon(Icons.search),
-            controller: TextEditingController()));
+            onTap: () {
+              showModalPoli(focus: true);
+            }));
   }
 
   Widget menuPoliklinik() {
-    const polikliknik = [
-      {
-        "name": "Umum",
-        "image": "poli_umum.png",
-      },
-      {
-        "name": "Gigi",
-        "image": "poli_gigi.png",
-      },
-      {
-        "name": "Mata",
-        "image": "poli_mata.png",
-      },
-      {
-        "name": "Anak",
-        "image": "poli_anak.png",
-      },
-      {
-        "name": "Kandungan",
-        "image": "poli_kandungan.png",
-      },
-      {
-        "name": "Penyakit Dalam",
-        "image": "poli_penyakit_dalam.png",
-      },
-      {
-        "name": "Jantung",
-        "image": "poli_jantung.png",
-      },
-      {
-        "name": "Bedah",
-        "image": "poli_bedah.png",
-      },
-    ];
-
     return Container(
       margin: MySpacing.defaultMarginItem,
       child: Column(
@@ -165,8 +133,7 @@ class _HomePageState extends State<HomePage> {
               ),
               textAction(
                   onTap: () {
-                    CustomSnackbar.showErrorSnackbar(
-                        context, "Email/password yang anda masukkan salah");
+                    showModalPoli();
                   },
                   text: "Lihat semua"),
             ],
@@ -188,6 +155,40 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> showModalPoli({bool focus = false}) {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            textField(
+              hintText: "Cari poliklinik",
+              prefixIcon: const Icon(Icons.search),
+              controller: TextEditingController(),
+              isFocus: focus,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            GridView.count(
+              padding: EdgeInsets.zero,
+              crossAxisCount: 4,
+              shrinkWrap: true,
+              children: List.generate(polikliknik.length, (index) {
+                return buttonPoliklinik(
+                  title: polikliknik[index]['name']!,
+                  image: polikliknik[index]['image']!,
+                  context: context,
+                );
+              }),
+            ),
+          ]),
+        );
+      },
     );
   }
 

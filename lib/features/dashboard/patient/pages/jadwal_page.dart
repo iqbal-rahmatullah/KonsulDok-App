@@ -43,19 +43,19 @@ class _JadwalPageState extends State<JadwalPage>
           'Jadwal',
           style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
         ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              backgroundColor: MyColor.putihForm,
-            ),
-            onPressed: () {},
-            child: const Icon(
-              Icons.search,
-              color: MyColor.abuForm,
-            ),
-          ),
-        ],
+        // actions: [
+        //   ElevatedButton(
+        //     style: ElevatedButton.styleFrom(
+        //       shape: const CircleBorder(),
+        //       backgroundColor: MyColor.putihForm,
+        //     ),
+        //     onPressed: () {},
+        //     child: const Icon(
+        //       Icons.search,
+        //       color: MyColor.abuForm,
+        //     ),
+        //   ),
+        // ],
         bottom: TabBar(
           tabs: const [
             Tab(

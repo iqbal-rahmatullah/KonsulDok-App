@@ -3,12 +3,18 @@ import 'package:flutter/widgets.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 
-Widget textField(
-    {Icon? prefixIcon,
-    required String hintText,
-    required TextEditingController controller}) {
+Widget textField({
+  Icon? prefixIcon,
+  required String hintText,
+  TextEditingController? controller,
+  void Function()? onTap,
+  bool isFocus = false,
+}) {
   return TextField(
+    onTap: (onTap != null) ? onTap : null,
+    readOnly: (onTap != null) ? true : false,
     controller: controller,
+    focusNode: FocusNode(),
     decoration: InputDecoration(
       hintText: hintText,
       hintStyle: MyTextStyle.deskripsi.copyWith(color: MyColor.abuForm),
