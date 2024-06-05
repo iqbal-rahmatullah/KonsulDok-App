@@ -243,6 +243,26 @@ void _initRating() {
         repository: serviceLocator(),
       ),
     )
+    ..registerFactory(
+      () => CheckRatingAppointmentCase(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => AddRatingCase(
+        repository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => AddRatingBloc(
+        addRatingCase: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => CheckRatingAppointmentBloc(
+        checkRatingAppointmentCase: serviceLocator(),
+      ),
+    )
     ..registerLazySingleton(
       () => RatingBloc(
         getRatingDoctorCase: serviceLocator(),

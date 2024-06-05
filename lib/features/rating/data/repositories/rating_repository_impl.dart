@@ -21,4 +21,26 @@ class RatingRepositoryImpl implements RatingRepository {
       return Left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> checkRatingAppointmet(int appointmentId) async {
+    try {
+      final isRated =
+          await ratingRemoteDataSource.checkRatingAppointmet(appointmentId);
+      return Right(isRated);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addRating(int appointmentId, int rating) async {
+    try {
+      final response =
+          await ratingRemoteDataSource.addRating(appointmentId, rating);
+      return Right(response);
+    } on ServerException catch (e) {
+      return Left(Failure(e.message));
+    }
+  }
 }

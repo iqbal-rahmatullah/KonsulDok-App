@@ -169,13 +169,6 @@ class _HomepageDoctorState extends State<HomepageDoctor>
                       ),
                   ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_active,
-                    color: MyColor.biru,
-                  ),
-                ),
               ],
             ),
           ),

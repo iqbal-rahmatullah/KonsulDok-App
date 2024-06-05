@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/features/appointment/domain/usecase/get_appointment_patient.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/update_status_appointment/update_status_appointment_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/add_rating/add_rating_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/check_rating_appointment/check_rating_appointment_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/spacing.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
@@ -28,6 +31,14 @@ class DetailJanjiPasien extends StatefulWidget {
 
 class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
   @override
+  void initState() {
+    context
+        .read<CheckRatingAppointmentBloc>()
+        .add(OnCheckRatingAppointment(widget.appointmentPatient.id));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,11 +51,15 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
       bottomNavigationBar: Padding(
         padding: MySpacing.paddingInsetPage.copyWith(bottom: 20),
         child: widget.pageDoctor
-            ? myButtonWidget(
-                text: "Tandai telah selesai",
-                onTap: () {},
-                color: const Color(0xff49D95D),
-              )
+            ? widget.appointmentPatient.status == "ongoing"
+                ? myButtonWidget(
+                    text: "Tandai telah selesai",
+                    onTap: () {
+                      showModalSuccess();
+                    },
+                    color: const Color(0xff49D95D),
+                  )
+                : null
             : widget.appointmentPatient.status == "ongoing"
                 ? myButtonWidget(
                     text: "Batalkan",
@@ -54,60 +69,132 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
                     color: const Color(0xffFF6161),
                   )
                 : (widget.appointmentPatient.status == "done")
-                    ? myButtonWidget(
-                        text: "Buat ulasan",
-                        onTap: () {},
-                        color: const Color(0xff5FA1FF),
+                    ? BlocBuilder<CheckRatingAppointmentBloc,
+                        CheckRatingAppointmentState>(
+                        builder: (context, state) {
+                          if (state is CheckRatingAppointmentSuccess) {
+                            return state.isRated
+                                ? const SizedBox()
+                                : myButtonWidget(
+                                    text: "Beri ulasan",
+                                    onTap: () {
+                                      showModalRating();
+                                    },
+                                    color: MyColor.biru,
+                                  );
+                          } else if (state is CheckRatingAppointmentError) {
+                            return Text(state.message);
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       )
                     : null,
       ),
-      body: BlocListener<UpdateStatusAppointmentBloc,
-          UpdateStatusAppointmentState>(
+      body: BlocListener<AddRatingBloc, AddRatingState>(
         listener: (context, state) {
-          if (state is UpdateStatusAppointmentSuccess) {
-            Navigator.of(context).pop();
+          if (state is AddRatingSuccess) {
+            Navigator.pop(context);
             CustomSnackbar.showSuccessSnackbar(
-                context, "Berhasil membatalkan appointment");
-
-            Future.delayed(const Duration(milliseconds: 500), () {
-              context
-                  .read<AppointmentPatientBloc>()
-                  .add(GetAppointmentPatientEvent());
-              context.goNamed('home');
-            });
-          } else if (state is UpdateStatusAppointmentError) {
+                context, "Ulasan berhasil dikirim");
+            context
+                .read<CheckRatingAppointmentBloc>()
+                .add(OnCheckRatingAppointment(widget.appointmentPatient.id));
+          } else if (state is AddRatingError) {
             CustomSnackbar.showErrorSnackbar(context, state.message);
           }
         },
-        child: Container(
-          padding: MySpacing.paddingInsetPage,
-          child: Column(
-            children: [
-              cardHome(),
-              const SizedBox(
-                height: 15,
-              ),
-              detailDokter(),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Divider(
-                  color: MyColor.abuText,
-                  thickness: 1,
+        child: BlocListener<UpdateStatusAppointmentBloc,
+            UpdateStatusAppointmentState>(
+          listener: (context, state) {
+            if (state is UpdateStatusAppointmentSuccess) {
+              Navigator.of(context).pop();
+              CustomSnackbar.showSuccessSnackbar(
+                  context, "Berhasil memperbarui appointment");
+
+              Future.delayed(const Duration(milliseconds: 500), () {
+                if (widget.pageDoctor) {
+                  context
+                      .read<AppointmentPatientBloc>()
+                      .add(GetAppointmentDoctorEvent());
+                  context.goNamed('home_doctor');
+                } else {
+                  context
+                      .read<AppointmentPatientBloc>()
+                      .add(GetAppointmentPatientEvent());
+                  context.goNamed('home');
+                }
+              });
+            } else if (state is UpdateStatusAppointmentError) {
+              CustomSnackbar.showErrorSnackbar(context, state.message);
+            }
+          },
+          child: Container(
+            padding: MySpacing.paddingInsetPage,
+            child: Column(
+              children: [
+                cardHome(),
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-              detailJanji(),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: Divider(
-                  color: MyColor.abuText,
-                  thickness: 1,
+                detailDokter(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Divider(
+                    color: MyColor.abuText,
+                    thickness: 1,
+                  ),
                 ),
-              ),
-              detailPasien(),
-            ],
+                detailJanji(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Divider(
+                    color: MyColor.abuText,
+                    thickness: 1,
+                  ),
+                ),
+                detailPasien(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> showModalSuccess() {
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text('Apakah Anda yakin ingin menyelesaikan janji ini?',
+                  style: MyTextStyle.subheder),
+              const SizedBox(height: 20),
+              BlocBuilder<UpdateStatusAppointmentBloc,
+                  UpdateStatusAppointmentState>(
+                builder: (context, state) {
+                  return myButtonWidget(
+                    text: "Konfirmasi Selesai",
+                    color: MyColor.colorSnackbar['success_icon'],
+                    onTap: () {
+                      context.read<UpdateStatusAppointmentBloc>().add(
+                          OnUpdateStatusAppointment(
+                              widget.appointmentPatient.id, "done"));
+                    },
+                    isLoading: state is UpdateStatusAppointmentLoading,
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -139,6 +226,62 @@ class _DetailJanjiPasienState extends State<DetailJanjiPasien> {
                   );
                 },
               ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showModalRating() {
+    double handleRating = 0;
+
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text('Berikan ulasan Anda untuk dokter ini',
+                  style: MyTextStyle.subheder),
+              const SizedBox(
+                height: 10,
+              ),
+              RatingBar.builder(
+                itemSize: 40,
+                initialRating: 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: false,
+                itemCount: 5,
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: MyColor.yellowStar,
+                ),
+                onRatingUpdate: (rating) {
+                  handleRating = rating;
+                },
+              ),
+              const SizedBox(height: 20),
+              BlocBuilder<AddRatingBloc, AddRatingState>(
+                builder: (context, state) {
+                  return myButtonWidget(
+                    text: "Kirim Ulasan",
+                    onTap: () {
+                      context.read<AddRatingBloc>().add(
+                            OnAddRating(
+                              widget.appointmentPatient.id,
+                              handleRating.toInt(),
+                            ),
+                          );
+                    },
+                    isLoading: state is AddRatingLoading,
+                  );
+                },
+              )
             ],
           ),
         );

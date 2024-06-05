@@ -6,7 +6,8 @@ import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:svg_flutter/svg.dart';
 
-Widget cardDetailDokter({required String price, required String experience}) {
+Widget cardDetailDokter(
+    {required String price, required String experience, required int rating}) {
   return Container(
     margin: MySpacing.defaultMarginItem,
     padding: MySpacing.padingCard,
@@ -24,14 +25,14 @@ Widget cardDetailDokter({required String price, required String experience}) {
               style: MyTextStyle.deskripsi.copyWith(color: MyColor.abu),
             ),
             GradientText(
-              '4.7',
+              rating.toString(),
               style: MyTextStyle.header,
               gradientType: GradientType.linear,
               colors: MyColor.gradientText,
             ),
             RatingBar.builder(
               itemSize: 15,
-              initialRating: 4.5,
+              initialRating: rating.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,

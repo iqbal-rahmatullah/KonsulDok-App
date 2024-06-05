@@ -62,7 +62,11 @@ import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_
 import 'package:konsul_dok/features/rating/data/datasource/rating_remote_datasource.dart';
 import 'package:konsul_dok/features/rating/data/repositories/rating_repository_impl.dart';
 import 'package:konsul_dok/features/rating/domain/repositories/rating_repository.dart';
+import 'package:konsul_dok/features/rating/domain/usecase/add_rating_case.dart';
+import 'package:konsul_dok/features/rating/domain/usecase/check_rating_appointment_case.dart';
 import 'package:konsul_dok/features/rating/domain/usecase/get_rating_doctor.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/add_rating/add_rating_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/check_rating_appointment/check_rating_appointment_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
 import 'package:konsul_dok/utils/socket/socket_config.dart';

@@ -13,6 +13,7 @@ import 'package:konsul_dok/utils/success_order/success_order_args.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:konsul_dok/widgets/card_detail_dokter.dart';
 import 'package:konsul_dok/widgets/custom_snackbar.dart';
 import 'package:konsul_dok/widgets/radio_button_jam.dart';
 
@@ -86,6 +87,14 @@ class _OrderPageState extends State<OrderPage> {
             child: Column(
               children: [
                 headerProfileDokter(),
+                Container(
+                  margin: MySpacing.defaultMarginItem,
+                  child: cardDetailDokter(
+                    rating: widget.doctor.averageRating ?? 0,
+                    experience: widget.doctor.experience,
+                    price: widget.doctor.price.toString(),
+                  ),
+                ),
                 inputTimeSection(),
                 actionChatSection(),
               ],

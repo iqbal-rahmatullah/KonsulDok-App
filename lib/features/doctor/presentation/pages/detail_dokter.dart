@@ -150,6 +150,7 @@ class _DetailDokterState extends State<DetailDokter> {
                 imageDokter(widget.doctor),
                 titleDokter(widget.doctor),
                 cardDetailDokter(
+                  rating: widget.doctor.averageRating ?? 0,
                   experience: widget.doctor.experience,
                   price: widget.doctor.price.toString(),
                 ),

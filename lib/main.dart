@@ -19,6 +19,8 @@ import 'package:konsul_dok/features/favorite/presentation/bloc/add_favorite/add_
 import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/delete_favorite/delete_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/add_rating/add_rating_bloc.dart';
+import 'package:konsul_dok/features/rating/presentation/bloc/check_rating_appointment/check_rating_appointment_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
@@ -75,6 +77,12 @@ void main() async {
       ),
       BlocProvider<RatingBloc>(
         create: (context) => serviceLocator<RatingBloc>(),
+      ),
+      BlocProvider<AddRatingBloc>(
+        create: (context) => serviceLocator<AddRatingBloc>(),
+      ),
+      BlocProvider<CheckRatingAppointmentBloc>(
+        create: (context) => serviceLocator<CheckRatingAppointmentBloc>(),
       ),
       BlocProvider<GetFavoriteBloc>(
         create: (context) => serviceLocator<GetFavoriteBloc>(),
