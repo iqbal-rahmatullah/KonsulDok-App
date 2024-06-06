@@ -7,11 +7,13 @@ class Chat {
   final List<ChatDetail> chat;
   final Doctor doctor;
   final User patient;
+  int? countChat;
 
   Chat({
     required this.id,
     required this.chat,
     required this.doctor,
     required this.patient,
+    this.countChat,
   });
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
@@ -103,11 +104,19 @@ Widget chatWidget({
                       )
                     ],
                   ),
-                  Text(
-                    "07.56",
-                    style:
-                        MyTextStyle.deskripsi.copyWith(color: MyColor.abuText),
-                  )
+                  (messages.countChat != null && messages.countChat! > 0)
+                      ? Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                              color: MyColor.biruIndicator,
+                              shape: BoxShape.circle),
+                          child: Text(
+                            messages.countChat.toString(),
+                            style: MyTextStyle.deskripsi
+                                .copyWith(color: MyColor.putih),
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
             ),
