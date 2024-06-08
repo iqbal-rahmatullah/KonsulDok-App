@@ -16,6 +16,7 @@ import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/detail_dokter.dart';
 import 'package:konsul_dok/features/doctor/presentation/pages/poli_page.dart';
 import 'package:konsul_dok/features/favorite/presentation/pages/favorite_page.dart';
+import 'package:konsul_dok/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:konsul_dok/main.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/edit_profile_pages.dart';
 import 'package:konsul_dok/pages/loading_page.dart';
@@ -170,6 +171,13 @@ final GoRouter router = GoRouter(routes: [
         },
       ),
     ],
+  ),
+  GoRoute(
+    path: '/onboarding',
+    name: "onboarding",
+    builder: (context, state) {
+      return OnboardingScreen();
+    },
   ),
   GoRoute(
     path: '/home_doctor',

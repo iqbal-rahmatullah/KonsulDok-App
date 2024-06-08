@@ -16,7 +16,16 @@ Future<void> initDependencies() async {
   final dir = await path.getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   Box<String> sessionBox = await Hive.openBox<String>('session');
+  Box<bool> onboardingBox = await Hive.openBox<bool>('onboardingBox');
   // sessionBox.clear();
+
+  serviceLocator.registerFactory<OnBoardingLocalDataSource>(
+      () => OnBoardingLocalDataSource(box: onboardingBox));
+  serviceLocator.registerLazySingleton(
+    () => OnboardingBloc(
+      onBoardingLocalDataSource: serviceLocator(),
+    ),
+  );
   serviceLocator.registerLazySingleton(() => sessionBox);
   serviceLocator.registerLazySingleton(() => NavbarCubit());
   serviceLocator.registerLazySingleton(() => NavbarDoctorCubit());
