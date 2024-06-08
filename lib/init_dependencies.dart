@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
@@ -59,6 +57,8 @@ import 'package:konsul_dok/features/favorite/presentation/bloc/add_favorite/add_
 import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/delete_favorite/delete_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
+import 'package:konsul_dok/features/onboarding/data/datasource/onboarding_local_datasource.dart';
+import 'package:konsul_dok/features/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:konsul_dok/features/rating/data/datasource/rating_remote_datasource.dart';
 import 'package:konsul_dok/features/rating/data/repositories/rating_repository_impl.dart';
 import 'package:konsul_dok/features/rating/domain/repositories/rating_repository.dart';

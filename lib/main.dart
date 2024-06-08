@@ -19,6 +19,8 @@ import 'package:konsul_dok/features/favorite/presentation/bloc/add_favorite/add_
 import 'package:konsul_dok/features/favorite/presentation/bloc/check_favorite/check_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/delete_favorite/delete_favorite_bloc.dart';
 import 'package:konsul_dok/features/favorite/presentation/bloc/get_favorite/get_favorite_bloc.dart';
+import 'package:konsul_dok/features/onboarding/data/datasource/onboarding_local_datasource.dart';
+import 'package:konsul_dok/features/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/add_rating/add_rating_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/check_rating_appointment/check_rating_appointment_bloc.dart';
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
@@ -47,6 +49,10 @@ void main() async {
       ),
       BlocProvider<AppointmentBloc>(
         create: (context) => serviceLocator<AppointmentBloc>(),
+      ),
+      BlocProvider<OnboardingBloc>(
+        create: (context) =>
+            serviceLocator<OnboardingBloc>()..add(OnGetOnBoarding()),
       ),
       BlocProvider<AppointmentPatientBloc>(
         create: (context) => serviceLocator<AppointmentPatientBloc>(),

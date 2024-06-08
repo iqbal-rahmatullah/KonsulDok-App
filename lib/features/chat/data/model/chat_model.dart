@@ -10,6 +10,7 @@ class ChatModel extends Chat {
     required super.chat,
     required super.doctor,
     required super.patient,
+    required super.countChat,
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +23,7 @@ class ChatModel extends Chat {
               .toList(),
       doctor: DoctorModel.fromJson(json['doctor']),
       patient: UserModel.fromJson(json['patient']),
+      countChat: json['chatCount'] ?? 0,
     );
   }
 }

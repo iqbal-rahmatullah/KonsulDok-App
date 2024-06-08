@@ -263,7 +263,7 @@ class _OrderPageState extends State<OrderPage> {
                 builder: (context, state) {
               if (state is ClockAppointmentLoaded) {
                 DateTime now = DateTime.now();
-                DateTime limitTime = now.subtract(const Duration(hours: 1));
+                DateTime limitTime = now.add(const Duration(hours: 1));
 
                 return ListView.builder(
                     scrollDirection: Axis.horizontal,

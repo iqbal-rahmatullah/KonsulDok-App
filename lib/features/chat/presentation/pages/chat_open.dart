@@ -34,6 +34,7 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
     context
         .read<MessageByIdBloc>()
         .add(GetMessageByIdEvent(chatId: widget.idChat));
+    context.read<ChatBloc>().add(GetChatsEvent());
 
     super.initState();
   }

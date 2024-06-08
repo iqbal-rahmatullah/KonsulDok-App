@@ -33,9 +33,6 @@ class _JadwalPageState extends State<JadwalPage>
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AppointmentPatientBloc>(context)
-        .add(GetAppointmentPatientEvent());
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

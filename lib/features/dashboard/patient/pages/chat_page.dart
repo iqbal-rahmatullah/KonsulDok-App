@@ -16,12 +16,6 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   @override
-  void initState() {
-    context.read<ChatBloc>().add(GetChatsEvent());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
