@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/textstyle.dart';
 import 'package:konsul_dok/widgets/button_widget.dart';
@@ -54,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Container(
                     height: 100,
                     width: MediaQuery.sizeOf(context).width,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -141,63 +145,83 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.ease,
       );
     } else {
-      // Navigasi ke layar beranda atau layar lain setelah onboarding selesai
+      context.read<OnboardingBloc>().add(OnAddBoarding());
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final userState = context.read<AuthBloc>().state as AuthGetUserSuccess;
+
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            itemCount: _buildPageContent(context).length,
-            itemBuilder: (context, index) {
-              return _buildPageContent(context)[index];
-            },
-          ),
-          Positioned(
-            bottom: 30.0,
-            left: 16.0,
-            right: 16.0,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+      body: BlocConsumer<OnboardingBloc, OnboardingState>(
+        listener: (context, state) {
+          if (state is AddOnBoardingSuccess) {
+            if (userState.user.role == 'patient') {
+              context.goNamed('home');
+            } else {
+              context.goNamed('home_doctor');
+            }
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: <Widget>[
+              PageView.builder(
+                controller: _pageController,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                itemCount: _buildPageContent(context).length,
+                itemBuilder: (context, index) {
+                  return _buildPageContent(context)[index];
+                },
+              ),
+              Positioned(
+                bottom: 30.0,
+                left: 16.0,
+                right: 16.0,
+                child: Column(
+                  children: [
                     Row(
-                      children: List.generate(
-                        _buildPageContent(context).length,
-                        (index) => _buildPageIndicator(index == _currentPage),
-                      ),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          children: List.generate(
+                            _buildPageContent(context).length,
+                            (index) =>
+                                _buildPageIndicator(index == _currentPage),
+                          ),
+                        ),
+                        // TextButton(
+                        //   onPressed: _onNext,
+                        //   child: Text('Berikutnya',
+                        //       style: TextStyle(color: Colors.blue)),
+                        // ),
+                      ],
                     ),
-                    // TextButton(
-                    //   onPressed: _onNext,
-                    //   child: Text('Berikutnya',
-                    //       style: TextStyle(color: Colors.blue)),
-                    // ),
+                    const SizedBox(height: 20),
+                    myButtonWidget(
+                      text: "Berikutnya",
+                      onTap: _onNext,
+                      isLoading: state is OnBoardingLoading,
+                    ),
+                    TextButton(
+                      onPressed: _onSkip,
+                      child: const Text('Lewati',
+                          style: TextStyle(
+                              fontFamily: 'outfit',
+                              fontSize: 14,
+                              color: Colors.blue)),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                myButtonWidget(text: "Berikutnya", onTap: _onNext),
-                TextButton(
-                  onPressed: _onSkip,
-                  child: const Text('Lewati',
-                      style: TextStyle(
-                          fontFamily: 'outfit',
-                          fontSize: 14,
-                          color: Colors.blue)),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
