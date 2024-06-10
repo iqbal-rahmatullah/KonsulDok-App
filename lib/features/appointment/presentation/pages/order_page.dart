@@ -47,42 +47,33 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     final patient = context.read<AuthBloc>().state as AuthGetUserSuccess;
 
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Buat Janji",
-          style: MyTextStyle.subheder.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: BlocConsumer<AppointmentBloc, AppointmentState>(
-        listener: (context, state) {
-          if (state is AppointmentError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
+    return BlocConsumer<AppointmentBloc, AppointmentState>(
+      listener: (context, state) {
+        if (state is AppointmentError) {
+          CustomSnackbar.showErrorSnackbar(context, state.message);
+        } else if (state is AppointmentSuccess) {
+          context.goNamed(
+            'success_order',
+            extra: SuccessOrderArgs(
+              doctor: widget.doctor,
+              appointment: state.appointment,
+              user: patient.user,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              "Buat Janji",
+              style: MyTextStyle.subheder.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-            );
-          } else if (state is AppointmentSuccess) {
-            context.goNamed('success_order',
-                extra: SuccessOrderArgs(
-                  doctor: widget.doctor,
-                  appointment: state.appointment,
-                  user: patient.user,
-                ));
-          }
-        },
-        builder: (context, state) {
-          if (state is AppointmentLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return Container(
+            ),
+          ),
+          body: Container(
             padding: MySpacing.paddingInsetPage,
             child: Column(
               children: [
@@ -99,34 +90,35 @@ class _OrderPageState extends State<OrderPage> {
                 actionChatSection(),
               ],
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: Padding(
-        padding: MySpacing.paddingPage.copyWith(bottom: 50),
-        child: myButtonWidget(
-          text: "Buat Janji",
-          onTap: () {
-            if (formData['time'] == null) {
-              CustomSnackbar.showErrorSnackbar(
-                  context, "Anda belum memilih waktu");
-              return;
-            }
-            String dateSubmit =
-                "${formData['date'].day}-${formData['date'].month}-${formData['date'].year}";
-            String timeSubmit = "${7 + formData['time']}:00";
+          ),
+          bottomNavigationBar: Padding(
+            padding: MySpacing.paddingPage.copyWith(bottom: 50),
+            child: myButtonWidget(
+              text: "Buat Janji",
+              isLoading: state is AppointmentLoading,
+              onTap: () {
+                if (formData['time'] == null) {
+                  CustomSnackbar.showErrorSnackbar(
+                      context, "Anda belum memilih waktu");
+                  return;
+                }
+                String dateSubmit =
+                    "${formData['date'].day}-${formData['date'].month}-${formData['date'].year}";
+                String timeSubmit = "${7 + formData['time']}:00";
 
-            context.read<AppointmentBloc>().add(
-                  CreateAppointmentEvent(
-                    patientId: patient.user.id,
-                    doctorId: widget.doctor.id,
-                    date: dateSubmit,
-                    time: timeSubmit,
-                  ),
-                );
-          },
-        ),
-      ),
+                context.read<AppointmentBloc>().add(
+                      CreateAppointmentEvent(
+                        patientId: patient.user.id,
+                        doctorId: widget.doctor.id,
+                        date: dateSubmit,
+                        time: timeSubmit,
+                      ),
+                    );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 

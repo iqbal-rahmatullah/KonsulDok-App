@@ -60,6 +60,10 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
 
       return AppointmentModel.fromJson(result.data['data']);
     } catch (e) {
+      if (e is DioException && e.response!.statusCode == 400) {
+        throw ServerException(e.response!.data['error']);
+      }
+
       throw ServerException(e.toString());
     }
   }
