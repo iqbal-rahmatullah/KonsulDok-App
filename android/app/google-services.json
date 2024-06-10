@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926813488897",
+    "project_id": "konsuldok-d309b",
+    "storage_bucket": "konsuldok-d309b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926813488897:android:91e2eaeeedccd415903d00",
+        "android_client_info": {
+          "package_name": "com.example.konsul_dok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOLbrJ0kPk2kfa2NfPefateBf5D6xzXAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
