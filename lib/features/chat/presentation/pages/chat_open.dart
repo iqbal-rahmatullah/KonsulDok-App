@@ -3,10 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:konsul_dok/features/auth/domain/entities/user.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:konsul_dok/features/chat/data/datasource/chat_remote_datasource.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/add_chat/add_chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/bloc/message_by_id/message_by_id_bloc.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
+import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
 import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
 import 'package:konsul_dok/utils/spacing.dart';
@@ -34,9 +36,15 @@ class _ChatOpenPageState extends State<ChatOpenPage> {
     context
         .read<MessageByIdBloc>()
         .add(GetMessageByIdEvent(chatId: widget.idChat));
+    readChat();
     context.read<ChatBloc>().add(GetChatsEvent());
 
     super.initState();
+  }
+
+  Future readChat() async {
+    await ChatRemoteDataSourceImpl(box: serviceLocator(), dio: serviceLocator())
+        .readChat(chatId: widget.idChat);
   }
 
   void sendMessage() {

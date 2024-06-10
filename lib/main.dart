@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_patient/bloc/appointment_patient_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
@@ -26,13 +29,18 @@ import 'package:konsul_dok/features/rating/presentation/bloc/check_rating_appoin
 import 'package:konsul_dok/features/rating/presentation/bloc/rating_bloc.dart';
 import 'package:konsul_dok/init_dependencies.dart';
 import 'package:konsul_dok/utils/color.dart';
+import 'package:konsul_dok/utils/local_notification.dart';
 import 'package:konsul_dok/utils/route.dart';
 import 'package:konsul_dok/utils/socket/bloc/socket_bloc.dart';
 import 'package:konsul_dok/utils/socket/socket_config.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+  await _checkGooglePlayServicesAvailability();
+  await Firebase.initializeApp();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthBloc>(
@@ -111,6 +119,15 @@ void main() async {
   ));
 }
 
+Future<void> _checkGooglePlayServicesAvailability() async {
+  GooglePlayServicesAvailability availability = await GoogleApiAvailability
+      .instance
+      .checkGooglePlayServicesAvailability();
+  if (availability != GooglePlayServicesAvailability.success) {
+    await GoogleApiAvailability.instance.makeGooglePlayServicesAvailable();
+  }
+}
+
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
@@ -118,10 +135,55 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    _initializeFirebase();
+    WidgetsBinding.instance.addObserver(this);
+    _checkGooglePlayServicesAvailability();
+  }
+
+  Future<void> _initializeFirebase() async {
+    final NotificationService notificationService = NotificationService();
+
+    await notificationService.initialize();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        notificationService.showMessage(notification, android);
+      }
+    });
+
+    String? token = await messaging.getToken();
+    print("Registration Token: $token");
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkGooglePlayServicesAvailability();
+    }
+  }
+
+  Future<void> _checkGooglePlayServicesAvailability() async {
+    GooglePlayServicesAvailability availability = await GoogleApiAvailability
+        .instance
+        .checkGooglePlayServicesAvailability();
+    if (availability != GooglePlayServicesAvailability.success) {
+      await GoogleApiAvailability.instance.makeGooglePlayServicesAvailable();
+    }
   }
 
   @override

@@ -24,17 +24,6 @@ class _ChatPageState extends State<ChatPage> {
           'Chat',
           style: MyTextStyle.subheder.copyWith(color: MyColor.blackAppbar),
         ),
-        // actions: [
-        //   ElevatedButton(
-        //       style: ElevatedButton.styleFrom(
-        //           shape: const CircleBorder(),
-        //           backgroundColor: MyColor.putihForm),
-        //       onPressed: () {},
-        //       child: const Icon(
-        //         Icons.search,
-        //         color: MyColor.abuForm,
-        //       ))
-        // ],
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listener: (context, state) {},

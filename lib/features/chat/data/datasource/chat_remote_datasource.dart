@@ -19,6 +19,9 @@ abstract class ChatRemoteDataSource {
   Future<int> openChat({
     required int receiverId,
   });
+  Future<void> readChat({
+    required int chatId,
+  });
 }
 
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
@@ -175,6 +178,27 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       );
 
       return response.data['data']['id'];
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> readChat({required int chatId}) async {
+    try {
+      final session = box.get('token');
+
+      if (session == null) {
+        throw AuthException("Token not found");
+      }
+      await dio.put(
+        '${ApiEnv.apiUrl}/chat/read-chat/$chatId',
+        options: Options(
+          headers: {
+            'Authorization': session,
+          },
+        ),
+      );
     } catch (e) {
       throw ServerException(e.toString());
     }

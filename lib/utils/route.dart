@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/domain/entities/appointment_patient.dart';
 import 'package:konsul_dok/features/appointment/presentation/pages/detail_janji_pasien.dart';
@@ -8,6 +9,7 @@ import 'package:konsul_dok/features/auth/presentation/pages/login_page.dart';
 import 'package:konsul_dok/features/auth/presentation/pages/register_page.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat.dart';
 import 'package:konsul_dok/features/chat/domain/entities/chat_detail.dart';
+import 'package:konsul_dok/features/chat/presentation/bloc/all_chat/chat_bloc.dart';
 import 'package:konsul_dok/features/chat/presentation/pages/chat_open.dart';
 import 'package:konsul_dok/features/dashboard/doctor/pages/dashboard_doctor.dart';
 import 'package:konsul_dok/features/dashboard/patient/pages/dashboard_page.dart';

@@ -43,6 +43,8 @@ class _DashboardPageState extends State<DashboardPage> {
                         (previousValue, element) =>
                             previousValue + element.countChat!);
 
+                    print("count chat $countChat");
+
                     return MyBottomNavigationBar(
                       itemNavbar:
                           NavbarItem(countChat: countChat).getNavbarItems(),
