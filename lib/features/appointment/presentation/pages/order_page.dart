@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/appointment_bloc.dart';
 import 'package:konsul_dok/features/appointment/presentation/bloc/clock_appointment/bloc/clock_appointment_bloc.dart';
+import 'package:konsul_dok/features/appointment/presentation/pages/loading/loading_get_time.dart';
 import 'package:konsul_dok/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:konsul_dok/features/doctor/domain/entities/doctor.dart';
 import 'package:konsul_dok/utils/clock.dart';
@@ -294,7 +295,7 @@ class _OrderPageState extends State<OrderPage> {
               } else if (state is ClockAppointmentError) {
                 return Text(state.message);
               }
-              return const CircularProgressIndicator();
+              return loadingGetTime();
             }),
           )
         ],
